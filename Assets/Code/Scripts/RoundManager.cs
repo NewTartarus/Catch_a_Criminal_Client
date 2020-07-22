@@ -1,0 +1,121 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using ScotlandYard.Scripts.Helper;
+using ScotlandYard.Scripts.Street;
+using ScotlandYard.Scripts.PlayerScripts;
+using ScotlandYard.Interface;
+using ScotlandYard.Enums;
+using TMPro;
+using ScotlandYard.Events;
+
+namespace ScotlandYard.Scripts
+{
+    public class RoundManager : MonoBehaviour
+    {
+        [SerializeField] private StreetController STREET_CONTROLLER;
+        [SerializeField] private PlayerController PLAYER_CONTROLLER;
+
+        [SerializeField] private GameObject roundMessageBox;
+        [SerializeField] private TextMeshProUGUI roundMessageText;
+
+        protected int round = 1;
+        public int Round
+        {
+            get => round;
+            set
+            {
+                if(round != value)
+                {
+                    round = value;
+                    GameEvents.current.RoundHasEnded(this, round);
+                }
+            }
+        }
+        protected int playerIndex = 0;
+        protected int[] detectionRounds = new int[] { 3, 8, 13, 18, 24};
+
+        protected ERound roundState;
+
+        protected void Start()
+        {
+            GameEvents.current.OnPlayerMoveFinished += Current_OnPlayerMoveFinished;
+
+            StartCoroutine(nameof(StartInit));
+        }
+
+        protected IEnumerator StartInit()
+        {
+            roundState = ERound.INITIALIZATION;
+
+            Cursor.visible = true;
+
+            STREET_CONTROLLER.Init();
+            PLAYER_CONTROLLER.Init();
+
+            PLAYER_CONTROLLER.SetPlayerStartingPosition(STREET_CONTROLLER.GetRandomPositions(PLAYER_CONTROLLER.GetPlayerAmount()));
+
+
+            yield return new WaitForSeconds(0.5f);
+
+            PlayRound();
+        }
+
+        protected void PlayRound()
+        {
+            if(Round <= 24)
+            {
+                if(playerIndex >= PLAYER_CONTROLLER.GetPlayerAmount())
+                {
+                    playerIndex = 0;
+                    Round ++;
+                }
+
+                StartCoroutine(nameof(BeginPlayerRound), playerIndex);
+            }
+            else
+            {
+                GameEvents.current.MisterXWon(this, null);
+            }
+        }
+
+        private void Current_OnPlayerMoveFinished(object sender, PlayerEventArgs e)
+        {
+            Debug.Log($"{e.Name}'s turn ended [{round}]");
+            HighlightBehavior.UnmarkPreviouslyHighlightedPoints();
+            roundState = ERound.TURN_END;
+
+            playerIndex++;
+            PlayRound();
+        }
+
+        protected IEnumerator BeginPlayerRound(int index)
+        {
+            if(roundState != ERound.MISTER_X_TURN && roundState != ERound.DETECTIVE_TURN)
+            {
+                Player player = PLAYER_CONTROLLER.GetPlayer(index);
+
+                if (player.type == EPlayerType.MISTERX)
+                {
+                    roundState = ERound.MISTER_X_TURN;
+                }
+                else
+                {
+                    roundState = ERound.DETECTIVE_TURN;
+                }
+
+                roundMessageText.text = roundMessageText.text.Replace("[X]", player.Name);
+                roundMessageBox.SetActive(true);
+
+                yield return new WaitForSeconds(2f);
+
+                roundMessageBox.SetActive(false);
+                roundMessageText.text = roundMessageText.text.Replace(player.Name, "[X]");
+
+                HighlightBehavior.HighlightAccesPoints(PLAYER_CONTROLLER.GetPlayer(index));
+            }
+            
+        }
+    }
+}
