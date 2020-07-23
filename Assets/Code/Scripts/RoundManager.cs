@@ -9,16 +9,18 @@ using ScotlandYard.Interface;
 using ScotlandYard.Enums;
 using TMPro;
 using ScotlandYard.Events;
+using ScotlandYard.Scripts.UI;
 
 namespace ScotlandYard.Scripts
 {
     public class RoundManager : MonoBehaviour
     {
+        private const string GAME_TURN_STARTED = "game_turn_started";
+
         [SerializeField] private StreetController STREET_CONTROLLER;
         [SerializeField] private PlayerController PLAYER_CONTROLLER;
 
-        [SerializeField] private GameObject roundMessageBox;
-        [SerializeField] private TextMeshProUGUI roundMessageText;
+        [SerializeField] private RoundMessage roundMessage;
 
         protected int round = 1;
         public int Round
@@ -105,13 +107,11 @@ namespace ScotlandYard.Scripts
                     roundState = ERound.DETECTIVE_TURN;
                 }
 
-                roundMessageText.text = roundMessageText.text.Replace("[X]", player.Name);
-                roundMessageBox.SetActive(true);
+                roundMessage.DisplayMessage(GAME_TURN_STARTED, player.Name);
 
                 yield return new WaitForSeconds(2f);
 
-                roundMessageBox.SetActive(false);
-                roundMessageText.text = roundMessageText.text.Replace(player.Name, "[X]");
+                roundMessage.HideMessage();
 
                 HighlightBehavior.HighlightAccesPoints(PLAYER_CONTROLLER.GetPlayer(index));
             }
