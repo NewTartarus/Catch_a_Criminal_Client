@@ -129,6 +129,6 @@ namespace ScotlandYard.Scripts.Street
                 }
             }
         }
-    }
 #endif
+    }
 }
