@@ -45,7 +45,6 @@ namespace ScotlandYard.Scripts.PlayerScripts
             }
         }
 
-
         public void GeneratePlayerId()
         {
             int id = int.Parse(Math.Abs(name.GetHashCode() * DateTime.Now.Millisecond).ToString().Substring(0, 5));
@@ -124,6 +123,16 @@ namespace ScotlandYard.Scripts.PlayerScripts
         public virtual Dictionary<ETicket, int> GetTickets()
         {
             return this.Tickets;
+        }
+
+        public int GetTicketCount(ETicket ticket)
+        {
+            if(HasTicket(ticket))
+            {
+                return this.Tickets[ticket];
+            }
+
+            return 0;
         }
         
         public virtual void AddTickets(ETicket ticket, int amount)

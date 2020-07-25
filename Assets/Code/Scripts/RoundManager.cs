@@ -21,6 +21,7 @@ namespace ScotlandYard.Scripts
         [SerializeField] private PlayerController PLAYER_CONTROLLER;
 
         [SerializeField] private RoundMessage roundMessage;
+        [SerializeField] private TicketChooser ticketChooser;
 
         protected int round = 1;
         public int Round
@@ -43,8 +44,28 @@ namespace ScotlandYard.Scripts
         protected void Start()
         {
             GameEvents.current.OnPlayerMoveFinished += Current_OnPlayerMoveFinished;
+            GameEvents.current.OnDestinationSelected += OnlyHighlightDestination;
+            GameEvents.current.OnTicketSelection_Canceled += Current_OnTicketSelection_Canceled;
+            GameEvents.current.OnTicketSelection_Approved += Current_OnTicketSelection_Approved;
 
             StartCoroutine(nameof(StartInit));
+        }
+
+        private void Current_OnTicketSelection_Approved(object sender, TicketEventArgs e)
+        {
+            var player = PLAYER_CONTROLLER.GetPlayer(playerIndex);
+            player.StreetPath = e.Street;
+            player.RemoveTicket(e.Ticket);
+        }
+
+        private void Current_OnTicketSelection_Canceled(object sender, MovementEventArgs e)
+        {
+            HighlightBehavior.HighlightAccesPoints(e.Player);
+        }
+
+        protected virtual void OnlyHighlightDestination(object sender, MovementEventArgs e)
+        {
+            HighlightBehavior.HighlightOnlyOne(e.TargetPosition);
         }
 
         protected IEnumerator StartInit()
@@ -55,6 +76,7 @@ namespace ScotlandYard.Scripts
 
             STREET_CONTROLLER.Init();
             PLAYER_CONTROLLER.Init();
+            ticketChooser.Init();
 
             PLAYER_CONTROLLER.SetPlayerStartingPosition(STREET_CONTROLLER.GetRandomPositions(PLAYER_CONTROLLER.GetPlayerAmount()));
 
