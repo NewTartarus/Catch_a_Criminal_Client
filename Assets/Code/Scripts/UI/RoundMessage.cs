@@ -8,7 +8,7 @@ namespace ScotlandYard.Scripts.UI
 {
     public class RoundMessage : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI roundMessageText;
+        [SerializeField] protected TextMeshProUGUI roundMessageText;
 
         public void DisplayMessage(string key, string replaceString = null)
         {
