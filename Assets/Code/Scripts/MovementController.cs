@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ScotlandYard.Scripts.Helper;
 using ScotlandYard.Scripts.Street;
+using ScotlandYard.Events;
 
 namespace ScotlandYard.Scripts.PlayerScripts
 {
@@ -20,9 +21,11 @@ namespace ScotlandYard.Scripts.PlayerScripts
                     {
                         StreetPoint targetPoint = hit.transform.parent?.GetComponent<StreetPoint>();
                         if (targetPoint != null && targetPoint.IsHighlighted)
-                        {
+                        {                            
                             Player player = this.transform.GetComponent<Player>();
-                            player.StreetPath = targetPoint.GetPathByPosition(player.position, hit.transform.parent.gameObject);
+                            GameEvents.current.DestinationSelected(null, new MovementEventArgs(player, targetPoint));
+
+                            //player.StreetPath = targetPoint.GetPathByPosition(player.position, hit.transform.parent.gameObject);
                         }
                     }
                 }

@@ -33,6 +33,14 @@ namespace ScotlandYard.Scripts.Helper
             }
             prevHighlightedPoints = new List<StreetPoint>();
         }
+
+        public static void HighlightOnlyOne(StreetPoint streetPoint)
+        {
+            UnmarkPreviouslyHighlightedPoints();
+
+            prevHighlightedPoints.Add(streetPoint);
+            streetPoint.IsHighlighted = true;
+        }
     }
 }
 
