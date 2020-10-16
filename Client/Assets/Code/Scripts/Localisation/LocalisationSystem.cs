@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ScotlandYard.Enums;
 using ScotlandYard.Scripts.FileReader;
 using UnityEngine;
 
@@ -8,12 +9,6 @@ namespace ScotlandYard.Scripts.Localisation
 {
     public class LocalisationSystem
     {
-        public enum ELanguages
-        {
-            English,
-            Deutsch
-        }
-
         public static ELanguages language = ELanguages.English;
 
         private static Dictionary<string, string> localisationEN;
@@ -73,6 +68,18 @@ namespace ScotlandYard.Scripts.Localisation
             }
 
             return value;
+        }
+
+        public static List<string> GetLanguages()
+        {
+            List<string> languages = new List<string>();
+
+            foreach(string name in Enum.GetNames(typeof(ELanguages)))
+            {
+                languages.Add(name);
+            }
+
+            return languages;
         }
 
 #if UNITY_EDITOR

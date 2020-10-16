@@ -61,7 +61,7 @@ namespace ScotlandYard.Scripts.UI
 
         public void SelectButton()
         {
-            GameEvents.current.TicketSelected(null, this);
+            GameEvents.Current.TicketSelected(null, this);
         }
 
         public override bool Equals(object other)
@@ -75,6 +75,11 @@ namespace ScotlandYard.Scripts.UI
             }
 
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
                 
             }
 
-            GameEvents.current.OnMakeNextMove += Current_OnMakeNextMove;
+            GameEvents.Current.OnMakeNextMove += Current_OnMakeNextMove;
         }
 
         private void Current_OnMakeNextMove(object sender, int args)
