@@ -1,4 +1,5 @@
-﻿using ScotlandYard.Scripts.UI;
+﻿using ScotlandYard.Enums;
+using ScotlandYard.Scripts.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace ScotlandYard.Events
 {
-    public class GameEvents : MonoBehaviour
+    public class GameEvents
     {
         #region Events
         public event EventHandler OnMisterXWon;
@@ -20,6 +21,10 @@ namespace ScotlandYard.Events
 
         public event EventHandler<int> OnRoundHasEnded;
 
+        //Menu Events
+        public event EventHandler<EButtons> OnMainMenuButtonPressed;
+        public event EventHandler OnLanguageChanged;
+
         //Ticket Selection
         public event EventHandler<MovementEventArgs> OnDestinationSelected;
         public event EventHandler<TicketEventArgs> OnTicketSelection_Approved;
@@ -27,11 +32,19 @@ namespace ScotlandYard.Events
         public event EventHandler<TicketButton> OnTicketSelected;
         #endregion
 
-        public static GameEvents current;
+        private static GameEvents current;
 
-        private void Awake()
+        public static GameEvents Current
         {
-            current = this;
+            get
+            {
+                if(current == null)
+                {
+                    current = new GameEvents();
+                }
+
+                return current;
+            }
         }
 
         public void MakeNextMove(object sender, int args)
@@ -72,6 +85,16 @@ namespace ScotlandYard.Events
         public void TicketSelected(object sender, TicketButton args)
         {
             OnTicketSelected?.Invoke(sender, args);
+        }
+
+        public void MainMenuButtonPressed(object sender, EButtons args)
+        {
+            OnMainMenuButtonPressed?.Invoke(sender, args);
+        }
+
+        public void LanguageChanged(object sender, EventArgs args)
+        {
+            OnLanguageChanged?.Invoke(sender, args);
         }
     }
 }

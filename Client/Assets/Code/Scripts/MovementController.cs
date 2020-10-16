@@ -23,7 +23,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
                         if (targetPoint != null && targetPoint.IsHighlighted)
                         {                            
                             Player player = this.transform.GetComponent<Player>();
-                            GameEvents.current.DestinationSelected(null, new MovementEventArgs(player, targetPoint));
+                            GameEvents.Current.DestinationSelected(null, new MovementEventArgs(player, targetPoint));
 
                             //player.StreetPath = targetPoint.GetPathByPosition(player.position, hit.transform.parent.gameObject);
                         }

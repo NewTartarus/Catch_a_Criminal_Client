@@ -22,8 +22,8 @@ namespace ScotlandYard.Scripts.UI
 
         public void Init()
         {
-            GameEvents.current.OnDestinationSelected += Current_OnDestinationSelected;
-            GameEvents.current.OnTicketSelected += Current_OnTicketSelected;
+            GameEvents.Current.OnDestinationSelected += Current_OnDestinationSelected;
+            GameEvents.Current.OnTicketSelected += Current_OnTicketSelected;
         }
 
         private void Current_OnTicketSelected(object sender, TicketButton e)
@@ -65,7 +65,7 @@ namespace ScotlandYard.Scripts.UI
         public void Ok_Pressed()
         {
             IStreet street = this.streetPoint.GetPathByPosition(player.position, streetPoint.GetGameObject());
-            GameEvents.current.TicketSelection_Approved(null, new TicketEventArgs(player.ID, selectedTicket, street));
+            GameEvents.Current.TicketSelection_Approved(null, new TicketEventArgs(player.ID, selectedTicket, street));
 
             this.gameObject.SetActive(false);
             UnselectAll();
@@ -73,7 +73,7 @@ namespace ScotlandYard.Scripts.UI
 
         public void Cancel_Pressed()
         {
-            GameEvents.current.TicketSelection_Canceled(null, new MovementEventArgs(player, streetPoint));
+            GameEvents.Current.TicketSelection_Canceled(null, new MovementEventArgs(player, streetPoint));
 
             this.gameObject.SetActive(false);
             UnselectAll();

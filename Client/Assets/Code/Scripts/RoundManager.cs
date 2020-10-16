@@ -32,7 +32,7 @@ namespace ScotlandYard.Scripts
                 if(round != value)
                 {
                     round = value;
-                    GameEvents.current.RoundHasEnded(this, round);
+                    GameEvents.Current.RoundHasEnded(this, round);
                 }
             }
         }
@@ -43,10 +43,10 @@ namespace ScotlandYard.Scripts
 
         protected void Start()
         {
-            GameEvents.current.OnPlayerMoveFinished += Current_OnPlayerMoveFinished;
-            GameEvents.current.OnDestinationSelected += OnlyHighlightDestination;
-            GameEvents.current.OnTicketSelection_Canceled += Current_OnTicketSelection_Canceled;
-            GameEvents.current.OnTicketSelection_Approved += Current_OnTicketSelection_Approved;
+            GameEvents.Current.OnPlayerMoveFinished += Current_OnPlayerMoveFinished;
+            GameEvents.Current.OnDestinationSelected += OnlyHighlightDestination;
+            GameEvents.Current.OnTicketSelection_Canceled += Current_OnTicketSelection_Canceled;
+            GameEvents.Current.OnTicketSelection_Approved += Current_OnTicketSelection_Approved;
 
             StartCoroutine(nameof(StartInit));
         }
@@ -100,7 +100,7 @@ namespace ScotlandYard.Scripts
             }
             else
             {
-                GameEvents.current.MisterXWon(this, null);
+                GameEvents.Current.MisterXWon(this, null);
             }
         }
 

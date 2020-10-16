@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using ScotlandYard.Events;
+using TMPro;
 using UnityEngine;
 
 namespace ScotlandYard.Scripts.Localisation
@@ -10,10 +11,22 @@ namespace ScotlandYard.Scripts.Localisation
 
         public LocalizedString localizedString;
 
-        void Awake()
+        protected void Awake()
+        {
+            UpdateText();
+
+            GameEvents.Current.OnLanguageChanged += Current_OnLanguageChanged;
+        }
+
+        protected void UpdateText()
         {
             textField = GetComponent<TextMeshProUGUI>();
             textField.text = localizedString.value;
+        }
+
+        protected void Current_OnLanguageChanged(object sender, System.EventArgs e)
+        {
+            UpdateText();
         }
     }
 }

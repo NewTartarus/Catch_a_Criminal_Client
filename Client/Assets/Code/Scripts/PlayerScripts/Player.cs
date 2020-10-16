@@ -75,7 +75,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
                 this.StreetPath = null;
 
                 isMoving = false;
-                GameEvents.current.PlayerMoveFinished(this, new PlayerEventArgs(this));
+                GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(this));
             }
 
         }
