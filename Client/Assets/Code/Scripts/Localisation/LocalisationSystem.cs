@@ -1,48 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using ScotlandYard.Enums;
-using ScotlandYard.Scripts.FileReader;
+using ScotlandYard.Scripts.Database.DAOs;
 using UnityEngine;
 
 namespace ScotlandYard.Scripts.Localisation
 {
     public class LocalisationSystem
     {
-        public static ELanguages language = ELanguages.English;
+        public static Language language;
 
-        private static Dictionary<string, string> localisationEN;
-        private static Dictionary<string, string> localisationDE;
+        public static Language Lang
+        {
+            get => language;
+            set
+            {
+                if(value != null && !value.Equals(language))
+                {
+                    language = value;
+                    UpdateDictionary();
+                }
+            }
+        }
+
+        private static Dictionary<string, string> localisation;
 
         public static bool isInit;
 
-        public static CSVLoader csvLoader;
         public static void Init()
         {
-            csvLoader = new CSVLoader();
-            csvLoader.LoadCSVFile();
+            string cultureName = CultureInfo.CurrentCulture.NativeName.Split(' ')[0];
 
-            UpdateDictionaries();
-
-            string cultureName = System.Globalization.CultureInfo.CurrentCulture.NativeName.Split(' ')[0];
+            List<Language> languages = LanguageDAO.getInstance().ReadAll();
 
             try
             {
-                language = (ELanguages)Enum.Parse(typeof(ELanguages), cultureName, true);
+                Lang = languages.Find(l => l.Name.Equals(cultureName));
             }
             catch(Exception ex)
             {
                 Debug.Log($"The language {cultureName} could not be found.\n{ex.Message}");
-                language = ELanguages.English;
+                Lang = languages.Find(l => l.Name.Equals("English"));
             }
+
+            UpdateDictionary();
 
             isInit = true;
         }
 
-        public static void UpdateDictionaries()
+        public static void UpdateDictionary()
         {
-            localisationEN = csvLoader.GetDictionaryValues("en");
-            localisationDE = csvLoader.GetDictionaryValues("de");
+            List<object[]> result = LocalizationDAO.getInstance().Read(Lang.ID);
+
+            localisation = new Dictionary<string, string>();
+            foreach(object[] r in result)
+            {
+                localisation.Add(r[0].ToString(), r[1].ToString());
+            }
         }
 
         public static string GetLocalisedValue(string key)
@@ -53,36 +69,31 @@ namespace ScotlandYard.Scripts.Localisation
             }
 
             string value;
-
-            switch (language)
-            {
-                case ELanguages.English:
-                    localisationEN.TryGetValue(key, out value);
-                    break;
-                case ELanguages.Deutsch:
-                    localisationDE.TryGetValue(key, out value);
-                    break;
-                default:
-                    localisationEN.TryGetValue(key, out value);
-                    break;
-            }
+            localisation.TryGetValue(key, out value);
 
             return value;
         }
 
         public static List<string> GetLanguages()
         {
-            List<string> languages = new List<string>();
+            List<string> languageNames = new List<string>();
 
-            foreach(string name in Enum.GetNames(typeof(ELanguages)))
+            foreach(Language lan in LanguageDAO.getInstance().ReadAll())
             {
-                languages.Add(name);
+                languageNames.Add(lan.Name);
             }
 
-            return languages;
+            return languageNames;
         }
 
 #if UNITY_EDITOR
+        public static void EditorInit()
+        {
+            Lang = new Language(0, "English");
+            UpdateDictionary();
+            isInit = true;
+        }
+        
         public static void Add(string key, string value)
         {
             if (value.Contains("\""))
@@ -90,58 +101,29 @@ namespace ScotlandYard.Scripts.Localisation
                 value.Replace('"', '\"');
             }
 
-            if (csvLoader == null)
-            {
-                csvLoader = new CSVLoader();
-            }
-
-            csvLoader.LoadCSVFile();
-            csvLoader.Add(key, value);
-            csvLoader.LoadCSVFile();
-
-            UpdateDictionaries();
+            LocalizationDAO.getInstance().Insert(key, value, Lang.ID);
+            UpdateDictionary();
         }
 
         public static void Replace(string key, string value)
         {
-            if (value.Contains("\""))
-            {
-                value.Replace('"', '\"');
-            }
-
-            if (csvLoader == null)
-            {
-                csvLoader = new CSVLoader();
-            }
-
-            csvLoader.LoadCSVFile();
-            csvLoader.Edit(key, value);
-            csvLoader.LoadCSVFile();
-
-            UpdateDictionaries();
+            LocalizationDAO.getInstance().Update(value, key, Lang.ID);
+            UpdateDictionary();
         }
 
         public static Dictionary<string, string> GetDictionaryForEditor()
         {
             if (!isInit)
             {
-                Init();
+                EditorInit();
             }
-            return localisationEN;
+            return localisation;
         }
 
         public static void Remove(string key)
         {
-            if (csvLoader == null)
-            {
-                csvLoader = new CSVLoader();
-            }
-
-            csvLoader.LoadCSVFile();
-            csvLoader.Remove(key);
-            csvLoader.LoadCSVFile();
-
-            UpdateDictionaries();
+            LocalizationDAO.getInstance().Delete(key);
+            UpdateDictionary();
         }
 #endif
     }

@@ -9,7 +9,7 @@
             this.key = key;
         }
 
-        public string value
+        public string Value
         {
             get
             {
