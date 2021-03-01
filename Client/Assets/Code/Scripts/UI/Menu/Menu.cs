@@ -56,16 +56,16 @@ namespace ScotlandYard.Scripts.UI.Menu
             languagesDropdown.ClearOptions();
             languagesDropdown.AddOptions(languages);
 
-            ELanguages currentLanguage = LocalisationSystem.language;
+            Language currentLanguage = LocalisationSystem.Lang;
             languagesDropdown.value = this.languages
                                         .Select((l, i) => new { lang = l, index = i })
-                                        .First(a => a.lang == Enum.GetName(typeof(ELanguages), currentLanguage)).index;
+                                        .First(a => a.lang == currentLanguage.Name).index;
             languagesDropdown.RefreshShownValue();
         }
 
         public void SetLanguage(int languageIndex)
         {
-            LocalisationSystem.language = (ELanguages)Enum.Parse(typeof(ELanguages), languages[languageIndex]);
+            LocalisationSystem.Lang = new Language(languageIndex, languages[languageIndex]);
             GameEvents.Current.LanguageChanged(this, null);
         }
     }
