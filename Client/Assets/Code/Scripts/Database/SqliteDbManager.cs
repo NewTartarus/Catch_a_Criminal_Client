@@ -14,7 +14,7 @@ namespace ScotlandYard.Scripts.Database
         {
             if(connectionString == null)
             {
-                this.connectionString = "URI=file:" + Application.dataPath + "/Resources/DataSave.db";
+                this.connectionString = "URI=file:" + Application.dataPath + "/StreamingAssets/DataSave.db";
             }
             else
             {
