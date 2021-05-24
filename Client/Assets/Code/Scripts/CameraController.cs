@@ -16,6 +16,8 @@ namespace ScotlandYard.Scripts
         public float movementTime;
         public float rotationAmount;
         public Vector3 zoomAmount;
+        [SerializeField] protected float maxZoomIn;
+        [SerializeField] protected float maxZoomOut;
 
         protected Vector3 newPosition;
         protected Quaternion newRotation;
@@ -59,7 +61,12 @@ namespace ScotlandYard.Scripts
         {
             if (Input.mouseScrollDelta.y != 0)
             {
-                newZoom += Input.mouseScrollDelta.y * zoomAmount;
+                Vector3 zoomLevel = newZoom + Input.mouseScrollDelta.y * zoomAmount;
+
+                if((zoomLevel.y < newZoom.y && newZoom.y > maxZoomIn) || (zoomLevel.y > newZoom.y && newZoom.y < maxZoomOut))
+                {
+                    newZoom = zoomLevel;
+                }
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -140,11 +147,11 @@ namespace ScotlandYard.Scripts
                 newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount);
             }
 
-            if (Input.GetKey(KeyCode.R))
+            if (Input.GetKey(KeyCode.R) && newZoom.y > maxZoomIn)
             {
                 newZoom += zoomAmount;
             }
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.F) && newZoom.y < maxZoomOut)
             {
                 newZoom -= zoomAmount;
             }

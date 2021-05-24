@@ -50,5 +50,19 @@ namespace ScotlandYard.Scripts.Street
 
             return GetRandomUniqueInt(intsInUse, random);
         }
+
+#if UNITY_EDITOR
+        [ContextMenu("AutoFill StreetPoints")]
+        protected void AutoFillStreetPoints()
+        {
+            streetPoints = FindObjectsOfType<StreetPoint>().OrderBy(s => s.name).ToList();
+        }
+
+        [ContextMenu("AutoFill Streets")]
+        protected void AutoFillStreets()
+        {
+            streetList = FindObjectsOfType<StreetContainer>().OrderBy(s => s.name).ToList();
+        }
     }
+#endif
 }
