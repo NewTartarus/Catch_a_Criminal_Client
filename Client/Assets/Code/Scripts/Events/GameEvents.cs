@@ -14,7 +14,7 @@ namespace ScotlandYard.Events
         #region Events
         public event EventHandler OnMisterXWon;
         public event EventHandler OnDetectivesWon;
-        public event EventHandler<PlayerEventArgs> OnDetectiveLost;
+        public event EventHandler<PlayerEventArgs> OnPlayerLost;
 
         public event EventHandler<int> OnMakeNextMove;
         public event EventHandler<PlayerEventArgs> OnPlayerMoveFinished;
@@ -47,6 +47,11 @@ namespace ScotlandYard.Events
             }
         }
 
+        public static void Reset()
+        {
+            current = null;
+        }
+
         public void MakeNextMove(object sender, int args)
         {
             OnMakeNextMove?.Invoke(sender, args);
@@ -65,6 +70,16 @@ namespace ScotlandYard.Events
         public void MisterXWon(object sender, EventArgs args)
         {
             OnMisterXWon?.Invoke(sender, args);
+        }
+
+        public void DetectivesWon(object sender, EventArgs args)
+        {
+            OnDetectivesWon?.Invoke(sender, args);
+        }
+
+        public void PlayerLost(object sender, PlayerEventArgs args)
+        {
+            OnPlayerLost?.Invoke(sender, args);
         }
 
         public void DestinationSelected(object sender, MovementEventArgs args)

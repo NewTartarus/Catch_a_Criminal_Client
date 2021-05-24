@@ -10,6 +10,7 @@ using ScotlandYard.Enums;
 using TMPro;
 using ScotlandYard.Events;
 using ScotlandYard.Scripts.UI;
+using UnityEngine.SceneManagement;
 
 namespace ScotlandYard.Scripts
 {
@@ -47,6 +48,9 @@ namespace ScotlandYard.Scripts
             GameEvents.Current.OnDestinationSelected += OnlyHighlightDestination;
             GameEvents.Current.OnTicketSelection_Canceled += Current_OnTicketSelection_Canceled;
             GameEvents.Current.OnTicketSelection_Approved += Current_OnTicketSelection_Approved;
+
+            GameEvents.Current.OnDetectivesWon += Current_OnDetectivesWon;
+            GameEvents.Current.OnMisterXWon += Current_OnMisterXWon;
 
             StartCoroutine(nameof(StartInit));
         }
@@ -108,10 +112,14 @@ namespace ScotlandYard.Scripts
         {
             Debug.Log($"{e.Name}'s turn ended [{round}]");
             HighlightBehavior.UnmarkPreviouslyHighlightedPoints();
-            roundState = ERound.TURN_END;
 
-            playerIndex++;
-            PlayRound();
+            if(!PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex))
+            {
+                roundState = ERound.TURN_END;
+
+                playerIndex++;
+                PlayRound();
+            }
         }
 
         protected IEnumerator BeginPlayerRound(int index)
@@ -120,7 +128,7 @@ namespace ScotlandYard.Scripts
             {
                 Player player = PLAYER_CONTROLLER.GetPlayer(index);
 
-                if (player.type == EPlayerType.MISTERX)
+                if (player.PlayerType == EPlayerType.MISTERX)
                 {
                     roundState = ERound.MISTER_X_TURN;
                 }
@@ -138,6 +146,28 @@ namespace ScotlandYard.Scripts
                 HighlightBehavior.HighlightAccesPoints(PLAYER_CONTROLLER.GetPlayer(index));
             }
             
+        }
+
+        protected void Current_OnMisterXWon(object sender, System.EventArgs e)
+        {
+            StopAllCoroutines();
+            roundState = ERound.END;
+
+            roundMessage.DisplayMessage("game_misterX_won", "game_game_end", () => GoBackToStart());
+        }
+
+        protected void Current_OnDetectivesWon(object sender, System.EventArgs e)
+        {
+            StopAllCoroutines();
+            roundState = ERound.END;
+
+            roundMessage.DisplayMessage("game_detectives_won", "game_game_end", () => GoBackToStart());
+        }
+
+        protected void GoBackToStart()
+        {
+            GameEvents.Reset();
+            SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
         }
     }
 }
