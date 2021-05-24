@@ -17,14 +17,37 @@ namespace ScotlandYard.Scripts.PlayerScripts
         protected string id;
         [SerializeField] protected float speed;
         protected IStreet _streetPath;
-        protected bool hasLost = false;
+        protected bool hasLost;
 
         public GameObject position;
-        public EPlayerType type;
+        [SerializeField] protected EPlayerType type;
 
         public string Name { get => name; set => name = value; }
         public string ID { get => id; set => id = value; }
-        public bool HasLost { get => hasLost; set => hasLost = value; }
+        public EPlayerType PlayerType { get; set; }
+        public bool HasLost 
+        { 
+            get => hasLost; 
+            set
+            {
+                if(value)
+                {
+                    switch(PlayerType)
+                    {
+                        case EPlayerType.DETECTIVE:
+                            hasLost = value;
+                            GameEvents.Current.PlayerLost(null, new PlayerEventArgs(this));
+                            break;
+                        case EPlayerType.MISTERX:
+                            hasLost = value;
+                            GameEvents.Current.DetectivesWon(null, null);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
         public IStreet StreetPath
         {
             get => _streetPath;

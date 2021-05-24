@@ -1,5 +1,6 @@
 ﻿using ScotlandYard.Enums;
 using ScotlandYard.Events;
+using ScotlandYard.Scripts.Street;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,12 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
         public void Init()
         {
+            // give all players their tickets
             foreach (Player player in playerList)
             {
                 player.GeneratePlayerId();
 
-                if(player.type == EPlayerType.DETECTIVE)
+                if(player.PlayerType == EPlayerType.DETECTIVE)
                 {
                     player.AddTickets(ETicket.TAXI, 10);
                     player.AddTickets(ETicket.BUS, 8);
@@ -37,11 +39,21 @@ namespace ScotlandYard.Scripts.PlayerScripts
             }
 
             GameEvents.Current.OnMakeNextMove += Current_OnMakeNextMove;
+            GameEvents.Current.OnPlayerLost += Current_OnPlayerLost;
         }
 
-        private void Current_OnMakeNextMove(object sender, int args)
+        protected void Current_OnMakeNextMove(object sender, int args)
         {
             Player player = GetPlayer(args);
+        }
+
+        protected void Current_OnPlayerLost(object sender, PlayerEventArgs e)
+        {
+            int availableDete = playerList.Count(p => !p.HasLost && p.PlayerType == EPlayerType.DETECTIVE);
+            if (availableDete == 0)
+            {
+                GameEvents.Current.MisterXWon(null, null);
+            }
         }
 
         public Dictionary<ETicket, int> GetTicketsFromPlayer(int index)
@@ -84,6 +96,23 @@ namespace ScotlandYard.Scripts.PlayerScripts
             }
 
             return true;
+        }
+
+        public bool CheckIfPlayerHasLost(int playerIndex)
+        {
+            return CheckIfPlayerHasLost(playerList[playerIndex]);
+        }
+
+        public bool CheckIfPlayerHasLost(Player player)
+        {
+            StreetPoint playerPosition = player.position.GetComponent<StreetPoint>();
+            var targets = playerPosition.GetStreetTargets(player);
+            if(targets.Count == 0)
+            {
+                player.HasLost = true;
+            }
+
+            return player.HasLost;
         }
     }
 }

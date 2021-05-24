@@ -16,7 +16,7 @@ namespace ScotlandYard.Events
         public PlayerEventArgs(Player player)
         {
             this.Name = player.Name;
-            this.Type = player.type;
+            this.Type = player.PlayerType;
         }
     }
 }
