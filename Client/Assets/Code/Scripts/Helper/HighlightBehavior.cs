@@ -10,13 +10,12 @@ namespace ScotlandYard.Scripts.Helper
     {
         private static List<StreetPoint> prevHighlightedPoints = new List<StreetPoint>();
 
-        public static void HighlightAccesPoints(Player player)
+        public static void HighlightAccesPoints(Agent agent)
         {
             UnmarkPreviouslyHighlightedPoints();
 
             //highlight all Points, that are accessable by the player
-            StreetPoint playerPosition = player.position.GetComponent<StreetPoint>();
-            var targets = playerPosition.GetStreetTargets(player);
+            var targets = MovementHelper.GetTargets(agent);
             foreach (GameObject go in targets)
             {
                 StreetPoint point = go.GetComponent<StreetPoint>();

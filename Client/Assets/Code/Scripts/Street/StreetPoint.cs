@@ -14,20 +14,24 @@ namespace ScotlandYard.Scripts.Street
         public new string name;
         [SerializeField] protected TextMeshPro text;
         [SerializeField] protected GameObject highlightMesh;
+        protected bool isOccupied;
 
         [SerializeField] protected List<IStreet> streetList = new List<IStreet>();
 
+        protected bool highlighted;
+
         #region Properties
-        private bool _highlighted;
         public bool IsHighlighted
         {
-            get => _highlighted;
+            get => highlighted;
             set
             {
-                _highlighted = value;
-                highlightMesh.SetActive(_highlighted);
+                highlighted = value;
+                highlightMesh.SetActive(highlighted);
             }
         }
+
+        public bool IsOccupied { get; set; }
         #endregion
 
         void Awake()
@@ -36,30 +40,6 @@ namespace ScotlandYard.Scripts.Street
             {
                 text.text = name;
             }
-        }
-
-        public List<GameObject> GetStreetTargets(Player player)
-        {
-            List<GameObject> targets = new List<GameObject>();
-            foreach (IStreet street in streetList)
-            {
-                bool playerHasTicket = false;
-                foreach(ETicket ticket in street.ReturnTicketCost())
-                {
-                    if(player.HasTicket(ticket))
-                    {
-                        playerHasTicket = true;
-                        break;
-                    }
-                }
-
-                if(playerHasTicket)
-                {
-                    targets.Add(!street.StartPoint.Equals(this.gameObject) ? street.StartPoint : street.EndPoint);
-                }
-            }
-
-            return targets;
         }
 
         internal IStreet GetPathByPosition(GameObject position, GameObject target)

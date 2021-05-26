@@ -96,11 +96,20 @@ namespace ScotlandYard.Scripts
             {
                 if(playerIndex >= PLAYER_CONTROLLER.GetPlayerAmount())
                 {
+                    Debug.Log($"Round {Round} ended.");
                     playerIndex = 0;
                     Round ++;
                 }
 
-                StartCoroutine(nameof(BeginPlayerRound), playerIndex);
+                if(!PLAYER_CONTROLLER.GetPlayer(playerIndex).HasLost)
+                {
+                    StartCoroutine(nameof(BeginPlayerRound), playerIndex);
+                }
+                else
+                {
+                    playerIndex++;
+                    PlayRound();
+                }
             }
             else
             {
@@ -113,12 +122,16 @@ namespace ScotlandYard.Scripts
             Debug.Log($"{e.Name}'s turn ended [{round}]");
             HighlightBehavior.UnmarkPreviouslyHighlightedPoints();
 
-            if(!PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex))
+            if (!PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex) || !PLAYER_CONTROLLER.HaveAllDetectivesLost())
             {
                 roundState = ERound.TURN_END;
 
                 playerIndex++;
                 PlayRound();
+            }
+            else
+            {
+                GameEvents.Current.MisterXWon(null, null);
             }
         }
 
@@ -126,7 +139,7 @@ namespace ScotlandYard.Scripts
         {
             if(roundState != ERound.MISTER_X_TURN && roundState != ERound.DETECTIVE_TURN)
             {
-                Player player = PLAYER_CONTROLLER.GetPlayer(index);
+                Agent player = PLAYER_CONTROLLER.GetPlayer(index);
 
                 if (player.PlayerType == EPlayerType.MISTERX)
                 {
@@ -137,13 +150,13 @@ namespace ScotlandYard.Scripts
                     roundState = ERound.DETECTIVE_TURN;
                 }
 
-                roundMessage.DisplayMessage(GAME_TURN_STARTED, player.Name);
+                roundMessage.DisplayMessage(GAME_TURN_STARTED, player.AgentName);
 
                 yield return new WaitForSeconds(2f);
 
                 roundMessage.HideMessage();
 
-                HighlightBehavior.HighlightAccesPoints(PLAYER_CONTROLLER.GetPlayer(index));
+                PLAYER_CONTROLLER.GetPlayer(index).BeginRound();
             }
             
         }
