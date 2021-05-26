@@ -1,5 +1,6 @@
 ﻿using ScotlandYard.Enums;
 using ScotlandYard.Events;
+using ScotlandYard.Scripts.Helper;
 using ScotlandYard.Scripts.Street;
 using System;
 using System.Collections.Generic;
@@ -12,65 +13,55 @@ namespace ScotlandYard.Scripts.PlayerScripts
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] protected List<Player> playerList;
+        [SerializeField] protected List<Agent> agentList;
 
         public void Init()
         {
             // give all players their tickets
-            foreach (Player player in playerList)
+            foreach (Agent agent in agentList)
             {
-                player.GeneratePlayerId();
+                agent.GeneratePlayerId();
 
-                if(player.PlayerType == EPlayerType.DETECTIVE)
+                if(agent.PlayerType == EPlayerType.DETECTIVE)
                 {
-                    player.AddTickets(ETicket.TAXI, 10);
-                    player.AddTickets(ETicket.BUS, 8);
-                    player.AddTickets(ETicket.UNDERGROUND, 4);
+                    agent.AddTickets(ETicket.TAXI, 4); //
+                    agent.AddTickets(ETicket.BUS, 8);
+                    agent.AddTickets(ETicket.UNDERGROUND, 4);
                 }
                 else
                 {
-                    player.AddTickets(ETicket.TAXI, 4);
-                    player.AddTickets(ETicket.BUS, 3);
-                    player.AddTickets(ETicket.UNDERGROUND, 3);
-                    player.AddTickets(ETicket.BLACK_TICKET, playerList.Count - 1);
-                    player.AddTickets(ETicket.DOUBLE_TICKET, 2);
+                    agent.AddTickets(ETicket.TAXI, 4);
+                    agent.AddTickets(ETicket.BUS, 3);
+                    agent.AddTickets(ETicket.UNDERGROUND, 3);
+                    agent.AddTickets(ETicket.BLACK_TICKET, agentList.Count - 1);
+                    agent.AddTickets(ETicket.DOUBLE_TICKET, 2);
                 }
                 
             }
 
             GameEvents.Current.OnMakeNextMove += Current_OnMakeNextMove;
-            GameEvents.Current.OnPlayerLost += Current_OnPlayerLost;
         }
 
         protected void Current_OnMakeNextMove(object sender, int args)
         {
-            Player player = GetPlayer(args);
-        }
-
-        protected void Current_OnPlayerLost(object sender, PlayerEventArgs e)
-        {
-            int availableDete = playerList.Count(p => !p.HasLost && p.PlayerType == EPlayerType.DETECTIVE);
-            if (availableDete == 0)
-            {
-                GameEvents.Current.MisterXWon(null, null);
-            }
+            Agent player = GetPlayer(args);
         }
 
         public Dictionary<ETicket, int> GetTicketsFromPlayer(int index)
         {
-            if (playerList.Count - 1 >= index)
+            if (agentList.Count - 1 >= index)
             {
-                return playerList[index].GetTickets();
+                return agentList[index].GetTickets();
             }
 
             return new Dictionary<ETicket, int>();
         }
 
-        public Player GetPlayer(int index)
+        public Agent GetPlayer(int index)
         {
-            if(playerList.Count -1 >= index)
+            if(agentList.Count -1 >= index)
             {
-                return playerList[index];
+                return agentList[index];
             }
 
             return null;
@@ -78,12 +69,12 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
         public int GetPlayerAmount()
         {
-            return playerList.Count;
+            return agentList.Count;
         }
 
         public bool SetPlayerStartingPosition(GameObject[] positions)
         {
-            if(playerList.Count > positions.Length)
+            if(agentList.Count > positions.Length)
             {
                 return false;
             }
@@ -91,7 +82,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
             for(int i = 0; i < GetPlayerAmount(); i++)
             {
                 var p = GetPlayer(i);
-                p.position = positions[i];
+                p.Position = positions[i];
                 p.transform.position = positions[i].transform.position;
             }
 
@@ -100,19 +91,28 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
         public bool CheckIfPlayerHasLost(int playerIndex)
         {
-            return CheckIfPlayerHasLost(playerList[playerIndex]);
+            return CheckIfPlayerHasLost(agentList[playerIndex]);
         }
 
-        public bool CheckIfPlayerHasLost(Player player)
+        public bool CheckIfPlayerHasLost(Agent player)
         {
-            StreetPoint playerPosition = player.position.GetComponent<StreetPoint>();
-            var targets = playerPosition.GetStreetTargets(player);
-            if(targets.Count == 0)
+            if(!player.HasLost)
             {
-                player.HasLost = true;
+                StreetPoint playerPosition = player.Position.GetComponent<StreetPoint>();
+                var targets = MovementHelper.GetTargets(player);
+                if (targets.Count == 0)
+                {
+                    player.HasLost = true;
+                }
             }
 
             return player.HasLost;
+        }
+
+        public bool HaveAllDetectivesLost()
+        {
+            int availableDete = agentList.Count(p => !p.HasLost && p.PlayerType == EPlayerType.DETECTIVE);
+            return availableDete == 0;
         }
     }
 }

@@ -24,8 +24,6 @@ namespace ScotlandYard.Scripts.PlayerScripts
                         {                            
                             Player player = this.transform.GetComponent<Player>();
                             GameEvents.Current.DestinationSelected(null, new MovementEventArgs(player, targetPoint));
-
-                            //player.StreetPath = targetPoint.GetPathByPosition(player.position, hit.transform.parent.gameObject);
                         }
                     }
                 }
