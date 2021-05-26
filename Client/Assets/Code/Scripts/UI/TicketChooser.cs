@@ -13,7 +13,7 @@ namespace ScotlandYard.Scripts.UI
 {
     public class TicketChooser : MonoBehaviour
     {
-        protected Player player;
+        protected Agent player;
         protected StreetPoint streetPoint;
         protected ETicket selectedTicket;
 
@@ -48,7 +48,7 @@ namespace ScotlandYard.Scripts.UI
                 tb.SetTicketCount(this.player.GetTicketCount(tb.GetTicket()));
             }
 
-            IStreet street = this.streetPoint.GetPathByPosition(player.position, streetPoint.GetGameObject());
+            IStreet street = this.streetPoint.GetPathByPosition(player.Position, streetPoint.GetGameObject());
             var costs = street.Costs;
 
             foreach(TicketButton tb in ticketButtons)
@@ -64,7 +64,7 @@ namespace ScotlandYard.Scripts.UI
 
         public void Ok_Pressed()
         {
-            IStreet street = this.streetPoint.GetPathByPosition(player.position, streetPoint.GetGameObject());
+            IStreet street = this.streetPoint.GetPathByPosition(player.Position, streetPoint.GetGameObject());
             GameEvents.Current.TicketSelection_Approved(null, new TicketEventArgs(player.ID, selectedTicket, street));
 
             this.gameObject.SetActive(false);
