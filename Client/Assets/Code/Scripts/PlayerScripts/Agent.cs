@@ -26,7 +26,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
         protected bool isMoving = false;
 
         //Properties
-        public EPlayerType PlayerType { get; set; }
+        public EPlayerType PlayerType { get => type; set => type = value; }
         public string AgentName { get => agentName; set => agentName = value; }
         public string ID { get => id; set => id = value; }
         public bool HasLost
@@ -38,14 +38,6 @@ namespace ScotlandYard.Scripts.PlayerScripts
                 {
                     hasLost = value;
                     Debug.Log($"{AgentName} lost this Game.");
-                    switch (PlayerType)
-                    {
-                        case EPlayerType.MISTERX:
-                            GameEvents.Current.DetectivesWon(null, null);
-                            break;
-                        default:
-                            break;
-                    }
                 }
             }
         }
@@ -63,8 +55,11 @@ namespace ScotlandYard.Scripts.PlayerScripts
             {
                 if(value != position)
                 {
-                    position.GetComponent<StreetPoint>().IsOccupied = false;
-                    value.GetComponent<StreetPoint>().IsOccupied = true;
+                    if(PlayerType != EPlayerType.MISTERX)
+                    {
+                        position.GetComponent<StreetPoint>().IsOccupied = false;
+                        value.GetComponent<StreetPoint>().IsOccupied = true;
+                    }
 
                     position = value;
                 }
@@ -105,8 +100,8 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
                 yield return new WaitForSeconds(0.2f);
 
-                Debug.Log($"{AgentName} reached the Destination {this.Position.GetComponent<StreetPoint>().name}");
-                Debug.Log($"Tickets left: Taxi = {Tickets[ETicket.TAXI]}, Bus = {Tickets[ETicket.BUS]}, Underground = {Tickets[ETicket.UNDERGROUND]}");
+                Debug.Log($"{AgentName} reached the Destination {this.Position.GetComponent<StreetPoint>().name}\n"
+                    + $"Tickets left: Taxi = {Tickets[ETicket.TAXI]}, Bus = {Tickets[ETicket.BUS]}, Underground = {Tickets[ETicket.UNDERGROUND]}");
                 this.StreetPath = null;
 
                 isMoving = false;
@@ -191,6 +186,11 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
         public virtual void RemoveTicket(ETicket ticket)
         {
+            if(PlayerType == EPlayerType.DETECTIVE)
+            {
+                GameEvents.Current.DetectiveTicketRemoved(this, ticket);
+            }
+
             if (HasTicket(ticket))
             {
                 Tickets[ticket]--;

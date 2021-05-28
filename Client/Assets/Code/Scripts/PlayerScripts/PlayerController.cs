@@ -24,7 +24,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
                 if(agent.PlayerType == EPlayerType.DETECTIVE)
                 {
-                    agent.AddTickets(ETicket.TAXI, 4); //
+                    agent.AddTickets(ETicket.TAXI, 10);
                     agent.AddTickets(ETicket.BUS, 8);
                     agent.AddTickets(ETicket.UNDERGROUND, 4);
                 }
@@ -39,7 +39,39 @@ namespace ScotlandYard.Scripts.PlayerScripts
                 
             }
 
+            // if multiple agents are misterX select a random one
+            List<Agent> misterXList = agentList.FindAll(a => a.PlayerType == EPlayerType.MISTERX);
+            if(misterXList.Count > 1)
+            {
+                int index = UnityEngine.Random.Range(0, misterXList.Count - 1);
+                for (int i = 0; i < misterXList.Count; i++)
+                {
+                    if(i != index)
+                    {
+                        misterXList[i].PlayerType = EPlayerType.DETECTIVE;
+                    }
+                }
+            }
+            else if(misterXList.Count == 0)
+            {
+                int index = UnityEngine.Random.Range(0, agentList.Count - 1);
+                agentList[index].PlayerType = EPlayerType.MISTERX;
+            }
+
+            // hide misterX
+            HidePlayer(GetMisterX(), false);
+
+            // order all agents (misterX first then all detectives randomly)
+            agentList = agentList.OrderBy(a => a.PlayerType).ThenBy(a => UnityEngine.Random.Range(0,10)).ToList();
+
             GameEvents.Current.OnMakeNextMove += Current_OnMakeNextMove;
+            GameEvents.Current.OnDetectiveTicketRemoved += Current_OnDetectiveTicketRemoved;
+        }
+
+        protected void Current_OnDetectiveTicketRemoved(object sender, ETicket e)
+        {
+            Agent misterX = agentList.FirstOrDefault(p => p.PlayerType == EPlayerType.MISTERX);
+            misterX.AddTickets(e, 1);
         }
 
         protected void Current_OnMakeNextMove(object sender, int args)
@@ -67,6 +99,11 @@ namespace ScotlandYard.Scripts.PlayerScripts
             return null;
         }
 
+        public Agent GetMisterX()
+        {
+            return agentList.FirstOrDefault(a => a.PlayerType == EPlayerType.MISTERX);
+        }
+
         public int GetPlayerAmount()
         {
             return agentList.Count;
@@ -84,6 +121,11 @@ namespace ScotlandYard.Scripts.PlayerScripts
                 var p = GetPlayer(i);
                 p.Position = positions[i];
                 p.transform.position = positions[i].transform.position;
+
+                if(p.PlayerType == EPlayerType.DETECTIVE)
+                {
+                    positions[i].GetComponent<StreetPoint>().IsOccupied = true;
+                }
             }
 
             return true;
@@ -91,28 +133,50 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
         public bool CheckIfPlayerHasLost(int playerIndex)
         {
-            return CheckIfPlayerHasLost(agentList[playerIndex]);
-        }
+            Agent current = GetPlayer(playerIndex);
 
-        public bool CheckIfPlayerHasLost(Agent player)
-        {
-            if(!player.HasLost)
+            if (!current.HasLost)
             {
-                StreetPoint playerPosition = player.Position.GetComponent<StreetPoint>();
-                var targets = MovementHelper.GetTargets(player);
+                var targets = MovementHelper.GetTargets(current);
                 if (targets.Count == 0)
                 {
-                    player.HasLost = true;
+                    current.HasLost = true;
+                }
+
+                // check if the current player has captured MisterX
+                if (current.PlayerType != EPlayerType.MISTERX)
+                {
+                    Agent misterX = GetMisterX();
+                    if (misterX != null)
+                    {
+                        misterX.HasLost = string.Equals(current.Position.GetComponent<StreetPoint>()?.name, misterX.Position.GetComponent<StreetPoint>()?.name);
+                    }
                 }
             }
 
-            return player.HasLost;
+            return current.HasLost;
         }
 
         public bool HaveAllDetectivesLost()
         {
             int availableDete = agentList.Count(p => !p.HasLost && p.PlayerType == EPlayerType.DETECTIVE);
             return availableDete == 0;
+        }
+
+        public bool HasMisterXLost()
+        {
+            return agentList.Any(p => p.PlayerType == EPlayerType.MISTERX && p.HasLost);
+        }
+
+        public void HidePlayer(Agent agent, bool hide)
+        {
+            if(!agent.GetType().Name.Equals(nameof(Player)))
+            {
+                for (int i = 0; i < agent.transform.childCount; i++)
+                {
+                    agent.transform.GetChild(i).gameObject.SetActive(hide);
+                }
+            }
         }
     }
 }

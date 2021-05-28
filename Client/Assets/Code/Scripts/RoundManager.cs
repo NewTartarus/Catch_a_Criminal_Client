@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,6 +77,7 @@ namespace ScotlandYard.Scripts
         {
             roundState = ERound.INITIALIZATION;
 
+            Debug.Log($"Initialization ...");
             Cursor.visible = true;
 
             STREET_CONTROLLER.Init();
@@ -87,6 +89,7 @@ namespace ScotlandYard.Scripts
 
             yield return new WaitForSeconds(0.5f);
 
+            Debug.Log($"Round {Round} started.");
             PlayRound();
         }
 
@@ -96,13 +99,20 @@ namespace ScotlandYard.Scripts
             {
                 if(playerIndex >= PLAYER_CONTROLLER.GetPlayerAmount())
                 {
-                    Debug.Log($"Round {Round} ended.");
                     playerIndex = 0;
                     Round ++;
+                    Debug.Log($"Round {Round} started.");
                 }
 
                 if(!PLAYER_CONTROLLER.GetPlayer(playerIndex).HasLost)
                 {
+                    // Hide/Show all gameobjects of MisterX
+                    Agent currentAgent = PLAYER_CONTROLLER.GetPlayer(playerIndex);
+                    if(!currentAgent.GetType().Name.Equals(typeof(Player)) && currentAgent.PlayerType == EPlayerType.MISTERX)
+                    {
+                        PLAYER_CONTROLLER.HidePlayer(currentAgent, detectionRounds.Contains(Round));
+                    }
+
                     StartCoroutine(nameof(BeginPlayerRound), playerIndex);
                 }
                 else
@@ -119,10 +129,15 @@ namespace ScotlandYard.Scripts
 
         private void Current_OnPlayerMoveFinished(object sender, PlayerEventArgs e)
         {
-            Debug.Log($"{e.Name}'s turn ended [{round}]");
             HighlightBehavior.UnmarkPreviouslyHighlightedPoints();
 
-            if (!PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex) || !PLAYER_CONTROLLER.HaveAllDetectivesLost())
+            bool playerLost = PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex);
+
+            if (PLAYER_CONTROLLER.HasMisterXLost())
+            {
+                GameEvents.Current.DetectivesWon(null, null);
+            }
+            else if (!playerLost || !PLAYER_CONTROLLER.HaveAllDetectivesLost())
             {
                 roundState = ERound.TURN_END;
 
