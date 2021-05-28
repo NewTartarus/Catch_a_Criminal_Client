@@ -49,6 +49,11 @@ namespace ScotlandYard.Scripts.Helper
             prevHighlightedPoints.Add(streetPoint);
             streetPoint.IsHighlighted = true;
         }
+
+        public static void Destroy()
+        {
+            prevHighlightedPoints = new List<StreetPoint>();
+        }
     }
 }
 

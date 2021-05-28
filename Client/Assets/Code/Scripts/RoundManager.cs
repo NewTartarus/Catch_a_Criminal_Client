@@ -19,11 +19,11 @@ namespace ScotlandYard.Scripts
     {
         private const string GAME_TURN_STARTED = "game_turn_started";
 
-        [SerializeField] private StreetController STREET_CONTROLLER;
-        [SerializeField] private PlayerController PLAYER_CONTROLLER;
+        [SerializeField] protected StreetController STREET_CONTROLLER;
+        [SerializeField] protected PlayerController PLAYER_CONTROLLER;
 
-        [SerializeField] private RoundMessage roundMessage;
-        [SerializeField] private TicketChooser ticketChooser;
+        [SerializeField] protected RoundMessage roundMessage;
+        [SerializeField] protected TicketChooser ticketChooser;
 
         protected int round = 1;
         public int Round
@@ -194,8 +194,19 @@ namespace ScotlandYard.Scripts
 
         protected void GoBackToStart()
         {
-            GameEvents.Reset();
             SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
+        }
+
+        protected void OnDestroy()
+        {
+            GameEvents.Current.OnPlayerMoveFinished -= Current_OnPlayerMoveFinished;
+            GameEvents.Current.OnDestinationSelected -= OnlyHighlightDestination;
+            GameEvents.Current.OnTicketSelection_Canceled -= Current_OnTicketSelection_Canceled;
+            GameEvents.Current.OnTicketSelection_Approved -= Current_OnTicketSelection_Approved;
+
+            GameEvents.Current.OnDetectivesWon -= Current_OnDetectivesWon;
+            GameEvents.Current.OnMisterXWon -= Current_OnMisterXWon;
+            ticketChooser.Destroy();
         }
     }
 }

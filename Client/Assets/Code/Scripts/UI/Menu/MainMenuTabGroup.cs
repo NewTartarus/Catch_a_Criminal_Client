@@ -19,5 +19,10 @@ namespace ScotlandYard.Scripts.UI.Menu
         {
             OnTabSelected(this.tabButtons.First(tb => tb.ButtonId == e) ?? selectedButton);
         }
+
+        protected void OnDestroy()
+        {
+            GameEvents.Current.OnMainMenuButtonPressed -= Current_OnMainMenuButtonPressed;
+        }
     }
 }
