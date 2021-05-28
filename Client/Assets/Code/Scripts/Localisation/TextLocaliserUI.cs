@@ -28,5 +28,10 @@ namespace ScotlandYard.Scripts.Localisation
         {
             UpdateText();
         }
+
+        protected void OnDestroy()
+        {
+            GameEvents.Current.OnLanguageChanged -= Current_OnLanguageChanged;
+        }
     }
 }

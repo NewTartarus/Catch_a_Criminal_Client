@@ -7,7 +7,6 @@ namespace ScotlandYard.Scripts
     public class CameraController : MonoBehaviour
     {
         public static CameraController instance;
-        public Transform followTransform;
         [SerializeField] protected Transform cameraTransform;
 
         public float normalSpeed;
@@ -41,20 +40,8 @@ namespace ScotlandYard.Scripts
         // Update is called once per frame
         void Update()
         {
-            if (followTransform != null)
-            {
-                transform.position = followTransform.position;
-            }
-            else
-            {
-                HandleMouseInput();
-                HandleMovementInput();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                followTransform = null;
-            }
+            HandleMouseInput();
+            HandleMovementInput();
         }
 
         void HandleMouseInput()

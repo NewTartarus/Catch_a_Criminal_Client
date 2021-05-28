@@ -88,5 +88,11 @@ namespace ScotlandYard.Scripts.UI
 
             selectedTicketButton = null;
         }
+
+        public void Destroy()
+        {
+            GameEvents.Current.OnDestinationSelected -= Current_OnDestinationSelected;
+            GameEvents.Current.OnTicketSelected -= Current_OnTicketSelected;
+        }
     }
 }

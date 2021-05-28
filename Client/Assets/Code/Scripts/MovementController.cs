@@ -29,11 +29,6 @@ namespace ScotlandYard.Scripts.PlayerScripts
                 }
             }
         }
-
-        public void OnMouseDown()
-        {
-            CameraController.instance.followTransform = this.transform;
-        }
     }
 }
 

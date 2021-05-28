@@ -178,5 +178,12 @@ namespace ScotlandYard.Scripts.PlayerScripts
                 }
             }
         }
+
+        protected void OnDestroy()
+        {
+            GameEvents.Current.OnMakeNextMove -= Current_OnMakeNextMove;
+            GameEvents.Current.OnDetectiveTicketRemoved -= Current_OnDetectiveTicketRemoved;
+            HighlightBehavior.Destroy();
+        }
     }
 }
