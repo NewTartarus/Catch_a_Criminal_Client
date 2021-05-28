@@ -18,6 +18,7 @@ namespace ScotlandYard.Events
 
         public event EventHandler<int> OnMakeNextMove;
         public event EventHandler<PlayerEventArgs> OnPlayerMoveFinished;
+        public event EventHandler<ETicket> OnDetectiveTicketRemoved;
 
         public event EventHandler<int> OnRoundHasEnded;
 
@@ -110,6 +111,11 @@ namespace ScotlandYard.Events
         public void LanguageChanged(object sender, EventArgs args)
         {
             OnLanguageChanged?.Invoke(sender, args);
+        }
+
+        public void DetectiveTicketRemoved(object sender, ETicket ticket)
+        {
+            OnDetectiveTicketRemoved?.Invoke(sender, ticket);
         }
     }
 }

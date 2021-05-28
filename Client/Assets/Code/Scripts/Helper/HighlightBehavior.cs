@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ScotlandYard.Scripts.Street;
 using ScotlandYard.Scripts.PlayerScripts;
+using ScotlandYard.Events;
 
 namespace ScotlandYard.Scripts.Helper
 {
@@ -16,11 +17,19 @@ namespace ScotlandYard.Scripts.Helper
 
             //highlight all Points, that are accessable by the player
             var targets = MovementHelper.GetTargets(agent);
-            foreach (GameObject go in targets)
+            if(targets.Count > 0)
             {
-                StreetPoint point = go.GetComponent<StreetPoint>();
-                prevHighlightedPoints.Add(point);
-                point.IsHighlighted = true;
+                foreach (GameObject go in targets)
+                {
+                    StreetPoint point = go.GetComponent<StreetPoint>();
+                    prevHighlightedPoints.Add(point);
+                    point.IsHighlighted = true;
+                }
+            }
+            else
+            {
+                agent.HasLost = true;
+                GameEvents.Current.PlayerMoveFinished(null, new PlayerEventArgs(agent));
             }
         }
 

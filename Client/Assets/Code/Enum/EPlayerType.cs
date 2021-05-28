@@ -8,7 +8,7 @@ namespace ScotlandYard.Enums
 { 
     public enum EPlayerType
     {
-        DETECTIVE,
-        MISTERX
+        MISTERX,
+        DETECTIVE
     }
 }

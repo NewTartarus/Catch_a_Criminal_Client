@@ -1,4 +1,5 @@
 ﻿using ScotlandYard.Enums;
+using ScotlandYard.Events;
 using ScotlandYard.Interface;
 using ScotlandYard.Scripts.Helper;
 using ScotlandYard.Scripts.Street;
@@ -28,15 +29,23 @@ namespace ScotlandYard.Scripts.PlayerScripts
             // determine street
             StreetPoint currentPoint = Position.GetComponent<StreetPoint>();
             List<GameObject> targets = MovementHelper.GetTargets(this);
-            int index = System.Convert.ToInt32(Random.Range(0, targets.Count - 1));
+            if(targets.Count > 0)
+            {
+                int index = System.Convert.ToInt32(Random.Range(0, targets.Count - 1));
 
-            // pay ticket
-            IStreet street = currentPoint.GetPathByPosition(Position, targets[index]);
-            var cost = street.ReturnTicketCost().Where(c => HasTicket(c)).ToArray();
-            RemoveTicket(cost[System.Convert.ToInt32(Random.Range(0, cost.Length - 1))]);
+                // pay ticket
+                IStreet street = currentPoint.GetPathByPosition(Position, targets[index]);
+                var cost = street.ReturnTicketCost().Where(c => HasTicket(c)).ToArray();
+                RemoveTicket(cost[System.Convert.ToInt32(Random.Range(0, cost.Length - 1))]);
 
-            // move
-            StartCoroutine(nameof(Move), street);
+                // move
+                StartCoroutine(nameof(Move), street);
+            }
+            else
+            {
+                HasLost = true;
+                GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(this));
+            }
         }
     }
 }
