@@ -31,12 +31,12 @@ namespace ScotlandYard.Scripts.PlayerScripts
             List<GameObject> targets = MovementHelper.GetTargets(this);
             if(targets.Count > 0)
             {
-                int index = System.Convert.ToInt32(Random.Range(0, targets.Count - 1));
+                int index = System.Convert.ToInt32(Random.Range(0, targets.Count));
 
                 // pay ticket
                 IStreet street = currentPoint.GetPathByPosition(Position, targets[index]);
                 var cost = street.ReturnTicketCost().Where(c => HasTicket(c)).ToArray();
-                RemoveTicket(cost[System.Convert.ToInt32(Random.Range(0, cost.Length - 1))]);
+                RemoveTicket(cost[System.Convert.ToInt32(Random.Range(0, cost.Length))]);
 
                 // move
                 StartCoroutine(nameof(Move), street);

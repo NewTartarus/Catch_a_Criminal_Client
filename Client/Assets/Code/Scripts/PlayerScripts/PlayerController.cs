@@ -43,7 +43,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
             List<Agent> misterXList = agentList.FindAll(a => a.PlayerType == EPlayerType.MISTERX);
             if(misterXList.Count > 1)
             {
-                int index = UnityEngine.Random.Range(0, misterXList.Count - 1);
+                int index = UnityEngine.Random.Range(0, misterXList.Count);
                 for (int i = 0; i < misterXList.Count; i++)
                 {
                     if(i != index)
@@ -54,7 +54,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
             }
             else if(misterXList.Count == 0)
             {
-                int index = UnityEngine.Random.Range(0, agentList.Count - 1);
+                int index = UnityEngine.Random.Range(0, agentList.Count);
                 agentList[index].PlayerType = EPlayerType.MISTERX;
             }
 
