@@ -24,8 +24,7 @@ namespace ScotlandYard.Scripts.Street
 
         protected virtual void Start()
         {
-            this.gameObject.AddComponent<LineRenderer>();
-            LineRenderer renderer = this.gameObject.GetComponent<LineRenderer>();
+            LineRenderer renderer = this.gameObject.AddComponent<LineRenderer>();
 
             renderer.positionCount = GetNumberOfWaypoints() + 2;
             renderer.numCornerVertices = 20;
@@ -36,8 +35,8 @@ namespace ScotlandYard.Scripts.Street
 
             renderer.startWidth = 0.1f;
             renderer.endWidth = 0.1f;
-            renderer.material = new Material(Shader.Find("Unlit/Color"));
-            renderer.material.color = waypointColor;
+            renderer.material = new Material(Shader.Find("HDRP/Lit"));
+            renderer.material.SetColor("_BaseColor", waypointColor);
         }
 
         public virtual int GetNumberOfWaypoints()
