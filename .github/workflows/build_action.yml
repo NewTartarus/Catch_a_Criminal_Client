@@ -12,7 +12,6 @@ jobs:
     needs: buildAndTestForSomePlatforms
     steps:
       - name: Set env
-        uses: actions/checkout@v1
         run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
       - name: Download site content
         uses: actions/download_artifact@v2
