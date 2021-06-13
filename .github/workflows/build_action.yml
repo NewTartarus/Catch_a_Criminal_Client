@@ -3,42 +3,10 @@ name: Build Actions
 on:
     push:
         tags:
-            - 'v*.*.*'
+            - '*.*.*'
 
 jobs:
-  releaseBuildsForSomePlatforms:
-    name: Release Builds
-    runs-on: ubuntu-latest
-    needs: buildAndTestForSomePlatforms
-    steps:
-      - name: Set env
-        run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
-      - name: Download site content
-        uses: actions/download-artifact@v2
-        with:
-          name: Build_StandaloneWindows64_${{ env.RELEASE_VERSION }}
-      - name: Archive site content
-        uses: thedoctor0/zip-release@master
-        with:
-          filename: Windows_x64.zip
-      - name: Create Github Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.RELEASE_VERSION }}
-          release_name: Release ${{ env.RELEASE_VERSION }}
-      - name: Upload Binaries
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Windows_x64.zip
-          asset_name: CAC-${{ env.RELEASE_VERSION }}_Windows_x64.zip
-          asset_content_type: application/zip
-  buildAndTestForSomePlatforms:
+  build:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
@@ -51,7 +19,6 @@ jobs:
         targetPlatform:
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
     steps:
-      - uses: actions/checkout@v1
       - name: Set env
         run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
       - uses: actions/checkout@v2
@@ -72,7 +39,74 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: Catch a Criminal
+          versioning: ${{ env.RELEASE_VERSION }}
       - uses: actions/upload-artifact@v2
         with:
-          name: Build_${{ matrix.targetPlatform }}_${{ env.RELEASE_VERSION }}
+          name: Build_${{ matrix.targetPlatform }}_v${{ env.RELEASE_VERSION }}
           path: build
+  release:
+    name: Release Version
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Set env
+        run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
+      - name: Create Github Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Release v${{ env.RELEASE_VERSION }}
+      - name: Output Release URL File
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+      - name: Save Release URL File for publish
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
+  publish:
+    name: Publish Builds
+    runs-on: ubuntu-latest
+    needs: release
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+    steps:
+      - name: Set env
+        run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
+      - name: Get a trimmed OS name
+        run: echo "OS_NAME=$(echo ${TARGET_OS#Standalone})" >> $GITHUB_ENV
+        env:
+          TARGET_OS: ${{ matrix.targetPlatform }}
+      - name: Download site content
+        uses: actions/download-artifact@v2
+        with:
+          name: Build_${{ matrix.targetPlatform }}_v${{ env.RELEASE_VERSION }}
+      - name: Archive site content
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: ${{ env.OS_NAME }}.zip
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        run: |
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
+      - name: Upload Binaries
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./${{ env.OS_NAME }}.zip
+          asset_name: CAC-v${{ env.RELEASE_VERSION }}_${{ env.OS_NAME }}.zip
+          asset_content_type: application/zip
+  
