@@ -40,7 +40,8 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           buildName: Catch a Criminal
-          versioning: ${{ env.RELEASE_VERSION }}
+          versioning: Custom
+          version: ${{ env.RELEASE_VERSION }}
       - uses: actions/upload-artifact@v2
         with:
           name: Build_${{ matrix.targetPlatform }}_v${{ env.RELEASE_VERSION }}
