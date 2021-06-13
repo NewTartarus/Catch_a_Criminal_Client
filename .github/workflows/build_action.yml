@@ -6,6 +6,12 @@ on:
             - 'v*.*.*'
 
 jobs:
+  releaseBuildsForSomePlatforms:
+    name: Release Builds
+    needs: buildAndTestForSomePlatforms
+    steps:
+      - name: Placeholder
+        run: echo "Test"
   buildAndTestForSomePlatforms:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
@@ -35,19 +41,6 @@ jobs:
           restore-keys: |
             Library-${{ matrix.projectPath }}-
             Library-
-      - uses: game-ci/unity-test-runner@v2
-        id: testRunner
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        with:
-          projectPath: ${{ matrix.projectPath }}
-          unityVersion: ${{ matrix.unityVersion }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: Test results (all modes)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
       - uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -57,5 +50,5 @@ jobs:
           targetPlatform: ${{ matrix.targetPlatform }}
       - uses: actions/upload-artifact@v2
         with:
-          name: Version ${{ env.RELEASE_VERSION }}
+          name: Build_${{ matrix.targetPlatform }}_${{ env.RELEASE_VERSION }}
           path: build
