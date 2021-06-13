@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build for ${{ matrix.targetPlatform }}
+    name: Build Game
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -61,13 +61,8 @@ jobs:
         with:
           tag_name: ${{ env.RELEASE_VERSION }}
           release_name: Release v${{ env.RELEASE_VERSION }}
-      - name: Output Release URL File
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
-      - name: Save Release URL File for publish
-        uses: actions/upload-artifact@v1
-        with:
-          name: release_url
-          path: release_url.txt
+          draft: false
+          prerelease: false
   publish:
     name: Publish Builds
     runs-on: ubuntu-latest
@@ -92,21 +87,17 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           filename: ${{ env.OS_NAME }}.zip
-      - name: Get Release File Name & Upload URL
+      - name: Get Release Upload URL
         id: get_release_info
-        run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
+        uses: jonfriesen/get-release-by-tag@v1.0.0
+        with:
+          tag_name: ${{ env.RELEASE_VERSION }}
       - name: Upload Binaries
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          upload_url: ${{ steps.get_release_info.outputs.release.data.upload_url }}
           asset_path: ./${{ env.OS_NAME }}.zip
           asset_name: CAC-v${{ env.RELEASE_VERSION }}_${{ env.OS_NAME }}.zip
           asset_content_type: application/zip
