@@ -18,6 +18,8 @@ jobs:
           - 2019.4.1f1
         targetPlatform:
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
     steps:
       - name: Set env
         run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
@@ -72,6 +74,8 @@ jobs:
       matrix:
         targetPlatform:
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
     steps:
       - name: Set env
         run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
@@ -88,16 +92,16 @@ jobs:
         with:
           filename: ${{ env.OS_NAME }}.zip
       - name: Get Release Upload URL
-        id: get_release_info
-        uses: jonfriesen/get-release-by-tag@v1.0.0
-        with:
-          tag_name: ${{ env.RELEASE_VERSION }}
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Binaries
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release_info.outputs.release.data.upload_url }}
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./${{ env.OS_NAME }}.zip
           asset_name: CAC-v${{ env.RELEASE_VERSION }}_${{ env.OS_NAME }}.zip
           asset_content_type: application/zip
