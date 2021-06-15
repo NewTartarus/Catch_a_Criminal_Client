@@ -13,10 +13,10 @@ namespace ScotlandYard.Events
         public string Name { get; set; }
         public EPlayerType Type { get; set; }
 
-        public PlayerEventArgs(Agent agent)
+        public PlayerEventArgs(PlayerData playerdata)
         {
-            this.Name = agent.AgentName;
-            this.Type = agent.PlayerType;
+            this.Name = playerdata.AgentName;
+            this.Type = playerdata.PlayerType;
         }
     }
 }

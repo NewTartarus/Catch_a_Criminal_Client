@@ -65,7 +65,7 @@ namespace ScotlandYard.Scripts.UI
         public void Ok_Pressed()
         {
             IStreet street = this.streetPoint.GetPathByPosition(player.Position, streetPoint.GetGameObject());
-            GameEvents.Current.TicketSelection_Approved(null, new TicketEventArgs(player.ID, selectedTicket, street));
+            GameEvents.Current.TicketSelection_Approved(null, new TicketEventArgs(player.Data.ID, selectedTicket, street));
 
             this.gameObject.SetActive(false);
             UnselectAll();

@@ -43,8 +43,8 @@ namespace ScotlandYard.Scripts.PlayerScripts
             }
             else
             {
-                HasLost = true;
-                GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(this));
+                Data.HasLost = true;
+                GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(this.Data));
             }
         }
     }

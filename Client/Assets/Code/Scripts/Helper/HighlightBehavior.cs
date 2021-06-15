@@ -28,8 +28,8 @@ namespace ScotlandYard.Scripts.Helper
             }
             else
             {
-                agent.HasLost = true;
-                GameEvents.Current.PlayerMoveFinished(null, new PlayerEventArgs(agent));
+                agent.Data.HasLost = true;
+                GameEvents.Current.PlayerMoveFinished(null, new PlayerEventArgs(agent.Data));
             }
         }
 
