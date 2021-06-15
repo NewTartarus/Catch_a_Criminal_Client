@@ -1,14 +1,12 @@
 name: Test Actions
 
 on:
-    push:
-        branches: [master]
     pull_request:
         branches: [master]
 
 jobs:
-  buildAndTestForSomePlatforms:
-    name: Build for ${{ matrix.targetPlatform }}
+  testForSomePlatforms:
+    name: Test in ${{ matrix.testMode }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -17,21 +15,18 @@ jobs:
           - Client
         unityVersion:
           - 2019.4.1f1
-        targetPlatform:
-          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
-          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+        testMode:
+          - playmode
+          - editmode
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
           lfs: true
       - uses: actions/cache@v2
         with:
           path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          key: Library-${{ matrix.projectPath }}
           restore-keys: |
-            Library-${{ matrix.projectPath }}-
             Library-
       - uses: game-ci/unity-test-runner@v2
         id: testRunner
@@ -40,9 +35,11 @@ jobs:
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
+          testMode: ${{ matrix.testMode }}
+          artifactsPath: ${{ matrix.testMode }}-artifacts
           githubToken: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: Test results (all modes)
+          name: Test results for ${{ matrix.testMode }}
           path: ${{ steps.testRunner.outputs.artifactsPath }}

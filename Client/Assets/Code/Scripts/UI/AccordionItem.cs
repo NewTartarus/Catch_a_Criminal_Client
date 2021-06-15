@@ -12,7 +12,7 @@ namespace ScotlandYard.Scripts.UI.Menu
         [SerializeField] protected GameObject content;
         [SerializeField] protected GameObject parentContentList;
 
-        protected bool collapsed = true;
+        [SerializeField] protected bool collapsed = true;
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -28,7 +28,10 @@ namespace ScotlandYard.Scripts.UI.Menu
                 content.SetActive(false);
             }
 
-            LayoutRebuilder.ForceRebuildLayoutImmediate(parentContentList.GetComponent<RectTransform>());
+            if(parentContentList != null)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(parentContentList.GetComponent<RectTransform>());
+            }
 
             collapsed = !collapsed;
         }

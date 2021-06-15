@@ -15,30 +15,24 @@ namespace ScotlandYard.Scripts.PlayerScripts
     public abstract class Agent : MonoBehaviour
     {
         //Fields
-        protected Dictionary<ETicket, int> Tickets = new Dictionary<ETicket, int>();
-        [SerializeField] protected string agentName;
-        protected string id;
-        [SerializeField] protected EPlayerType type;
-        protected bool hasLost;
+        [SerializeField] protected PlayerData data;
         [SerializeField] protected float speed;
-        [SerializeField] protected GameObject position;
+        protected GameObject position;
         protected IStreet streetPath;
         protected bool isMoving = false;
+        [SerializeField] protected MeshRenderer indicator;
 
         //Properties
-        public EPlayerType PlayerType { get => type; set => type = value; }
-        public string AgentName { get => agentName; set => agentName = value; }
-        public string ID { get => id; set => id = value; }
-        public bool HasLost
+        public virtual PlayerData Data
         {
-            get => hasLost;
-            set
+            get
             {
-                if (value)
+                if(data == null)
                 {
-                    hasLost = value;
-                    Debug.Log($"{AgentName} lost this Game.");
+                    data = new PlayerData();
                 }
+
+                return data;
             }
         }
 
@@ -55,9 +49,12 @@ namespace ScotlandYard.Scripts.PlayerScripts
             {
                 if(value != position)
                 {
-                    if(PlayerType != EPlayerType.MISTERX)
+                    if(Data.PlayerType != EPlayerType.MISTERX)
                     {
-                        position.GetComponent<StreetPoint>().IsOccupied = false;
+                        if(position != null)
+                        {
+                            position.GetComponent<StreetPoint>().IsOccupied = false;
+                        }
                         value.GetComponent<StreetPoint>().IsOccupied = true;
                     }
 
@@ -66,10 +63,17 @@ namespace ScotlandYard.Scripts.PlayerScripts
             }
         }
 
+        public virtual void Init()
+        {
+            GeneratePlayerId();
+            indicator.material = new Material(Shader.Find("HDRP/Lit"));
+            indicator.material.SetColor("_BaseColor", Data.PlayerColor);
+        }
+
         public virtual void GeneratePlayerId()
         {
             int id = int.Parse(Math.Abs(name.GetHashCode() * DateTime.Now.Millisecond).ToString().Substring(0, 5));
-            this.ID = $"{this.AgentName}#{id}";
+            this.Data.ID = $"{this.Data.AgentName}#{id}";
         }
 
         public virtual void BeginRound()
@@ -100,12 +104,12 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
                 yield return new WaitForSeconds(0.2f);
 
-                Debug.Log($"{AgentName} reached the Destination {this.Position.GetComponent<StreetPoint>().name}\n"
-                    + $"Tickets left: Taxi = {Tickets[ETicket.TAXI]}, Bus = {Tickets[ETicket.BUS]}, Underground = {Tickets[ETicket.UNDERGROUND]}");
+                Debug.Log($"{Data.AgentName} reached the Destination {this.Position.GetComponent<StreetPoint>().name}\n"
+                    + $"Tickets left: Taxi = {Data.Tickets[ETicket.TAXI]}, Bus = {Data.Tickets[ETicket.BUS]}, Underground = {Data.Tickets[ETicket.UNDERGROUND]}");
                 this.StreetPath = null;
 
                 isMoving = false;
-                GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(this));
+                GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(this.Data));
             }
 
         }
@@ -149,14 +153,14 @@ namespace ScotlandYard.Scripts.PlayerScripts
         // Tickets
         public virtual Dictionary<ETicket, int> GetTickets()
         {
-            return this.Tickets;
+            return this.Data.Tickets;
         }
 
         public int GetTicketCount(ETicket ticket)
         {
             if (HasTicket(ticket))
             {
-                return this.Tickets[ticket];
+                return this.Data.Tickets[ticket];
             }
 
             return 0;
@@ -164,19 +168,19 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
         public virtual void AddTickets(ETicket ticket, int amount)
         {
-            if (Tickets.ContainsKey(ticket))
+            if (Data.Tickets.ContainsKey(ticket))
             {
-                Tickets[ticket] += amount;
+                Data.Tickets[ticket] += amount;
             }
             else
             {
-                Tickets.Add(ticket, amount);
+                Data.Tickets.Add(ticket, amount);
             }
         }
 
         public virtual bool HasTicket(ETicket ticket)
         {
-            if (Tickets.ContainsKey(ticket) && Tickets[ticket] > 0)
+            if (Data.Tickets.ContainsKey(ticket) && Data.Tickets[ticket] > 0)
             {
                 return true;
             }
@@ -186,14 +190,18 @@ namespace ScotlandYard.Scripts.PlayerScripts
 
         public virtual void RemoveTicket(ETicket ticket)
         {
-            if(PlayerType == EPlayerType.DETECTIVE)
-            {
-                GameEvents.Current.DetectiveTicketRemoved(this, ticket);
-            }
-
             if (HasTicket(ticket))
             {
-                Tickets[ticket]--;
+                Data.Tickets[ticket]--;
+
+                if (Data.PlayerType == EPlayerType.DETECTIVE)
+                {
+                    GameEvents.Current.DetectiveTicketRemoved(this, ticket);
+                }
+                else if (Data.PlayerType == EPlayerType.MISTERX)
+                {
+                    GameEvents.Current.TicketUpdated(this, new TicketUpdateEventArgs(this.Data));
+                }
             }
         }
     }

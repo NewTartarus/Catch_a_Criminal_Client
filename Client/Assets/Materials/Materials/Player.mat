@@ -627,14 +627,14 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_7CC86A6: {r: 0.07778566, g: 0.5062488, b: 0.8679245, a: 0}
-    - _BaseColor: {r: 0.122641504, g: 0.10123709, b: 0.10123709, a: 1}
+    - _BaseColor: {r: 0.18867922, g: 0.1682093, b: 0.1682093, a: 1}
     - _BaseColor0: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor1: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor2: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor3: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap0_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.12264148, g: 0.101237066, b: 0.101237066, a: 1}
+    - _Color: {r: 0.18867919, g: 0.16820925, b: 0.16820925, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfileAsset0: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfileAsset1: {r: 0, g: 0, b: 0, a: 0}
@@ -666,7 +666,7 @@ Material:
     - _UVMappingMask3: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskBlendMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - _UnlitColor: {r: 0.6698113, g: 0.21800463, b: 0.21800463, a: 1}
+    - _UnlitColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
 --- !u!114 &8511375289787689516
 MonoBehaviour:
   m_ObjectHideFlags: 11

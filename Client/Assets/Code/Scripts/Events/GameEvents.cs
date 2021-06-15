@@ -19,6 +19,7 @@ namespace ScotlandYard.Events
         public event EventHandler<int> OnMakeNextMove;
         public event EventHandler<PlayerEventArgs> OnPlayerMoveFinished;
         public event EventHandler<ETicket> OnDetectiveTicketRemoved;
+        public event EventHandler<TicketUpdateEventArgs> OnTicketUpdated;
 
         public event EventHandler<int> OnRoundHasEnded;
 
@@ -116,6 +117,11 @@ namespace ScotlandYard.Events
         public void DetectiveTicketRemoved(object sender, ETicket ticket)
         {
             OnDetectiveTicketRemoved?.Invoke(sender, ticket);
+        }
+
+        public void TicketUpdated(object sender, TicketUpdateEventArgs args)
+        {
+            OnTicketUpdated?.Invoke(sender, args);
         }
     }
 }

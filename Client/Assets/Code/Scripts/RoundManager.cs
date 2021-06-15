@@ -24,6 +24,8 @@ namespace ScotlandYard.Scripts
 
         [SerializeField] protected RoundMessage roundMessage;
         [SerializeField] protected TicketChooser ticketChooser;
+        [SerializeField] protected PlayerInfoList playerInfoList;
+        [SerializeField] protected TextMeshProUGUI roundText;
 
         protected int round = 1;
         public int Round
@@ -85,10 +87,11 @@ namespace ScotlandYard.Scripts
             ticketChooser.Init();
 
             PLAYER_CONTROLLER.SetPlayerStartingPosition(STREET_CONTROLLER.GetRandomPositions(PLAYER_CONTROLLER.GetPlayerAmount()));
-
+            playerInfoList.Init(PLAYER_CONTROLLER.GetAllAgents());
 
             yield return new WaitForSeconds(0.5f);
 
+            roundText.SetText(Round.ToString());
             Debug.Log($"Round {Round} started.");
             PlayRound();
         }
@@ -101,14 +104,15 @@ namespace ScotlandYard.Scripts
                 {
                     playerIndex = 0;
                     Round ++;
+                    roundText.SetText(Round.ToString());
                     Debug.Log($"Round {Round} started.");
                 }
 
-                if(!PLAYER_CONTROLLER.GetPlayer(playerIndex).HasLost)
+                if(!PLAYER_CONTROLLER.GetPlayer(playerIndex).Data.HasLost)
                 {
                     // Hide/Show all gameobjects of MisterX
                     Agent currentAgent = PLAYER_CONTROLLER.GetPlayer(playerIndex);
-                    if(!currentAgent.GetType().Name.Equals(typeof(Player)) && currentAgent.PlayerType == EPlayerType.MISTERX)
+                    if(!currentAgent.GetType().Name.Equals(typeof(Player)) && currentAgent.Data.PlayerType == EPlayerType.MISTERX)
                     {
                         PLAYER_CONTROLLER.HidePlayer(currentAgent, detectionRounds.Contains(Round));
                     }
@@ -156,7 +160,7 @@ namespace ScotlandYard.Scripts
             {
                 Agent player = PLAYER_CONTROLLER.GetPlayer(index);
 
-                if (player.PlayerType == EPlayerType.MISTERX)
+                if (player.Data.PlayerType == EPlayerType.MISTERX)
                 {
                     roundState = ERound.MISTER_X_TURN;
                 }
@@ -165,7 +169,7 @@ namespace ScotlandYard.Scripts
                     roundState = ERound.DETECTIVE_TURN;
                 }
 
-                roundMessage.DisplayMessage(GAME_TURN_STARTED, player.AgentName);
+                roundMessage.DisplayMessage(GAME_TURN_STARTED, player.Data.AgentName);
 
                 yield return new WaitForSeconds(2f);
 

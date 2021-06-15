@@ -18,7 +18,7 @@ namespace ScotlandYard.Scripts.Localisation
             GameEvents.Current.OnLanguageChanged += Current_OnLanguageChanged;
         }
 
-        protected void UpdateText()
+        public void UpdateText()
         {
             textField = GetComponent<TextMeshProUGUI>();
             textField.text = localizedString.Value;

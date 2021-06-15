@@ -40,8 +40,8 @@ namespace ScotlandYard.Scripts.UI
 
         public void Resign()
         {
-            player.HasLost = true;
-            GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(player));
+            player.Data.HasLost = true;
+            GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(player.Data));
             Resume();
         }
 
