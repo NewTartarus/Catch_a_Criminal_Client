@@ -12,6 +12,7 @@ using TMPro;
 using ScotlandYard.Events;
 using ScotlandYard.Scripts.UI;
 using UnityEngine.SceneManagement;
+using ScotlandYard.Scripts.History;
 
 namespace ScotlandYard.Scripts
 {
@@ -21,11 +22,13 @@ namespace ScotlandYard.Scripts
 
         [SerializeField] protected StreetController STREET_CONTROLLER;
         [SerializeField] protected PlayerController PLAYER_CONTROLLER;
+        [SerializeField] protected HistoryController HISTORY_CONTROLLER;
 
         [SerializeField] protected RoundMessage roundMessage;
         [SerializeField] protected TicketChooser ticketChooser;
         [SerializeField] protected PlayerInfoList playerInfoList;
         [SerializeField] protected TextMeshProUGUI roundText;
+        
 
         protected int round = 1;
         public int Round
@@ -88,6 +91,7 @@ namespace ScotlandYard.Scripts
 
             PLAYER_CONTROLLER.SetPlayerStartingPosition(STREET_CONTROLLER.GetRandomPositions(PLAYER_CONTROLLER.GetPlayerAmount()));
             playerInfoList.Init(PLAYER_CONTROLLER.GetAllAgents());
+            HISTORY_CONTROLLER.Init(PLAYER_CONTROLLER.GetAllAgents(), detectionRounds);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -143,6 +147,7 @@ namespace ScotlandYard.Scripts
             }
             else if (!playerLost || !PLAYER_CONTROLLER.HaveAllDetectivesLost())
             {
+                HISTORY_CONTROLLER.AddHistoryItem(Round, PLAYER_CONTROLLER.GetPlayer(playerIndex));
                 roundState = ERound.TURN_END;
 
                 playerIndex++;
