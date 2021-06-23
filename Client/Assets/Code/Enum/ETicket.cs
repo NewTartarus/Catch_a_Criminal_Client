@@ -8,6 +8,7 @@ namespace ScotlandYard.Enums
 {
     public enum ETicket
     {
+        EMPTY,
         TAXI,
         BUS,
         UNDERGROUND,

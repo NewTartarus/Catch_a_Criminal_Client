@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace ScotlandYard.Scripts
 {
@@ -44,8 +45,13 @@ namespace ScotlandYard.Scripts
             HandleMovementInput();
         }
 
-        void HandleMouseInput()
+        protected void HandleMouseInput()
         {
+            if(EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+
             if (Input.mouseScrollDelta.y != 0)
             {
                 Vector3 zoomLevel = newZoom + Input.mouseScrollDelta.y * zoomAmount;
@@ -97,7 +103,7 @@ namespace ScotlandYard.Scripts
             }
         }
 
-        void HandleMovementInput()
+        protected void HandleMovementInput()
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {

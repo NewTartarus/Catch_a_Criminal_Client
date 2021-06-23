@@ -4,6 +4,7 @@ using UnityEngine;
 using ScotlandYard.Scripts.Helper;
 using ScotlandYard.Scripts.Street;
 using ScotlandYard.Events;
+using UnityEngine.EventSystems;
 
 namespace ScotlandYard.Scripts.PlayerScripts
 {
@@ -13,6 +14,11 @@ namespace ScotlandYard.Scripts.PlayerScripts
         {
             if (Input.GetMouseButtonDown(0))
             {
+                if(EventSystem.current.IsPointerOverGameObject())
+                {
+                    return;
+                }
+
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))

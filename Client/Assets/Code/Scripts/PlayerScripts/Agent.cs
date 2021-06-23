@@ -59,6 +59,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
                     }
 
                     position = value;
+                    Data.CurrentPosition = position.GetComponent<StreetPoint>();
                 }
             }
         }
