@@ -35,7 +35,7 @@ namespace ScotlandYard.Scripts.Street
 
             renderer.startWidth = 0.1f;
             renderer.endWidth = 0.1f;
-            renderer.material = new Material(Shader.Find("HDRP/Lit"));
+            renderer.material = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
             renderer.material.SetColor("_BaseColor", waypointColor);
         }
 

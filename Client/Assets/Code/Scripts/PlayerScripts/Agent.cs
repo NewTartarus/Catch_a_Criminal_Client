@@ -67,7 +67,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
         public virtual void Init()
         {
             GeneratePlayerId();
-            indicator.material = new Material(Shader.Find("HDRP/Lit"));
+            indicator.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             indicator.material.SetColor("_BaseColor", Data.PlayerColor);
         }
 
