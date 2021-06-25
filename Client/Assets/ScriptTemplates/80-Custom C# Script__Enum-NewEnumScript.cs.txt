@@ -1,0 +1,7 @@
+namespace ScotlandYard.Enums
+{	
+	public enum #SCRIPTNAME#
+	{
+		#NOTRIM#
+	}
+}

@@ -1,0 +1,28 @@
+namespace ScotlandYard.Scripts
+{
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using UnityEngine;
+	
+	public class #SCRIPTNAME# : MonoBehaviour
+	{
+		#region Members
+		#endregion
+		
+		#region Properties
+		#endregion
+		
+		#region Methods
+		protected void Start()
+		{
+			#NOTRIM#
+		}
+		
+		protected void Update()
+		{
+			#NOTRIM#
+		}
+		#endregion
+	}
+}
