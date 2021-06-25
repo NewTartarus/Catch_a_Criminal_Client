@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Street
+﻿namespace ScotlandYard.Scripts.Street
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+
     public class StreetController : MonoBehaviour
     {
         [SerializeField] protected List<StreetContainer> streetList;

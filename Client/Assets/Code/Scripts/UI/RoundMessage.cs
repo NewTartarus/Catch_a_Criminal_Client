@@ -1,13 +1,11 @@
-﻿using ScotlandYard.Scripts.Localisation;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace ScotlandYard.Scripts.UI
+﻿namespace ScotlandYard.Scripts.UI
 {
+    using ScotlandYard.Scripts.Localisation;
+    using System;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     public class RoundMessage : MonoBehaviour
     {
         [SerializeField] protected TextMeshProUGUI roundMessageText;

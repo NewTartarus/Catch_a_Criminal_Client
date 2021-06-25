@@ -1,17 +1,14 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Events;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.Street;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts.PlayerScripts
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interface;
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.Street;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public abstract class Agent : MonoBehaviour
     {
         //Fields

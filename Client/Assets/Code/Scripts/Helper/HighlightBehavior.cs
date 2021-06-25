@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ScotlandYard.Scripts.Street;
-using ScotlandYard.Scripts.PlayerScripts;
-using ScotlandYard.Events;
-
-namespace ScotlandYard.Scripts.Helper
+﻿namespace ScotlandYard.Scripts.Helper
 {
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using ScotlandYard.Scripts.Street;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public class HighlightBehavior
     {
         private static List<StreetPoint> prevHighlightedPoints = new List<StreetPoint>();

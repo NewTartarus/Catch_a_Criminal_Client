@@ -1,14 +1,12 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Scripts.Street;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts.PlayerScripts
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.Street;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+
     [Serializable]
     public class PlayerData
     {

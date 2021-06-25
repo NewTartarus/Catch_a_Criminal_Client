@@ -1,13 +1,8 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Scripts.PlayerScripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ScotlandYard.Scripts.History
+﻿namespace ScotlandYard.Scripts.History
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.PlayerScripts;
+
     public class HistoryItem
     {
         protected int round;

@@ -1,16 +1,11 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace ScotlandYard.Scripts.UI
+﻿namespace ScotlandYard.Scripts.UI
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.Events;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     public class TicketButton : MonoBehaviour
     {
         [SerializeField] protected Image imageSrc;

@@ -1,14 +1,9 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Street
+﻿namespace ScotlandYard.Scripts.Street
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interface;
+    using UnityEngine;
+
     public class StreetContainer : MonoBehaviour
     {
         //IStreet

@@ -1,21 +1,18 @@
-﻿using System.Collections;
-using System.Linq;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using ScotlandYard.Scripts.Helper;
-using ScotlandYard.Scripts.Street;
-using ScotlandYard.Scripts.PlayerScripts;
-using ScotlandYard.Interface;
-using ScotlandYard.Enums;
-using TMPro;
-using ScotlandYard.Events;
-using ScotlandYard.Scripts.UI;
-using UnityEngine.SceneManagement;
-using ScotlandYard.Scripts.History;
-
-namespace ScotlandYard.Scripts
+﻿namespace ScotlandYard.Scripts
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.History;
+    using ScotlandYard.Scripts.Helper;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using ScotlandYard.Scripts.Street;
+    using ScotlandYard.Scripts.UI;
+    using System.Collections;
+    using System.Linq;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
     public class RoundManager : MonoBehaviour
     {
         private const string GAME_TURN_STARTED = "game_turn_started";

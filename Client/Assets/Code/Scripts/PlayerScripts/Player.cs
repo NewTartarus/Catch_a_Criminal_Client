@@ -1,14 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ScotlandYard.Interface;
-using ScotlandYard.Enums;
-using System;
-using ScotlandYard.Events;
-using ScotlandYard.Scripts.Helper;
-
-namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts.PlayerScripts
 {
+    using ScotlandYard.Interface;
+    using ScotlandYard.Scripts.Helper;
+
     public class Player : Agent
     {
         public override IStreet StreetPath

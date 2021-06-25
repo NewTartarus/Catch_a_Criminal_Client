@@ -1,12 +1,10 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Events;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-namespace ScotlandYard.Scripts.UI.Menu
+﻿namespace ScotlandYard.Scripts.UI.Menu
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.Events;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
     public class MenuButton : MonoBehaviour
     {
         public void ExitGame()

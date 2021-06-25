@@ -2,13 +2,11 @@ namespace ScotlandYard.Scripts.History
 {
     using ScotlandYard.Enums;
     using ScotlandYard.Scripts.PlayerScripts;
-    using ScotlandYard.Scripts.Street;
+	using System;
 	using System.Linq;
 	using System.Collections.Generic;
 	using UnityEngine;
-    using ScotlandYard.Events;
-    using System;
-
+    
     public class HistoryController : MonoBehaviour
 	{
 		[SerializeField] protected HistoryItemList historylist;

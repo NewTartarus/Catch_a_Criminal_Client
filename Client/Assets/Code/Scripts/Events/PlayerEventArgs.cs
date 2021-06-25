@@ -1,13 +1,9 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Scripts.PlayerScripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ScotlandYard.Events
+﻿namespace ScotlandYard.Scripts.Events
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using System;
+
     public class PlayerEventArgs : EventArgs
     {
         public string Name { get; set; }

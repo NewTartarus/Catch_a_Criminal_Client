@@ -1,10 +1,10 @@
-﻿using ScotlandYard.Enums;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace ScotlandYard.Scripts.History
+﻿namespace ScotlandYard.Scripts.History
 {
+    using ScotlandYard.Enums;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     public class HistoryItemView : MonoBehaviour
     {
         [SerializeField] protected TextMeshProUGUI roundText;

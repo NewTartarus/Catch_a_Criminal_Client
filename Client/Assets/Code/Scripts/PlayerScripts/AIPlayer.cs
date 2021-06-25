@@ -1,14 +1,14 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Events;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.Helper;
-using ScotlandYard.Scripts.Street;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts.PlayerScripts
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interface;
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.Helper;
+    using ScotlandYard.Scripts.Street;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+
     public class AIPlayer : Agent
     {
         [SerializeField] protected EDifficulty difficulty;

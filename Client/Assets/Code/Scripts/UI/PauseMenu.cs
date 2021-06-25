@@ -1,12 +1,10 @@
-﻿using ScotlandYard.Events;
-using ScotlandYard.Scripts.PlayerScripts;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-namespace ScotlandYard.Scripts.UI
+﻿namespace ScotlandYard.Scripts.UI
 {
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
     public class PauseMenu : MonoBehaviour
     {
         protected bool isGamePaused;

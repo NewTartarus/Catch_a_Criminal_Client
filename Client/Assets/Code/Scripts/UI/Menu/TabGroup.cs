@@ -1,13 +1,7 @@
-﻿using ScotlandYard.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.UI.Menu
+﻿namespace ScotlandYard.Scripts.UI.Menu
 {
+    using System.Collections.Generic;
+    using UnityEngine;
 
     public class TabGroup : MonoBehaviour
     {

@@ -1,14 +1,10 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.PlayerScripts;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Street
+﻿namespace ScotlandYard.Scripts.Street
 {
+    using ScotlandYard.Interface;
+    using System.Collections.Generic;
+    using TMPro;
+    using UnityEngine;
+
     public class StreetPoint : MonoBehaviour
     {
         public new string name;

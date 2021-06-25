@@ -1,10 +1,9 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.PlayerScripts;
-using System;
-
-namespace ScotlandYard.Events
+﻿namespace ScotlandYard.Scripts.Events
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interface;
+    using System;
+
     public class TicketEventArgs : EventArgs
     {
         public ETicket Ticket { get; set; }

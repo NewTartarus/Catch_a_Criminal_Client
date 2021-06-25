@@ -1,15 +1,14 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Events;
-using ScotlandYard.Scripts.Localisation;
-using ScotlandYard.Scripts.PlayerScripts;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace ScotlandYard.Scripts.UI
+﻿namespace ScotlandYard.Scripts.UI
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.Localisation;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using System.Collections.Generic;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     public class PlayerInfoItem : MonoBehaviour
     {
         [SerializeField] protected TextMeshProUGUI playerIndex;

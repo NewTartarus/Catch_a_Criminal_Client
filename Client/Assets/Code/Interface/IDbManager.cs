@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Data;
-
-namespace ScotlandYard.Interface
+﻿namespace ScotlandYard.Interface
 {
+    using System.Collections.Generic;
+    using System.Data;
+
     public interface IDbManager
     {
         List<object[]> Read(string sqlQuery, params IDbDataParameter[] parameters);

@@ -1,13 +1,8 @@
-﻿using ScotlandYard.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Interface
+﻿namespace ScotlandYard.Interface
 {
+    using ScotlandYard.Enums;
+    using UnityEngine;
+
     public interface IStreet
     {
         GameObject StartPoint { get; set; }

@@ -1,11 +1,9 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Interface;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Street
+﻿namespace ScotlandYard.Scripts.Street
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interface;
+    using UnityEngine;
+
     public class StreetPath : MonoBehaviour, IStreet
     {
         [SerializeField] protected GameObject pointA;

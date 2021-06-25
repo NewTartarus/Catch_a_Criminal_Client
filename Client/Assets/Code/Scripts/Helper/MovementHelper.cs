@@ -1,16 +1,12 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.PlayerScripts;
-using ScotlandYard.Scripts.Street;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Helper
+﻿namespace ScotlandYard.Scripts.Helper
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interface;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using ScotlandYard.Scripts.Street;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public class MovementHelper
     {
         public static List<GameObject> GetTargets(Agent agent)

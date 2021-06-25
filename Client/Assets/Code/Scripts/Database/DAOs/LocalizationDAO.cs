@@ -1,13 +1,9 @@
-﻿using Mono.Data.Sqlite;
-using ScotlandYard.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ScotlandYard.Scripts.Database.DAOs
+﻿namespace ScotlandYard.Scripts.Database.DAOs
 {
+    using Mono.Data.Sqlite;
+    using ScotlandYard.Interface;
+    using System.Collections.Generic;
+
     public class LocalizationDAO : IDataAccessObject<object[]>
     {
         protected static LocalizationDAO instance;

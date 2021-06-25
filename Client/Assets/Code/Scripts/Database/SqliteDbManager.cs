@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using Mono.Data.Sqlite;
-using ScotlandYard.Interface;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Database
+﻿namespace ScotlandYard.Scripts.Database
 {
+    using Mono.Data.Sqlite;
+    using ScotlandYard.Interface;
+    using System.Collections.Generic;
+    using System.Data;
+    using UnityEngine;
+
     public class SqliteDbManager : IDbManager
     {
         protected string connectionString = "";

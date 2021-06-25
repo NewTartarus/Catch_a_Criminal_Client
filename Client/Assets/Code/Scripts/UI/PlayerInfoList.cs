@@ -1,13 +1,9 @@
-﻿using ScotlandYard.Scripts.PlayerScripts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.UI
+﻿namespace ScotlandYard.Scripts.UI
 {
+    using ScotlandYard.Scripts.PlayerScripts;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public class PlayerInfoList : MonoBehaviour
     {
         [SerializeField] protected GameObject playerInfoPrefab;

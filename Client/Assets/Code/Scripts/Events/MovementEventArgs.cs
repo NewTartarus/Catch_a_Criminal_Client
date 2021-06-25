@@ -1,9 +1,9 @@
-﻿using ScotlandYard.Scripts.PlayerScripts;
-using ScotlandYard.Scripts.Street;
-using System;
-
-namespace ScotlandYard.Events
+﻿namespace ScotlandYard.Scripts.Events
 {
+    using ScotlandYard.Scripts.PlayerScripts;
+    using ScotlandYard.Scripts.Street;
+    using System;
+
     public class MovementEventArgs : EventArgs
     {
         public Agent Player { get; set; }
