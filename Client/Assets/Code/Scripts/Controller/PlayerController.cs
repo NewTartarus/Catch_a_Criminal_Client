@@ -1,8 +1,9 @@
-﻿namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts.Controller
 {
     using ScotlandYard.Enums;
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.Helper;
+    using ScotlandYard.Scripts.PlayerScripts;
     using ScotlandYard.Scripts.Street;
     using System.Collections.Generic;
     using System.Linq;

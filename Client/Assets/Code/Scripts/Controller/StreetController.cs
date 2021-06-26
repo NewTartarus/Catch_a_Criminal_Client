@@ -1,5 +1,6 @@
-﻿namespace ScotlandYard.Scripts.Street
+﻿namespace ScotlandYard.Scripts.Controller
 {
+    using ScotlandYard.Scripts.Street;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;

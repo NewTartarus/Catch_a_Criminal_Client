@@ -2,6 +2,7 @@
 {
     using ScotlandYard.Enums;
     using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.UI.Basics;
     using System.Linq;
 
     public class MainMenuTabGroup : TabGroup

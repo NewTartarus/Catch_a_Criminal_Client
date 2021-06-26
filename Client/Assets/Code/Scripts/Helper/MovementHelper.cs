@@ -1,7 +1,7 @@
 ﻿namespace ScotlandYard.Scripts.Helper
 {
     using ScotlandYard.Enums;
-    using ScotlandYard.Interface;
+    using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.PlayerScripts;
     using ScotlandYard.Scripts.Street;
     using System.Collections.Generic;

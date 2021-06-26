@@ -1,7 +1,7 @@
 ﻿namespace ScotlandYard.Scripts.Database.DAOs
 {
     using Mono.Data.Sqlite;
-    using ScotlandYard.Interface;
+    using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Localisation;
     using System.Collections.Generic;
 

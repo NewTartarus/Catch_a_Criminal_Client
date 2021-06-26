@@ -1,4 +1,4 @@
-﻿namespace ScotlandYard.Scripts.UI.Menu
+﻿namespace ScotlandYard.Scripts.UI.Basics
 {
     using ScotlandYard.Enums;
     using UnityEngine;

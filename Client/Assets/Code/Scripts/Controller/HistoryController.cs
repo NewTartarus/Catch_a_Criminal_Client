@@ -1,7 +1,8 @@
-namespace ScotlandYard.Scripts.History
+namespace ScotlandYard.Scripts.Controller
 {
     using ScotlandYard.Enums;
-    using ScotlandYard.Scripts.PlayerScripts;
+	using ScotlandYard.Scripts.History;
+	using ScotlandYard.Scripts.PlayerScripts;
 	using System;
 	using System.Linq;
 	using System.Collections.Generic;

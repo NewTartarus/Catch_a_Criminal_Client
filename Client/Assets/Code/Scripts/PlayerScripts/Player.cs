@@ -1,6 +1,6 @@
 ﻿namespace ScotlandYard.Scripts.PlayerScripts
 {
-    using ScotlandYard.Interface;
+    using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Helper;
 
     public class Player : Agent

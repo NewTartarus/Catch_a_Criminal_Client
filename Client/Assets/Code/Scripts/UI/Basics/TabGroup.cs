@@ -1,4 +1,4 @@
-﻿namespace ScotlandYard.Scripts.UI.Menu
+﻿namespace ScotlandYard.Scripts.UI.Basics
 {
     using System.Collections.Generic;
     using UnityEngine;

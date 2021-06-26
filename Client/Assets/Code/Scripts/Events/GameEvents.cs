@@ -1,7 +1,7 @@
 ﻿namespace ScotlandYard.Scripts.Events
 {
     using ScotlandYard.Enums;
-    using ScotlandYard.Scripts.UI;
+    using ScotlandYard.Scripts.UI.InGame;
     using System;
 
     public class GameEvents

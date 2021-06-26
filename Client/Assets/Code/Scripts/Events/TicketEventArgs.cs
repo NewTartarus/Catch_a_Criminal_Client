@@ -1,7 +1,7 @@
 ﻿namespace ScotlandYard.Scripts.Events
 {
     using ScotlandYard.Enums;
-    using ScotlandYard.Interface;
+    using ScotlandYard.Interfaces;
     using System;
 
     public class TicketEventArgs : EventArgs

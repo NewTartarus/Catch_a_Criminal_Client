@@ -1,4 +1,4 @@
-﻿namespace ScotlandYard.Interface
+﻿namespace ScotlandYard.Interfaces
 {
     using System.Collections.Generic;
 

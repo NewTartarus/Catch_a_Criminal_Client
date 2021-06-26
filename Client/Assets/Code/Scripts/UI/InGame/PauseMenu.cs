@@ -1,4 +1,4 @@
-﻿namespace ScotlandYard.Scripts.UI
+﻿namespace ScotlandYard.Scripts.UI.InGame
 {
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.PlayerScripts;

@@ -1,6 +1,7 @@
-﻿namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts
 {
     using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.PlayerScripts;
     using ScotlandYard.Scripts.Street;
     using UnityEngine;
     using UnityEngine.EventSystems;

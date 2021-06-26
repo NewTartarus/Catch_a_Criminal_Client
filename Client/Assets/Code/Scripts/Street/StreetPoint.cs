@@ -1,6 +1,6 @@
 ﻿namespace ScotlandYard.Scripts.Street
 {
-    using ScotlandYard.Interface;
+    using ScotlandYard.Interfaces;
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;

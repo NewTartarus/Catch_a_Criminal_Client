@@ -1,12 +1,11 @@
 ﻿namespace ScotlandYard.Scripts
 {
     using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.Controller;
     using ScotlandYard.Scripts.Events;
-    using ScotlandYard.Scripts.History;
     using ScotlandYard.Scripts.Helper;
     using ScotlandYard.Scripts.PlayerScripts;
-    using ScotlandYard.Scripts.Street;
-    using ScotlandYard.Scripts.UI;
+    using ScotlandYard.Scripts.UI.InGame;
     using System.Collections;
     using System.Linq;
     using TMPro;

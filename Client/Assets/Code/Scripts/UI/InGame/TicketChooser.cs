@@ -1,7 +1,7 @@
-﻿namespace ScotlandYard.Scripts.UI
+﻿namespace ScotlandYard.Scripts.UI.InGame
 {
     using ScotlandYard.Enums;
-    using ScotlandYard.Interface;
+    using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.PlayerScripts;
     using ScotlandYard.Scripts.Street;

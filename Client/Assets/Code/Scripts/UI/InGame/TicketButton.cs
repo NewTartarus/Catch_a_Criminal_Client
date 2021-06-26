@@ -1,4 +1,4 @@
-﻿namespace ScotlandYard.Scripts.UI
+﻿namespace ScotlandYard.Scripts.UI.InGame
 {
     using ScotlandYard.Enums;
     using ScotlandYard.Scripts.Events;

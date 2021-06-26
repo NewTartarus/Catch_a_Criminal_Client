@@ -1,7 +1,7 @@
 ﻿namespace ScotlandYard.Scripts.Database
 {
     using Mono.Data.Sqlite;
-    using ScotlandYard.Interface;
+    using ScotlandYard.Interfaces;
     using System.Collections.Generic;
     using System.Data;
     using UnityEngine;

@@ -1,7 +1,7 @@
 ﻿namespace ScotlandYard.Scripts.Database.DAOs
 {
     using Mono.Data.Sqlite;
-    using ScotlandYard.Interface;
+    using ScotlandYard.Interfaces;
     using System.Collections.Generic;
 
     public class LocalizationDAO : IDataAccessObject<object[]>
