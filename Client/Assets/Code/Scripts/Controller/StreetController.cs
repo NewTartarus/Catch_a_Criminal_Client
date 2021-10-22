@@ -1,5 +1,6 @@
 ﻿namespace ScotlandYard.Scripts.Controller
 {
+    using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Street;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,22 +8,22 @@
 
     public class StreetController : MonoBehaviour
     {
-        [SerializeField] protected List<StreetContainer> streetList;
+        [SerializeField] protected List<Street> streetList;
         [SerializeField] protected List<StreetPoint> streetPoints;
 
         public void Init()
         {
             //Adds IStreet-Object to the corresponding Point-Object
-            foreach (StreetContainer container in streetList)
+            foreach (Street street in streetList)
             {
-                container.Instance.StartPoint.GetComponent<StreetPoint>()?.AddStreet(container.Instance);
-                container.Instance.EndPoint.GetComponent<StreetPoint>()?.AddStreet(container.Instance);
+                street.StartPoint?.AddStreet(street);
+                street.EndPoint?.AddStreet(street);
             }
         }
 
-        public GameObject[] GetRandomPositions(int amount)
+        public IStreetPoint[] GetRandomPositions(int amount)
         {
-            GameObject[] positions = new GameObject[amount];
+            IStreetPoint[] positions = new StreetPoint[amount];
             List<int> pointsAlreadyUsed = new List<int>();
 
             
@@ -30,7 +31,7 @@
             {
                 var random = new System.Random();
                 pointsAlreadyUsed.Add(GetRandomUniqueInt(pointsAlreadyUsed,random));
-                positions[i] = streetPoints[pointsAlreadyUsed[i]].GetGameObject();
+                positions[i] = streetPoints[pointsAlreadyUsed[i]];
             }
 
             return positions;
@@ -51,13 +52,13 @@
         [ContextMenu("AutoFill StreetPoints")]
         protected void AutoFillStreetPoints()
         {
-            streetPoints = FindObjectsOfType<StreetPoint>().OrderBy(s => s.name).ToList();
+            streetPoints = FindObjectsOfType<StreetPoint>().OrderBy(s => s.StreetPointName).ToList();
         }
 
         [ContextMenu("AutoFill Streets")]
         protected void AutoFillStreets()
         {
-            streetList = FindObjectsOfType<StreetContainer>().OrderBy(s => s.name).ToList();
+            streetList = FindObjectsOfType<Street>().OrderBy(s => s.name).ToList();
         }
     }
 }

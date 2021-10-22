@@ -26,7 +26,7 @@
             positionObject.SetActive(displayPosition);
             if (displayPosition)
             {
-                positionText.SetText(item.Data.CurrentPosition.name);
+                positionText.SetText(item.Data.CurrentPosition.StreetPointName);
             }
 
             switch(item.Ticket)

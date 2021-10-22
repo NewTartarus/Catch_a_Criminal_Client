@@ -358,6 +358,11 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
 --- !u!114 &6123472 stripped
@@ -366,7 +371,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6123471}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591622433}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -1011,12 +1016,6 @@ MonoBehaviour:
   unselectedImage: {fileID: 21300000, guid: 8c5235ff98206074d877df815bc32c31, type: 3}
   text: {fileID: 759960697}
   ticket: 2
---- !u!1 &133125246 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 2025574664}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &133125247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
@@ -1029,7 +1028,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 2025574664}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133125246}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -1305,6 +1304,11 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4934501065074520149, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
@@ -1314,19 +1318,13 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 210052012}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &210052014 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 210052012}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &210052015 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
     type: 3}
   m_PrefabInstance: {fileID: 210052012}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 210052014}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -1453,15 +1451,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 231090746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1933341906}
-  endPoint: {fileID: 1314389029}
-  cost: 01000000
+  startPoint: {fileID: 1933341907}
+  endPoint: {fileID: 1314389031}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!1 &242740839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,12 +1892,6 @@ Transform:
   m_Father: {fileID: 1446278136}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 78.9, z: 0}
---- !u!1 &339694665 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1370924456}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &339694666 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
@@ -2425,15 +2416,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 467037932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1972378852}
-  endPoint: {fileID: 339694665}
-  cost: 0100000002000000
-  width: 1
+  startPoint: {fileID: 1972378854}
+  endPoint: {fileID: 1370924457}
+  ticketCosts: 0100000002000000
   waypointColor: {r: 0.27058825, g: 0.7058824, b: 0, a: 1}
-  type: 1
+  width: 1
 --- !u!1 &497984605
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,15 +2571,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 506082201}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1340793953}
-  endPoint: {fileID: 1933341906}
-  cost: 01000000
+  startPoint: {fileID: 1340793954}
+  endPoint: {fileID: 1933341907}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!4 &506082203
 Transform:
   m_ObjectHideFlags: 0
@@ -2651,15 +2640,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 508909343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1202893665}
-  endPoint: {fileID: 1314389029}
-  cost: 01000000
+  startPoint: {fileID: 1202893666}
+  endPoint: {fileID: 1314389031}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!1 &541855209
 GameObject:
   m_ObjectHideFlags: 0
@@ -2776,15 +2764,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 554036608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1972378852}
-  endPoint: {fileID: 133125246}
-  cost: 0100000002000000
-  width: 1
+  startPoint: {fileID: 1972378854}
+  endPoint: {fileID: 133125248}
+  ticketCosts: 0100000002000000
   waypointColor: {r: 0.27058825, g: 0.7058824, b: 0, a: 1}
-  type: 1
+  width: 1
 --- !u!1 &562573578
 GameObject:
   m_ObjectHideFlags: 0
@@ -2959,15 +2946,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 566712971}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 339694665}
-  endPoint: {fileID: 1933341906}
-  cost: 03000000
+  startPoint: {fileID: 1370924457}
+  endPoint: {fileID: 1933341907}
+  ticketCosts: 03000000
+  waypointColor: {r: 0.78431374, g: 0.09803922, b: 0.8392157, a: 1}
   width: 1
-  waypointColor: {r: 0.7830091, g: 0.09803921, b: 0.8392157, a: 1}
-  type: 1
 --- !u!1 &580406735
 GameObject:
   m_ObjectHideFlags: 0
@@ -3045,12 +3031,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 1
---- !u!1 &591622433 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 6123471}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &591622434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
@@ -3817,15 +3797,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 676599660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 339694665}
-  endPoint: {fileID: 210052014}
-  cost: 01000000
+  startPoint: {fileID: 1370924457}
+  endPoint: {fileID: 210052015}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!1 &689756295
 GameObject:
   m_ObjectHideFlags: 0
@@ -4436,15 +4415,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 821352869}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 133125246}
-  endPoint: {fileID: 591622433}
-  cost: 02000000
-  width: 1
+  startPoint: {fileID: 133125248}
+  endPoint: {fileID: 6123472}
+  ticketCosts: 02000000
   waypointColor: {r: 0.27058825, g: 0.7058824, b: 0, a: 1}
-  type: 1
+  width: 1
 --- !u!1 &832172728
 GameObject:
   m_ObjectHideFlags: 0
@@ -4702,15 +4680,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 878568196}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1432897594}
-  endPoint: {fileID: 1194313907}
-  cost: 0100000002000000
-  width: 1
+  startPoint: {fileID: 1116317841}
+  endPoint: {fileID: 1194313908}
+  ticketCosts: 0100000002000000
   waypointColor: {r: 0.27058825, g: 0.7058824, b: 0, a: 1}
-  type: 1
+  width: 1
 --- !u!1 &884350727
 GameObject:
   m_ObjectHideFlags: 0
@@ -4930,15 +4907,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 900327658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1340793953}
-  endPoint: {fileID: 1202893665}
-  cost: 01000000
+  startPoint: {fileID: 1340793954}
+  endPoint: {fileID: 1202893666}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!4 &900327660
 Transform:
   m_ObjectHideFlags: 0
@@ -5267,15 +5243,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 926967116}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 591622433}
-  endPoint: {fileID: 1432897594}
-  cost: 01000000
+  startPoint: {fileID: 6123472}
+  endPoint: {fileID: 1116317841}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!1 &928921077
 GameObject:
   m_ObjectHideFlags: 0
@@ -5860,6 +5835,11 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
 --- !u!1 &1001398721
@@ -5966,15 +5946,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1041400329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1432897594}
-  endPoint: {fileID: 339694665}
-  cost: 01000000
+  startPoint: {fileID: 1116317841}
+  endPoint: {fileID: 1370924457}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!1 &1047478930
 GameObject:
   m_ObjectHideFlags: 0
@@ -6532,15 +6511,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1064284339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 591622433}
-  endPoint: {fileID: 1340793953}
-  cost: 03000000
-  width: 1
+  startPoint: {fileID: 6123472}
+  endPoint: {fileID: 1340793954}
+  ticketCosts: 03000000
   waypointColor: {r: 0.78431374, g: 0.09803922, b: 0.8392157, a: 1}
-  type: 1
+  width: 1
 --- !u!4 &1064284341
 Transform:
   m_ObjectHideFlags: 0
@@ -6948,6 +6926,11 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
 --- !u!114 &1116317841 stripped
@@ -6956,7 +6939,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1116317840}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432897594}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -7099,15 +7082,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1122026372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 339694665}
-  endPoint: {fileID: 1194313907}
-  cost: 01000000
+  startPoint: {fileID: 1370924457}
+  endPoint: {fileID: 1194313908}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!1 &1136374896
 GameObject:
   m_ObjectHideFlags: 0
@@ -7482,17 +7464,16 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
 --- !u!4 &1194313906 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1194313905}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1194313907 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
     type: 3}
   m_PrefabInstance: {fileID: 1194313905}
   m_PrefabAsset: {fileID: 0}
@@ -7502,7 +7483,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1194313905}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1194313907}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -7859,17 +7840,16 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
 --- !u!4 &1202893664 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1202893663}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1202893665 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
     type: 3}
   m_PrefabInstance: {fileID: 1202893663}
   m_PrefabAsset: {fileID: 0}
@@ -7879,7 +7859,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1202893663}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202893665}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -8737,14 +8717,13 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
---- !u!1 &1314389029 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1314389028}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1314389030 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
@@ -8757,7 +8736,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1314389028}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1314389029}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -8895,6 +8874,11 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
@@ -8904,19 +8888,13 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1340793951}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1340793953 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1340793951}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1340793954 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
     type: 3}
   m_PrefabInstance: {fileID: 1340793951}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1340793953}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -9029,6 +9007,11 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
 --- !u!114 &1370924457 stripped
@@ -9037,7 +9020,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1370924456}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339694665}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -9148,12 +9131,6 @@ Transform:
   m_Father: {fileID: 821352870}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 37.321003, z: 0}
---- !u!1 &1432897594 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1116317840}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1432897595 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
@@ -9340,15 +9317,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1446278135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1972378852}
-  endPoint: {fileID: 591622433}
-  cost: 03000000
+  startPoint: {fileID: 1972378854}
+  endPoint: {fileID: 6123472}
+  ticketCosts: 03000000
+  waypointColor: {r: 0.78431374, g: 0.09803922, b: 0.8392157, a: 1}
   width: 1
-  waypointColor: {r: 0.7830091, g: 0.09803921, b: 0.8392157, a: 1}
-  type: 1
 --- !u!1 &1446560000
 GameObject:
   m_ObjectHideFlags: 0
@@ -10358,15 +10334,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1607648004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1340793953}
-  endPoint: {fileID: 210052014}
-  cost: 0100000002000000
+  startPoint: {fileID: 1340793954}
+  endPoint: {fileID: 210052015}
+  ticketCosts: 0100000002000000
+  waypointColor: {r: 0.27058825, g: 0.7058824, b: 0, a: 1}
   width: 1
-  waypointColor: {r: 0.27196968, g: 0.705, b: 0, a: 1}
-  type: 1
 --- !u!4 &1607648006
 Transform:
   m_ObjectHideFlags: 0
@@ -10898,15 +10873,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833942431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1314389029}
-  endPoint: {fileID: 591622433}
-  cost: 01000000
+  startPoint: {fileID: 1314389031}
+  endPoint: {fileID: 6123472}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!1 &1840649362
 GameObject:
   m_ObjectHideFlags: 0
@@ -11375,17 +11349,16 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
 --- !u!4 &1933341905 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 1933341904}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1933341906 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
     type: 3}
   m_PrefabInstance: {fileID: 1933341904}
   m_PrefabAsset: {fileID: 0}
@@ -11395,7 +11368,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1933341904}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1933341906}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -11491,12 +11464,6 @@ Transform:
   m_Father: {fileID: 676599661}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 12.469001, z: 0}
---- !u!1 &1972378852 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4934501065074520148, guid: 1912d7ccf38fbac4996fec45fb3ee169,
-    type: 3}
-  m_PrefabInstance: {fileID: 986719513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1972378853 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934501065074520150, guid: 1912d7ccf38fbac4996fec45fb3ee169,
@@ -11509,7 +11476,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 986719513}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972378852}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
@@ -12133,6 +12100,11 @@ PrefabInstance:
       propertyPath: radius
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: streetPointName
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
 --- !u!1 &2071333831
@@ -12161,15 +12133,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2071333831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b290dbe23b8271f40aca35b3dcfb08f9, type: 3}
+  m_Script: {fileID: 11500000, guid: e3065761781d86d4484d3e9715a50e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1340793953}
-  endPoint: {fileID: 1194313907}
-  cost: 01000000
+  startPoint: {fileID: 1340793954}
+  endPoint: {fileID: 1194313908}
+  ticketCosts: 01000000
+  waypointColor: {r: 1, g: 0.8980392, b: 0.28627452, a: 1}
   width: 1
-  waypointColor: {r: 1, g: 0.8987378, b: 0.28773582, a: 1}
-  type: 1
 --- !u!4 &2071333833
 Transform:
   m_ObjectHideFlags: 0

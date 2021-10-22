@@ -4,7 +4,6 @@
     using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.Helper;
-    using ScotlandYard.Scripts.Street;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
@@ -27,15 +26,14 @@
         protected void MoveRandomly()
         {
             // determine street
-            StreetPoint currentPoint = Position.GetComponent<StreetPoint>();
-            List<GameObject> targets = MovementHelper.GetTargets(this);
+            List<IStreetPoint> targets = MovementHelper.GetTargets(this);
             if(targets.Count > 0)
             {
                 int index = System.Convert.ToInt32(Random.Range(0, targets.Count));
 
                 // pay ticket
-                IStreet street = currentPoint.GetPathByPosition(Position, targets[index]);
-                var cost = street.ReturnTicketCost().Where(c => HasTicket(c)).ToArray();
+                IStreet street = Data.CurrentPosition.GetPath(targets[index]);
+                var cost = street.TicketCosts.Where(c => HasTicket(c)).ToArray();
                 RemoveTicket(cost[System.Convert.ToInt32(Random.Range(0, cost.Length))]);
 
                 // move

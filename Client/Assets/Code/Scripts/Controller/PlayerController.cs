@@ -1,10 +1,10 @@
 ﻿namespace ScotlandYard.Scripts.Controller
 {
     using ScotlandYard.Enums;
+    using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.Helper;
     using ScotlandYard.Scripts.PlayerScripts;
-    using ScotlandYard.Scripts.Street;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
@@ -113,7 +113,7 @@
             return agentList;
         }
 
-        public bool SetPlayerStartingPosition(GameObject[] positions)
+        public bool SetPlayerStartingPosition(IStreetPoint[] positions)
         {
             if(agentList.Count > positions.Length)
             {
@@ -123,12 +123,12 @@
             for(int i = 0; i < GetPlayerAmount(); i++)
             {
                 var p = GetPlayer(i);
-                p.Position = positions[i];
-                p.transform.position = positions[i].transform.position;
+                p.Data.CurrentPosition = positions[i];
+                p.transform.position = positions[i].GetTransform().position;
 
                 if(p.Data.PlayerType == EPlayerType.DETECTIVE)
                 {
-                    positions[i].GetComponent<StreetPoint>().IsOccupied = true;
+                    positions[i].IsOccupied = true;
                 }
             }
 
@@ -153,7 +153,7 @@
                     Agent misterX = GetMisterX();
                     if (misterX != null)
                     {
-                        misterX.Data.HasLost = string.Equals(current.Position.GetComponent<StreetPoint>()?.name, misterX.Position.GetComponent<StreetPoint>()?.name);
+                        misterX.Data.HasLost = current.Data.CurrentPosition != null && current.Data.CurrentPosition.Equals(misterX.Data.CurrentPosition);
                     }
                 }
             }

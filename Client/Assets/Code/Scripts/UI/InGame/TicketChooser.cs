@@ -46,8 +46,8 @@
                 tb.SetTicketCount(this.player.GetTicketCount(tb.GetTicket()));
             }
 
-            IStreet street = this.streetPoint.GetPathByPosition(player.Position, streetPoint.GetGameObject());
-            var costs = street.Costs;
+            IStreet street = player.Data.CurrentPosition.GetPath(streetPoint);
+            var costs = street.TicketCosts;
 
             foreach(TicketButton tb in ticketButtons)
             {
@@ -62,7 +62,7 @@
 
         public void Ok_Pressed()
         {
-            IStreet street = this.streetPoint.GetPathByPosition(player.Position, streetPoint.GetGameObject());
+            IStreet street = player.Data.CurrentPosition.GetPath(streetPoint);
             GameEvents.Current.TicketSelection_Approved(null, new TicketEventArgs(player.Data.ID, selectedTicket, street));
 
             this.gameObject.SetActive(false);
