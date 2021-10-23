@@ -1,12 +1,15 @@
 ﻿namespace ScotlandYard.Scripts
 {
     using ScotlandYard.Enums;
+    using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Controller;
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.Helper;
     using ScotlandYard.Scripts.PlayerScripts;
+    using ScotlandYard.Scripts.Street;
     using ScotlandYard.Scripts.UI.InGame;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using TMPro;
     using UnityEngine;
@@ -14,6 +17,7 @@
 
     public class RoundManager : MonoBehaviour
     {
+        #region Members
         private const string GAME_TURN_STARTED = "game_turn_started";
 
         [SerializeField] protected StreetController STREET_CONTROLLER;
@@ -25,8 +29,14 @@
         [SerializeField] protected PlayerInfoList playerInfoList;
         [SerializeField] protected TextMeshProUGUI roundText;
         
-
         protected int round = 1;
+        protected int playerIndex = 0;
+        protected int[] detectionRounds = new int[] { 3, 8, 13, 18, 24 };
+
+        protected ERound roundState;
+        #endregion
+
+        #region Properties
         public int Round
         {
             get => round;
@@ -39,10 +49,8 @@
                 }
             }
         }
-        protected int playerIndex = 0;
-        protected int[] detectionRounds = new int[] { 3, 8, 13, 18, 24};
+        #endregion
 
-        protected ERound roundState;
 
         protected void Start()
         {
@@ -57,23 +65,6 @@
             StartCoroutine(nameof(StartInit));
         }
 
-        private void Current_OnTicketSelection_Approved(object sender, TicketEventArgs e)
-        {
-            var player = PLAYER_CONTROLLER.GetPlayer(playerIndex);
-            player.StreetPath = e.Street;
-            player.RemoveTicket(e.Ticket);
-        }
-
-        private void Current_OnTicketSelection_Canceled(object sender, MovementEventArgs e)
-        {
-            HighlightBehavior.HighlightAccesPoints(e.Player);
-        }
-
-        protected virtual void OnlyHighlightDestination(object sender, MovementEventArgs e)
-        {
-            HighlightBehavior.HighlightOnlyOne(e.TargetPosition);
-        }
-
         protected IEnumerator StartInit()
         {
             roundState = ERound.INITIALIZATION;
@@ -85,7 +76,8 @@
             PLAYER_CONTROLLER.Init();
             ticketChooser.Init();
 
-            PLAYER_CONTROLLER.SetPlayerStartingPosition(STREET_CONTROLLER.GetRandomPositions(PLAYER_CONTROLLER.GetPlayerAmount()));
+            AssignStartingPositions(STREET_CONTROLLER.GetAllStreetPoints(), PLAYER_CONTROLLER.GetAllAgents());
+
             playerInfoList.Init(PLAYER_CONTROLLER.GetAllAgents());
             HISTORY_CONTROLLER.Init(PLAYER_CONTROLLER.GetAllAgents(), detectionRounds);
 
@@ -94,6 +86,34 @@
             roundText.SetText(Round.ToString());
             Debug.Log($"Round {Round} started.");
             PlayRound();
+        }
+
+        protected void AssignStartingPositions(List<StreetPoint> streetPoints, List<Agent> agents)
+        {
+            System.Random random = new System.Random();
+            List<IStreetPoint> tempPoints = streetPoints.Select(sp => (IStreetPoint)sp).ToList();
+
+            foreach (Agent agent in agents)
+            {
+                IStreetPoint temp = tempPoints[random.Next(0, tempPoints.Count-1)];
+
+                Debug.Log($"{agent.Data.AgentName} assigned to Position {temp?.ToString()}");
+
+                agent.Data.CurrentPosition = temp;
+                agent.GetTransform().position = temp.GetTransform().position;
+                tempPoints.Remove(temp);
+
+                if (agent.Data.PlayerType == EPlayerType.MISTERX)
+                {
+                    HashSet<IStreetPoint> neighbors = STREET_CONTROLLER.GetNeighboringStreetPoints(temp, 2, true);
+                    if((neighbors.Count + agents.Count) > tempPoints.Count)
+                    {
+                        neighbors = STREET_CONTROLLER.GetNeighboringStreetPoints(temp, 1, true);
+                    }
+
+                    tempPoints = tempPoints.Except(neighbors).ToList();
+                }
+            }
         }
 
         protected void PlayRound()
@@ -131,30 +151,6 @@
             }
         }
 
-        private void Current_OnPlayerMoveFinished(object sender, PlayerEventArgs e)
-        {
-            HighlightBehavior.UnmarkPreviouslyHighlightedPoints();
-
-            bool playerLost = PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex);
-
-            if (PLAYER_CONTROLLER.HasMisterXLost())
-            {
-                GameEvents.Current.DetectivesWon(null, null);
-            }
-            else if (!playerLost || !PLAYER_CONTROLLER.HaveAllDetectivesLost())
-            {
-                HISTORY_CONTROLLER.AddHistoryItem(Round, PLAYER_CONTROLLER.GetPlayer(playerIndex));
-                roundState = ERound.TURN_END;
-
-                playerIndex++;
-                PlayRound();
-            }
-            else
-            {
-                GameEvents.Current.MisterXWon(null, null);
-            }
-        }
-
         protected IEnumerator BeginPlayerRound(int index)
         {
             if(roundState != ERound.MISTER_X_TURN && roundState != ERound.DETECTIVE_TURN)
@@ -181,6 +177,53 @@
             
         }
 
+        protected void GoBackToStart()
+        {
+            SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
+        }
+
+        #region Event recievers
+        private void Current_OnPlayerMoveFinished(object sender, PlayerEventArgs e)
+        {
+            HighlightBehavior.UnmarkPreviouslyHighlightedPoints();
+
+            bool playerLost = PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex);
+
+            if (PLAYER_CONTROLLER.HasMisterXLost())
+            {
+                GameEvents.Current.DetectivesWon(null, null);
+            }
+            else if (!playerLost || !PLAYER_CONTROLLER.HaveAllDetectivesLost())
+            {
+                HISTORY_CONTROLLER.AddHistoryItem(Round, PLAYER_CONTROLLER.GetPlayer(playerIndex));
+                roundState = ERound.TURN_END;
+
+                playerIndex++;
+                PlayRound();
+            }
+            else
+            {
+                GameEvents.Current.MisterXWon(null, null);
+            }
+        }
+
+        private void Current_OnTicketSelection_Approved(object sender, TicketEventArgs e)
+        {
+            var player = PLAYER_CONTROLLER.GetPlayer(playerIndex);
+            player.StreetPath = e.Street;
+            player.RemoveTicket(e.Ticket);
+        }
+
+        private void Current_OnTicketSelection_Canceled(object sender, MovementEventArgs e)
+        {
+            HighlightBehavior.HighlightAccesPoints(e.Player);
+        }
+
+        protected virtual void OnlyHighlightDestination(object sender, MovementEventArgs e)
+        {
+            HighlightBehavior.HighlightOnlyOne(e.TargetPosition);
+        }
+
         protected void Current_OnMisterXWon(object sender, System.EventArgs e)
         {
             StopAllCoroutines();
@@ -196,11 +239,7 @@
 
             roundMessage.DisplayMessage("game_detectives_won", "game_game_end", () => GoBackToStart());
         }
-
-        protected void GoBackToStart()
-        {
-            SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
-        }
+        #endregion
 
         protected void OnDestroy()
         {

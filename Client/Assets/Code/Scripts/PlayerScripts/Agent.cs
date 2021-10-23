@@ -16,6 +16,7 @@
         protected IStreet streetPath;
         protected bool isMoving = false;
         [SerializeField] protected MeshRenderer indicator;
+        protected Transform ownTransform;
 
         //Properties
         public virtual PlayerData Data
@@ -177,6 +178,16 @@
                     GameEvents.Current.TicketUpdated(this, new TicketUpdateEventArgs(this.Data));
                 }
             }
+        }
+
+        public Transform GetTransform()
+        {
+            if(ownTransform == null)
+            {
+                ownTransform = this.transform;
+            }
+
+            return ownTransform;
         }
     }
 }

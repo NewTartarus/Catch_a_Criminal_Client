@@ -78,16 +78,6 @@
             Agent player = GetPlayer(args);
         }
 
-        public Dictionary<ETicket, int> GetTicketsFromPlayer(int index)
-        {
-            if (agentList.Count - 1 >= index)
-            {
-                return agentList[index].GetTickets();
-            }
-
-            return new Dictionary<ETicket, int>();
-        }
-
         public Agent GetPlayer(int index)
         {
             if(agentList.Count -1 >= index)
@@ -111,28 +101,6 @@
         public List<Agent> GetAllAgents()
         {
             return agentList;
-        }
-
-        public bool SetPlayerStartingPosition(IStreetPoint[] positions)
-        {
-            if(agentList.Count > positions.Length)
-            {
-                return false;
-            }
-
-            for(int i = 0; i < GetPlayerAmount(); i++)
-            {
-                var p = GetPlayer(i);
-                p.Data.CurrentPosition = positions[i];
-                p.transform.position = positions[i].GetTransform().position;
-
-                if(p.Data.PlayerType == EPlayerType.DETECTIVE)
-                {
-                    positions[i].IsOccupied = true;
-                }
-            }
-
-            return true;
         }
 
         public bool CheckIfPlayerHasLost(int playerIndex)

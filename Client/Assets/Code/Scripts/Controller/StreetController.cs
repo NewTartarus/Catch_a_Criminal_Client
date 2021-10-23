@@ -1,5 +1,6 @@
 ﻿namespace ScotlandYard.Scripts.Controller
 {
+    using ScotlandYard.Enums;
     using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Street;
     using System.Collections.Generic;
@@ -21,32 +22,38 @@
             }
         }
 
-        public IStreetPoint[] GetRandomPositions(int amount)
+        public List<StreetPoint> GetAllStreetPoints()
         {
-            IStreetPoint[] positions = new StreetPoint[amount];
-            List<int> pointsAlreadyUsed = new List<int>();
-
-            
-            for(int i = 0; i < amount; i++)
-            {
-                var random = new System.Random();
-                pointsAlreadyUsed.Add(GetRandomUniqueInt(pointsAlreadyUsed,random));
-                positions[i] = streetPoints[pointsAlreadyUsed[i]];
-            }
-
-            return positions;
+            return streetPoints;
         }
 
-        protected virtual int GetRandomUniqueInt(List<int> intsInUse, System.Random random)
+        public HashSet<IStreetPoint> GetNeighboringStreetPoints(IStreetPoint streetPoint, int level, bool ignoreBlackTickets)
         {
-            int randomInt = random.Next(0, streetPoints.Count);
+            HashSet<IStreetPoint> neighbors = new HashSet<IStreetPoint>();
+            IStreet[] streets = streetPoint.GetStreetArray();
 
-            if (!intsInUse.Contains(randomInt))
+            foreach(IStreet street in streets)
             {
-                return randomInt;
+                if(!ignoreBlackTickets || !(street.TicketCosts.Count == 1 && street.TicketCosts[0] == ETicket.BLACK_TICKET))
+                {
+                    neighbors.Add(street.StartPoint);
+                    neighbors.Add(street.EndPoint);
+                }
             }
 
-            return GetRandomUniqueInt(intsInUse, random);
+            if(level-1 > 0)
+            {
+                HashSet<IStreetPoint> temp = new HashSet<IStreetPoint>();
+                foreach (IStreetPoint n in neighbors)
+                {
+                    temp.UnionWith(GetNeighboringStreetPoints(n, --level, ignoreBlackTickets));
+                }
+
+                neighbors.UnionWith(temp);
+            }
+
+            neighbors.Remove(streetPoint);
+            return neighbors;
         }
 
         [ContextMenu("AutoFill StreetPoints")]
