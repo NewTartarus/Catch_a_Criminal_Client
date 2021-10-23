@@ -1,25 +1,17 @@
-﻿using ScotlandYard.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Interface
+﻿namespace ScotlandYard.Interfaces
 {
+    using ScotlandYard.Enums;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public interface IStreet
     {
-        GameObject StartPoint { get; set; }
-        GameObject EndPoint { get; set; }
-        ETicket[] Costs { get; set; }
+        IStreetPoint StartPoint { get; set; }
+        IStreetPoint EndPoint { get; set; }
+        List<ETicket> TicketCosts { get; set; }
 
         int GetNumberOfWaypoints();
 
         Transform GetWaypoint(int i);
-
-        Transform GetPathsTransform();
-
-        ETicket[] ReturnTicketCost();
     }
 }

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Mono.Data.Sqlite;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.Localisation;
-
-namespace ScotlandYard.Scripts.Database.DAOs
+﻿namespace ScotlandYard.Scripts.Database.DAOs
 {
+    using Mono.Data.Sqlite;
+    using ScotlandYard.Interfaces;
+    using ScotlandYard.Scripts.Localisation;
+    using System.Collections.Generic;
+
     public class LanguageDAO : IDataAccessObject<Language>
     {
         protected static LanguageDAO instance = null;

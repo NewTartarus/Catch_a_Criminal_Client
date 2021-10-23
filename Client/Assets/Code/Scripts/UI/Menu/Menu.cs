@@ -1,15 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using TMPro;
-using ScotlandYard.Scripts.Localisation;
-using ScotlandYard.Enums;
-using System;
-using ScotlandYard.Events;
-
-namespace ScotlandYard.Scripts.UI.Menu
+﻿namespace ScotlandYard.Scripts.UI.Menu
 {
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.Localisation;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+    using TMPro;
+
     public class Menu : MonoBehaviour
     {
         public TMP_Dropdown resoDropdown;

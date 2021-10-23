@@ -1,13 +1,8 @@
-﻿using ScotlandYard.Scripts.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts
+﻿namespace ScotlandYard.Scripts
 {
+    using ScotlandYard.Scripts.UI.InGame;
+    using UnityEngine;
+
     public class ShortcutController : MonoBehaviour
     {
         [SerializeField] protected PauseMenu pauseMenu;

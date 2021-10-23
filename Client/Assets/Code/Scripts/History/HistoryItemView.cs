@@ -1,10 +1,10 @@
-﻿using ScotlandYard.Enums;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace ScotlandYard.Scripts.History
+﻿namespace ScotlandYard.Scripts.History
 {
+    using ScotlandYard.Enums;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     public class HistoryItemView : MonoBehaviour
     {
         [SerializeField] protected TextMeshProUGUI roundText;
@@ -26,7 +26,7 @@ namespace ScotlandYard.Scripts.History
             positionObject.SetActive(displayPosition);
             if (displayPosition)
             {
-                positionText.SetText(item.Data.CurrentPosition.name);
+                positionText.SetText(item.Data.CurrentPosition.StreetPointName);
             }
 
             switch(item.Ticket)

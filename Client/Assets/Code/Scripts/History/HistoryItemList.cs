@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.History
+﻿namespace ScotlandYard.Scripts.History
 {
+    using UnityEngine;
+
     public class HistoryItemList : MonoBehaviour
     {
         [SerializeField] protected Transform content;

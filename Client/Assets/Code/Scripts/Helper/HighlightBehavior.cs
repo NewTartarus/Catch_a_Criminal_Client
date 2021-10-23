@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ScotlandYard.Scripts.Street;
-using ScotlandYard.Scripts.PlayerScripts;
-using ScotlandYard.Events;
-
-namespace ScotlandYard.Scripts.Helper
+﻿namespace ScotlandYard.Scripts.Helper
 {
+    using ScotlandYard.Interfaces;
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using System.Collections.Generic;
+
     public class HighlightBehavior
     {
-        private static List<StreetPoint> prevHighlightedPoints = new List<StreetPoint>();
+        private static List<IStreetPoint> prevHighlightedPoints = new List<IStreetPoint>();
 
         public static void HighlightAccesPoints(Agent agent)
         {
@@ -19,11 +17,10 @@ namespace ScotlandYard.Scripts.Helper
             var targets = MovementHelper.GetTargets(agent);
             if(targets.Count > 0)
             {
-                foreach (GameObject go in targets)
+                foreach (IStreetPoint streetPoint in targets)
                 {
-                    StreetPoint point = go.GetComponent<StreetPoint>();
-                    prevHighlightedPoints.Add(point);
-                    point.IsHighlighted = true;
+                    prevHighlightedPoints.Add(streetPoint);
+                    streetPoint.IsHighlighted = true;
                 }
             }
             else
@@ -35,14 +32,14 @@ namespace ScotlandYard.Scripts.Helper
 
         public static void UnmarkPreviouslyHighlightedPoints()
         {
-            foreach (StreetPoint p in prevHighlightedPoints)
+            foreach (IStreetPoint p in prevHighlightedPoints)
             {
                 p.IsHighlighted = false;
             }
-            prevHighlightedPoints = new List<StreetPoint>();
+            prevHighlightedPoints = new List<IStreetPoint>();
         }
 
-        public static void HighlightOnlyOne(StreetPoint streetPoint)
+        public static void HighlightOnlyOne(IStreetPoint streetPoint)
         {
             UnmarkPreviouslyHighlightedPoints();
 
@@ -52,7 +49,7 @@ namespace ScotlandYard.Scripts.Helper
 
         public static void Destroy()
         {
-            prevHighlightedPoints = new List<StreetPoint>();
+            prevHighlightedPoints = new List<IStreetPoint>();
         }
     }
 }

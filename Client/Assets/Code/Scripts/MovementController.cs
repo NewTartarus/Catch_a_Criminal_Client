@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ScotlandYard.Scripts.Helper;
-using ScotlandYard.Scripts.Street;
-using ScotlandYard.Events;
-using UnityEngine.EventSystems;
-
-namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts
 {
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using ScotlandYard.Scripts.Street;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+
     public class MovementController : MonoBehaviour
     {
         void Update()

@@ -1,17 +1,13 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.PlayerScripts;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Street
+﻿namespace ScotlandYard.Scripts.Street
 {
-    public class StreetPoint : MonoBehaviour
+    using ScotlandYard.Interfaces;
+    using System.Collections.Generic;
+    using TMPro;
+    using UnityEngine;
+
+    public class StreetPoint : MonoBehaviour, IStreetPoint
     {
-        public new string name;
+        [SerializeField] protected string streetPointName;
         [SerializeField] protected TextMeshPro text;
         [SerializeField] protected GameObject highlightMesh;
         protected bool isOccupied;
@@ -19,8 +15,16 @@ namespace ScotlandYard.Scripts.Street
         [SerializeField] protected List<IStreet> streetList = new List<IStreet>();
 
         protected bool highlighted;
+        protected GameObject ownGameObject;
+        protected Transform ownTransform;
 
         #region Properties
+        public string StreetPointName
+        {
+            get => streetPointName;
+            set => streetPointName = value;
+        }
+
         public bool IsHighlighted
         {
             get => highlighted;
@@ -31,22 +35,22 @@ namespace ScotlandYard.Scripts.Street
             }
         }
 
-        public bool IsOccupied { get; set; }
+        public bool IsOccupied { get => isOccupied; set => isOccupied = value; }
         #endregion
 
         void Awake()
         {
             if (text != null)
             {
-                text.text = name;
+                text.text = streetPointName;
             }
         }
 
-        internal IStreet GetPathByPosition(GameObject position, GameObject target)
+        public IStreet GetPath(IStreetPoint target)
         {
             foreach (IStreet path in streetList)
             {
-                if ((position.Equals(path.StartPoint) && target.Equals(path.EndPoint)) || (position.Equals(path.EndPoint) && target.Equals(path.StartPoint)))
+                if ((this.Equals(path.StartPoint) && target.Equals(path.EndPoint)) || (this.Equals(path.EndPoint) && target.Equals(path.StartPoint)))
                 {
                     return path;
                 }
@@ -67,12 +71,43 @@ namespace ScotlandYard.Scripts.Street
 
         public GameObject GetGameObject()
         {
-            return this.gameObject;
+            if(ownGameObject == null)
+            {
+                ownGameObject = this.gameObject;
+            }
+
+            return ownGameObject;
+        }
+
+        public Transform GetTransform()
+        {
+            if (ownTransform == null)
+            {
+                ownTransform = this.transform;
+            }
+
+            return ownTransform;
         }
 
         public override string ToString()
         {
-            return name;
+            return streetPointName;
+        }
+
+        public override bool Equals(object other)
+        {
+            if(other is StreetPoint sp && sp.StreetPointName.Equals(this.StreetPointName) &&
+                sp.GetTransform().position == this.GetTransform().position)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

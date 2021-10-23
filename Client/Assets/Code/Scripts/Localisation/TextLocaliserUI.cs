@@ -1,9 +1,9 @@
-﻿using ScotlandYard.Events;
-using TMPro;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Localisation
+﻿namespace ScotlandYard.Scripts.Localisation
 {
+    using ScotlandYard.Scripts.Events;
+    using TMPro;
+    using UnityEngine;
+
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class TextLocaliserUI : MonoBehaviour
     {

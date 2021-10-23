@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
-namespace ScotlandYard.Scripts
+﻿namespace ScotlandYard.Scripts
 {
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+
     public class CameraController : MonoBehaviour
     {
         public static CameraController instance;

@@ -1,36 +1,30 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.PlayerScripts;
-using ScotlandYard.Scripts.Street;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Helper
+﻿namespace ScotlandYard.Scripts.Helper
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interfaces;
+    using ScotlandYard.Scripts.PlayerScripts;
+    using System.Collections.Generic;
+
     public class MovementHelper
     {
-        public static List<GameObject> GetTargets(Agent agent)
+        public static List<IStreetPoint> GetTargets(Agent agent)
         {
-            return GetTargets(agent, agent.Position);
+            return GetTargets(agent, agent.Data.CurrentPosition);
         }
 
-        public static List<GameObject> GetTargets(Agent agent, GameObject position)
+        public static List<IStreetPoint> GetTargets(Agent agent, IStreetPoint position)
         {
-            List<GameObject> targets = new List<GameObject>();
-            IStreet[] streetList = position.GetComponent<StreetPoint>().GetStreetArray();
+            List<IStreetPoint> targets = new List<IStreetPoint>();
+            IStreet[] streetList = position.GetStreetArray();
 
             foreach (IStreet street in streetList)
             {
                 var target = !street.StartPoint.Equals(position) ? street.StartPoint : street.EndPoint;
 
-                if(!target.GetComponent<StreetPoint>().IsOccupied)
+                if(!target.IsOccupied)
                 {
                     bool playerHasTicket = false;
-                    foreach (ETicket ticket in street.ReturnTicketCost())
+                    foreach (ETicket ticket in street.TicketCosts)
                     {
                         if (agent.HasTicket(ticket))
                         {

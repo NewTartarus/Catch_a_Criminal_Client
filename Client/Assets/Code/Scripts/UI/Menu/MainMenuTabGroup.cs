@@ -1,13 +1,10 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ScotlandYard.Scripts.UI.Menu
+﻿namespace ScotlandYard.Scripts.UI.Menu
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.UI.Basics;
+    using System.Linq;
+
     public class MainMenuTabGroup : TabGroup
     {
         protected void Awake()

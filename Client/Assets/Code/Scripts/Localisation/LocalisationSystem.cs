@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using ScotlandYard.Enums;
-using ScotlandYard.Scripts.Database.DAOs;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.Localisation
+﻿namespace ScotlandYard.Scripts.Localisation
 {
+    using ScotlandYard.Scripts.Database.DAOs;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using UnityEngine;
+
     public class LocalisationSystem
     {
         public static Language language;

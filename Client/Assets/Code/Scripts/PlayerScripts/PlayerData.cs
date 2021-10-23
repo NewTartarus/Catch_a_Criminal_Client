@@ -1,14 +1,12 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Scripts.Street;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts.PlayerScripts
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+
     [Serializable]
     public class PlayerData
     {
@@ -17,7 +15,7 @@ namespace ScotlandYard.Scripts.PlayerScripts
         [SerializeField] protected EPlayerType type;
         protected Dictionary<ETicket, int> ticketList;
         [SerializeField] protected Color playerColor;
-        protected StreetPoint currentPosition;
+        protected IStreetPoint currentPosition;
         protected bool hasLost;
 
         public string ID { get => id; set => id = value; }
@@ -41,10 +39,25 @@ namespace ScotlandYard.Scripts.PlayerScripts
             get => playerColor;
             set => playerColor = value;
         }
-        public StreetPoint CurrentPosition
+        public IStreetPoint CurrentPosition
         {
             get => currentPosition;
-            set => currentPosition = value;
+            set
+            {
+                if(currentPosition != value)
+                {
+                    if (PlayerType != EPlayerType.MISTERX)
+                    {
+                        if (currentPosition != null)
+                        {
+                            currentPosition.IsOccupied = false;
+                        }
+                        value.IsOccupied = true;
+                    }
+
+                    currentPosition = value;
+                }
+            }
         }
         public bool HasLost
         {

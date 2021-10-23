@@ -1,26 +1,22 @@
-﻿using ScotlandYard.Enums;
-using ScotlandYard.Events;
-using ScotlandYard.Interface;
-using ScotlandYard.Scripts.Street;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ScotlandYard.Scripts.PlayerScripts
+﻿namespace ScotlandYard.Scripts.PlayerScripts
 {
+    using ScotlandYard.Enums;
+    using ScotlandYard.Interfaces;
+    using ScotlandYard.Scripts.Events;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public abstract class Agent : MonoBehaviour
     {
         //Fields
         [SerializeField] protected PlayerData data;
         [SerializeField] protected float speed;
-        protected GameObject position;
         protected IStreet streetPath;
         protected bool isMoving = false;
         [SerializeField] protected MeshRenderer indicator;
+        protected Transform ownTransform;
 
         //Properties
         public virtual PlayerData Data
@@ -40,28 +36,6 @@ namespace ScotlandYard.Scripts.PlayerScripts
         {
             get => streetPath;
             set => streetPath = value;
-        }
-
-        public virtual GameObject Position
-        {
-            get => position;
-            set
-            {
-                if(value != position)
-                {
-                    if(Data.PlayerType != EPlayerType.MISTERX)
-                    {
-                        if(position != null)
-                        {
-                            position.GetComponent<StreetPoint>().IsOccupied = false;
-                        }
-                        value.GetComponent<StreetPoint>().IsOccupied = true;
-                    }
-
-                    position = value;
-                    Data.CurrentPosition = position.GetComponent<StreetPoint>();
-                }
-            }
         }
 
         public virtual void Init()
@@ -91,21 +65,21 @@ namespace ScotlandYard.Scripts.PlayerScripts
                 StopCoroutine(nameof(MoveForwards));
                 StopCoroutine(nameof(MoveBackwards));
 
-                if (this.Position.Equals(path.StartPoint))
+                if (this.Data.CurrentPosition.Equals(path.StartPoint))
                 {
                     yield return StartCoroutine(nameof(MoveForwards), path);
-                    this.Position = path.EndPoint;
+                    this.Data.CurrentPosition = path.EndPoint;
                 }
-                else if (this.Position.Equals(path.EndPoint))
+                else if (this.Data.CurrentPosition.Equals(path.EndPoint))
                 {
                     yield return StartCoroutine(nameof(MoveBackwards), path);
-                    this.Position = path.StartPoint;
+                    this.Data.CurrentPosition = path.StartPoint;
                 }
                 transform.rotation = Quaternion.AngleAxis(0f, Vector3.down);
 
                 yield return new WaitForSeconds(0.2f);
 
-                Debug.Log($"{Data.AgentName} reached the Destination {this.Position.GetComponent<StreetPoint>().name}\n"
+                Debug.Log($"{Data.AgentName} reached the Destination {this.Data.CurrentPosition.StreetPointName}\n"
                     + $"Tickets left: Taxi = {Data.Tickets[ETicket.TAXI]}, Bus = {Data.Tickets[ETicket.BUS]}, Underground = {Data.Tickets[ETicket.UNDERGROUND]}");
                 this.StreetPath = null;
 
@@ -204,6 +178,16 @@ namespace ScotlandYard.Scripts.PlayerScripts
                     GameEvents.Current.TicketUpdated(this, new TicketUpdateEventArgs(this.Data));
                 }
             }
+        }
+
+        public Transform GetTransform()
+        {
+            if(ownTransform == null)
+            {
+                ownTransform = this.transform;
+            }
+
+            return ownTransform;
         }
     }
 }
