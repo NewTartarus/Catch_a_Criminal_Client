@@ -30,7 +30,7 @@ namespace ScotlandYard.Scripts.Controller
 			HistoryItem item = new HistoryItem(round, payedTicket, agentDataClone);
 			history.Add($"{round}-{agentDataClone.ID}", item);
 
-			if(round > 0 && agentDataClone.PlayerType == EPlayerType.MISTERX)
+			if(round > 0 && agentDataClone.PlayerRole == EPlayerRole.MISTERX)
             {
 				historylist.AddVisibleItem(item, detectionRounds.Contains(round));
             }
@@ -43,11 +43,11 @@ namespace ScotlandYard.Scripts.Controller
             {
 				HistoryItem lastEntry = history[$"{round - 1}-{playerData.ID}"];
 
-				if(playerData.PlayerType == EPlayerType.DETECTIVE)
+				if(playerData.PlayerRole == EPlayerRole.DETECTIVE)
                 {
 					returnTicket = playerData.Tickets.Where(ticket => ticket.Value == lastEntry.Data.Tickets[ticket.Key] - 1).FirstOrDefault().Key;
                 }
-				else if(playerData.PlayerType == EPlayerType.MISTERX)
+				else if(playerData.PlayerRole == EPlayerRole.MISTERX)
                 {
 					returnTicket = playerData.Tickets.Where(ticket => ticket.Value == lastEntry.Data.Tickets[ticket.Key] - 1).FirstOrDefault().Key;
 

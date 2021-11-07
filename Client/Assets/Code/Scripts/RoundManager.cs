@@ -103,7 +103,7 @@
                 agent.GetTransform().position = temp.GetTransform().position;
                 tempPoints.Remove(temp);
 
-                if (agent.Data.PlayerType == EPlayerType.MISTERX)
+                if (agent.Data.PlayerRole == EPlayerRole.MISTERX)
                 {
                     HashSet<IStreetPoint> neighbors = STREET_CONTROLLER.GetNeighboringStreetPoints(temp, 2, true);
                     if((neighbors.Count + agents.Count) > tempPoints.Count)
@@ -132,7 +132,7 @@
                 {
                     // Hide/Show all gameobjects of MisterX
                     Agent currentAgent = PLAYER_CONTROLLER.GetPlayer(playerIndex);
-                    if(!currentAgent.GetType().Name.Equals(typeof(Player)) && currentAgent.Data.PlayerType == EPlayerType.MISTERX)
+                    if(!currentAgent.GetType().Name.Equals(typeof(Player)) && currentAgent.Data.PlayerRole == EPlayerRole.MISTERX)
                     {
                         PLAYER_CONTROLLER.HidePlayer(currentAgent, detectionRounds.Contains(Round));
                     }
@@ -156,8 +156,9 @@
             if(roundState != ERound.MISTER_X_TURN && roundState != ERound.DETECTIVE_TURN)
             {
                 Agent player = PLAYER_CONTROLLER.GetPlayer(index);
+                player.IsActive = true;
 
-                if (player.Data.PlayerType == EPlayerType.MISTERX)
+                if (player.Data.PlayerRole == EPlayerRole.MISTERX)
                 {
                     roundState = ERound.MISTER_X_TURN;
                 }
@@ -188,6 +189,8 @@
             HighlightBehavior.UnmarkPreviouslyHighlightedPoints();
 
             bool playerLost = PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex);
+            Agent player = PLAYER_CONTROLLER.GetPlayer(playerIndex);
+            player.IsActive = false;
 
             if (PLAYER_CONTROLLER.HasMisterXLost())
             {
@@ -195,7 +198,7 @@
             }
             else if (!playerLost || !PLAYER_CONTROLLER.HaveAllDetectivesLost())
             {
-                HISTORY_CONTROLLER.AddHistoryItem(Round, PLAYER_CONTROLLER.GetPlayer(playerIndex));
+                HISTORY_CONTROLLER.AddHistoryItem(Round, player);
                 roundState = ERound.TURN_END;
 
                 playerIndex++;

@@ -7,12 +7,12 @@
     public class PlayerEventArgs : EventArgs
     {
         public string Name { get; set; }
-        public EPlayerType Type { get; set; }
+        public EPlayerRole Type { get; set; }
 
         public PlayerEventArgs(PlayerData playerdata)
         {
             this.Name = playerdata.AgentName;
-            this.Type = playerdata.PlayerType;
+            this.Type = playerdata.PlayerRole;
         }
     }
 }

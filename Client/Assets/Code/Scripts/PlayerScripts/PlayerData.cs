@@ -12,7 +12,7 @@
     {
         protected string id;
         [SerializeField] protected string agentName;
-        [SerializeField] protected EPlayerType type;
+        [SerializeField] protected EPlayerRole role;
         protected Dictionary<ETicket, int> ticketList;
         [SerializeField] protected Color playerColor;
         protected IStreetPoint currentPosition;
@@ -20,7 +20,7 @@
 
         public string ID { get => id; set => id = value; }
         public string AgentName { get => agentName; set => agentName = value; }
-        public EPlayerType PlayerType { get => type; set => type = value; }
+        public EPlayerRole PlayerRole { get => role; set => role = value; }
         public Dictionary<ETicket, int> Tickets
         {
             get
@@ -46,7 +46,7 @@
             {
                 if(currentPosition != value)
                 {
-                    if (PlayerType != EPlayerType.MISTERX)
+                    if (PlayerRole != EPlayerRole.MISTERX)
                     {
                         if (currentPosition != null)
                         {
@@ -72,13 +72,22 @@
             }
         }
 
+        public PlayerData() { }
+
+        public PlayerData(string agentName, EPlayerRole role, Color playerColor)
+        {
+            this.agentName = agentName;
+            this.role = role;
+            this.playerColor = playerColor;
+        }
+
         public PlayerData Clone()
         {
             PlayerData clonedData = new PlayerData();
             clonedData.AgentName = this.AgentName;
             clonedData.ID = this.ID;
             clonedData.PlayerColor = this.PlayerColor;
-            clonedData.PlayerType = this.PlayerType;
+            clonedData.PlayerRole = this.PlayerRole;
             clonedData.CurrentPosition = this.CurrentPosition;
             clonedData.HasLost = this.HasLost;
 

@@ -40,12 +40,12 @@
             indexImage.color = data.PlayerColor;
 
             string localizationKey;
-            switch(data.PlayerType)
+            switch(data.PlayerRole)
             {
-                case EPlayerType.DETECTIVE:
+                case EPlayerRole.DETECTIVE:
                     localizationKey = "player_role_detective";
                     break;
-                case EPlayerType.MISTERX:
+                case EPlayerRole.MISTERX:
                     localizationKey = "player_role_misterX";
                     break;
                 default:

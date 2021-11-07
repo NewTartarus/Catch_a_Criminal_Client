@@ -5,6 +5,7 @@ namespace ScotlandYard.ScriptableObjects
 	using System.Collections.Generic;
 	using UnityEngine;
 	
+	[CreateAssetMenu(fileName = "New #SCRIPTNAME#", menuName = "ScriptableObjects/#SCRIPTNAME#")]
 	public class #SCRIPTNAME# : ScriptableObject
 	{
 		#region Members

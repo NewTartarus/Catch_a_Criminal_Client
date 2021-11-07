@@ -3,6 +3,7 @@
     using ScotlandYard.Enums;
     using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Events;
+    using ScotlandYard.Scripts.GameSettings;
     using ScotlandYard.Scripts.Helper;
     using ScotlandYard.Scripts.PlayerScripts;
     using System.Collections.Generic;
@@ -11,12 +12,18 @@
 
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] protected List<Agent> agentList;
+        protected List<Agent> agentList;
+
+        [SerializeField] protected SettingsSO settings;
+        [SerializeField] protected GameObject malePrefab;
+        [SerializeField] protected GameObject femalePrefab;
+        [SerializeField] protected GameObject aiPrefab;
 
         public void Init()
         {
+            agentList = AgentFactory.GenerateAgents(malePrefab, femalePrefab, aiPrefab, settings);
             // if multiple agents are misterX select a random one
-            List<Agent> misterXList = agentList.FindAll(a => a.Data.PlayerType == EPlayerType.MISTERX);
+            List<Agent> misterXList = agentList.FindAll(a => a.Data.PlayerRole == EPlayerRole.MISTERX);
             if(misterXList.Count > 1)
             {
                 int index = UnityEngine.Random.Range(0, misterXList.Count);
@@ -24,28 +31,28 @@
                 {
                     if(i != index)
                     {
-                        misterXList[i].Data.PlayerType = EPlayerType.DETECTIVE;
+                        misterXList[i].Data.PlayerRole = EPlayerRole.DETECTIVE;
                     }
                 }
             }
             else if(misterXList.Count == 0)
             {
                 int index = UnityEngine.Random.Range(0, agentList.Count);
-                agentList[index].Data.PlayerType = EPlayerType.MISTERX;
+                agentList[index].Data.PlayerRole = EPlayerRole.MISTERX;
             }
 
             // hide misterX
             HidePlayer(GetMisterX(), false);
 
             // order all agents (misterX first then all detectives randomly)
-            agentList = agentList.OrderBy(a => a.Data.PlayerType).ThenBy(a => UnityEngine.Random.Range(0,10)).ToList();
+            agentList = agentList.OrderBy(a => a.Data.PlayerRole).ThenBy(a => UnityEngine.Random.Range(0,10)).ToList();
 
             // give all players their tickets
             foreach (Agent agent in agentList)
             {
                 agent.Init();
 
-                if (agent.Data.PlayerType == EPlayerType.DETECTIVE)
+                if (agent.Data.PlayerRole == EPlayerRole.DETECTIVE)
                 {
                     agent.AddTickets(ETicket.TAXI, 10);
                     agent.AddTickets(ETicket.BUS, 8);
@@ -68,7 +75,7 @@
 
         protected void Current_OnDetectiveTicketRemoved(object sender, ETicket e)
         {
-            Agent misterX = agentList.FirstOrDefault(p => p.Data.PlayerType == EPlayerType.MISTERX);
+            Agent misterX = agentList.FirstOrDefault(p => p.Data.PlayerRole == EPlayerRole.MISTERX);
             misterX.AddTickets(e, 1);
             GameEvents.Current.TicketUpdated(null, new TicketUpdateEventArgs(new List<PlayerData>() { misterX.Data, ((Agent)sender).Data}));
         }
@@ -90,7 +97,7 @@
 
         public Agent GetMisterX()
         {
-            return agentList.FirstOrDefault(a => a.Data.PlayerType == EPlayerType.MISTERX);
+            return agentList.FirstOrDefault(a => a.Data.PlayerRole == EPlayerRole.MISTERX);
         }
 
         public int GetPlayerAmount()
@@ -116,7 +123,7 @@
                 }
 
                 // check if the current player has captured MisterX
-                if (current.Data.PlayerType != EPlayerType.MISTERX)
+                if (current.Data.PlayerRole != EPlayerRole.MISTERX)
                 {
                     Agent misterX = GetMisterX();
                     if (misterX != null)
@@ -131,13 +138,13 @@
 
         public bool HaveAllDetectivesLost()
         {
-            int availableDete = agentList.Count(p => !p.Data.HasLost && p.Data.PlayerType == EPlayerType.DETECTIVE);
+            int availableDete = agentList.Count(p => !p.Data.HasLost && p.Data.PlayerRole == EPlayerRole.DETECTIVE);
             return availableDete == 0;
         }
 
         public bool HasMisterXLost()
         {
-            return agentList.Any(p => p.Data.PlayerType == EPlayerType.MISTERX && p.Data.HasLost);
+            return agentList.Any(p => p.Data.PlayerRole == EPlayerRole.MISTERX && p.Data.HasLost);
         }
 
         public void HidePlayer(Agent agent, bool hide)
@@ -156,6 +163,7 @@
             GameEvents.Current.OnMakeNextMove -= Current_OnMakeNextMove;
             GameEvents.Current.OnDetectiveTicketRemoved -= Current_OnDetectiveTicketRemoved;
             HighlightBehavior.Destroy();
+            settings.PlayerSettings = new List<PlayerSetting>();
         }
     }
 }
