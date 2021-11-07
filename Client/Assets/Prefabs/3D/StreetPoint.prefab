@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e58edc3005ecb4a9f22223e114a362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  streetPointName: 
   text: {fileID: 4934501065894917275}
   highlightMesh: {fileID: 6507097189788274378}
 --- !u!1 &4934501065648005534

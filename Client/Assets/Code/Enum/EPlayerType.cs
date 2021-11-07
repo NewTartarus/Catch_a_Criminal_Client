@@ -1,8 +1,9 @@
-﻿namespace ScotlandYard.Enums
-{ 
-    public enum EPlayerType
-    {
-        MISTERX,
-        DETECTIVE
-    }
+namespace ScotlandYard.Enums
+{	
+	public enum EPlayerType
+	{
+		PLAYER,
+		AI,
+		MULTIPLAYER
+	}
 }

@@ -17,6 +17,7 @@
         protected bool isMoving = false;
         [SerializeField] protected MeshRenderer indicator;
         protected Transform ownTransform;
+        protected bool isActive;
 
         //Properties
         public virtual PlayerData Data
@@ -36,6 +37,19 @@
         {
             get => streetPath;
             set => streetPath = value;
+        }
+
+        public bool IsActive
+        {
+            get => isActive;
+            set => isActive = value;
+        }
+
+        public void SetDefaultValues(PlayerData data, float speed, MeshRenderer indicator)
+        {
+            this.data = data;
+            this.speed = speed;
+            this.indicator = indicator;
         }
 
         public virtual void Init()
@@ -169,11 +183,11 @@
             {
                 Data.Tickets[ticket]--;
 
-                if (Data.PlayerType == EPlayerType.DETECTIVE)
+                if (Data.PlayerRole == EPlayerRole.DETECTIVE)
                 {
                     GameEvents.Current.DetectiveTicketRemoved(this, ticket);
                 }
-                else if (Data.PlayerType == EPlayerType.MISTERX)
+                else if (Data.PlayerRole == EPlayerRole.MISTERX)
                 {
                     GameEvents.Current.TicketUpdated(this, new TicketUpdateEventArgs(this.Data));
                 }

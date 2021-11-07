@@ -9,7 +9,7 @@
 
         public void AddVisibleItem(HistoryItem historyItem, bool displayPosition)
         {
-            if(historyItem.Data.PlayerType == Enums.EPlayerType.MISTERX)
+            if(historyItem.Data.PlayerRole == Enums.EPlayerRole.MISTERX)
             {
                 GameObject go = Instantiate(historyItemPrefab);
                 go.GetComponent<HistoryItemView>()?.Init(historyItem, displayPosition);

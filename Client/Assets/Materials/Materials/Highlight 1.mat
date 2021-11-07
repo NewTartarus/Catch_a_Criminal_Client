@@ -84,6 +84,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ClearCoatMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _CoatMaskMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -226,6 +230,7 @@ Material:
     - _BlendMode: 0
     - _Bool_Highlight_0001: 1
     - _BumpScale: 1
+    - _ClearCoat: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _CoatMask: 0
@@ -396,7 +401,7 @@ Material:
     - _Color: {r: 0.9622641, g: 0.8101754, b: 0.21333209, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
-    - _EmissionColor: {r: 7.309804, g: 4.9882355, b: 0.28235295, a: 1}
+    - _EmissionColor: {r: 9.759162, g: 6.693457, b: 0.40876094, a: 1}
     - _EmissiveColor: {r: 4976, g: 3941.7727, b: 0, a: 4976}
     - _EmissiveColorLDR: {r: 1, g: 0.9023934, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}

@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/StartMenu.unity
     guid: 517367843b7d6e84cabcca67aa8162d3
   - enabled: 1
-    path: Assets/Scenes/TestScene.unity
+    path: Assets/Scenes/TestMap.unity
     guid: d0632fbb4a3dc2c41ad2fafa77a77485
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0ff971cdcb53be8439157ee0790c93d5,

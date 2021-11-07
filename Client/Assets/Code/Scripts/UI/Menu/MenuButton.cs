@@ -7,6 +7,9 @@
 
     public class MenuButton : MonoBehaviour
     {
+        [SerializeField] protected GameObject startMenu;
+        [SerializeField] protected GameObject singleplayerMenu;
+
         public void ExitGame()
         {
             Application.Quit();
@@ -14,7 +17,8 @@
 
         public void PlaySingleplayer()
         {
-            SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
+            singleplayerMenu.SetActive(true);
+            startMenu.SetActive(false);
         }
 
         public void PlayMultiplayer()

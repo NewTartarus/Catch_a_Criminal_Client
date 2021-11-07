@@ -11,6 +11,13 @@
     public class AIPlayer : Agent
     {
         [SerializeField] protected EDifficulty difficulty;
+
+        public EDifficulty Difficulty
+        {
+            get => difficulty;
+            set => difficulty = value;
+        }
+
         public override void BeginRound()
         {
             switch(difficulty)
