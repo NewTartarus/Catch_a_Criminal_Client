@@ -4,8 +4,6 @@ namespace ScotlandYard.Scripts
     using ScotlandYard.Scripts.GameSettings;
     using ScotlandYard.Scripts.Localisation;
     using ScotlandYard.Scripts.UI.Color;
-    using System;
-	using System.Collections;
 	using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
@@ -23,6 +21,22 @@ namespace ScotlandYard.Scripts
 		[SerializeField] protected SettingsSO settings;
 
 		protected ColorPicker colorPicker;
+		protected object[] aiTemplate;
+		#endregion
+
+		#region Properties
+		public object[] AiTemplate
+        {
+			get => aiTemplate;
+			set
+            {
+				if(value != aiTemplate)
+                {
+					aiTemplate = value;
+
+				}
+            }
+        }
         #endregion
 
         #region Methods
@@ -64,6 +78,25 @@ namespace ScotlandYard.Scripts
 		{
 			types.value = type;
 		}
+
+		public void OnTypeChanged(int type)
+        {
+			switch((EPlayerType)type)
+            {
+				case EPlayerType.AI:
+					playerName.interactable = false;
+					playerName.text = aiTemplate != null ? aiTemplate[1].ToString() : "COM";
+					break;
+				case EPlayerType.PLAYER:
+					playerName.interactable = true;
+					playerName.text = "";
+					break;
+				default:
+					playerName.interactable = false;
+					playerName.text = "";
+					break;
+			}
+        }
 
 		public PlayerSetting SaveSetting()
         {
