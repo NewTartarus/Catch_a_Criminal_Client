@@ -20,6 +20,12 @@ namespace ScotlandYard.Scripts.GameSettings
 		#endregion
 
 		#region Properties
+		public int MaxPlayer
+		{
+			get => maxPlayer;
+			set => maxPlayer = value;
+		}
+
 		public float AgentSpeed
 		{
 			get => agentSpeed;
