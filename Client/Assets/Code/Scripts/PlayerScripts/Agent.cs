@@ -15,7 +15,7 @@
         [SerializeField] protected float speed;
         protected IStreet streetPath;
         protected bool isMoving = false;
-        [SerializeField] protected MeshRenderer indicator;
+        [SerializeField] protected AgentIndicator indicator;
         protected Transform ownTransform;
         protected bool isActive;
 
@@ -45,7 +45,7 @@
             set => isActive = value;
         }
 
-        public void SetDefaultValues(PlayerData data, float speed, MeshRenderer indicator)
+        public void SetDefaultValues(PlayerData data, float speed, AgentIndicator indicator)
         {
             this.data = data;
             this.speed = speed;
@@ -55,8 +55,7 @@
         public virtual void Init()
         {
             GeneratePlayerId();
-            indicator.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            indicator.material.SetColor("_BaseColor", Data.PlayerColor);
+            indicator.SetColor(Data.PlayerColor);
         }
 
         public virtual void GeneratePlayerId()

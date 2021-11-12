@@ -55,7 +55,7 @@ namespace ScotlandYard.Scripts
             {
 				List<Color> availableColors = settings.GetAvailableColors();
 				availableColors.Insert(0, colorButton.color);
-				colorPicker.Init("Color", availableColors, false, colorButton.color, colorButton.transform.position, c => SetColor(c));
+				colorPicker.Init(LocalisationSystem.GetLocalisedValue("menu_colorchoosing"), availableColors, false, colorButton.color, colorButton.transform.position, c => SetColor(c));
 			}
         }
 

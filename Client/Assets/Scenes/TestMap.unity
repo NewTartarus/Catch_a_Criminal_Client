@@ -4887,7 +4887,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 842824231}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.42, y: 0.8187499, z: -6.54}
+  m_LocalPosition: {x: 4.42, y: 0.8187499, z: -6.57}
   m_LocalScale: {x: 1, y: 1, z: 0.61149}
   m_Children:
   - {fileID: 1128698470}
@@ -8995,6 +8995,7 @@ MonoBehaviour:
   - {fileID: 416542518}
   - {fileID: 1706806243}
   - {fileID: 678900830}
+  - {fileID: 842824233}
   streetPoints:
   - {fileID: 1340793954}
   - {fileID: 210052015}

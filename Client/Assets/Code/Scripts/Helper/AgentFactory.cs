@@ -36,8 +36,8 @@ namespace ScotlandYard.Scripts
 						break;
                 }
 
-				MeshRenderer mr = go.GetComponentInChildren<MeshRenderer>(true);
-				agent.SetDefaultValues(data, settings.AgentSpeed, mr);
+				AgentIndicator indicator = go.GetComponentInChildren<AgentIndicator>(true);
+				agent.SetDefaultValues(data, settings.AgentSpeed, indicator);
 				agents.Add(agent);
             }
 
