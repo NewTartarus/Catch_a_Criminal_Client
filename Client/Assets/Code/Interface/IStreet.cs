@@ -12,6 +12,6 @@
 
         int GetNumberOfWaypoints();
 
-        Transform GetWaypoint(int i);
+        Vector3 GetWaypoint(int i);
     }
 }

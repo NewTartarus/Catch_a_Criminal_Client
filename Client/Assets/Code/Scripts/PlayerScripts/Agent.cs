@@ -106,7 +106,7 @@
         {
             for (int i = -1; i <= path.GetNumberOfWaypoints(); i++)
             {
-                while (Vector3.Distance(transform.position, path.GetWaypoint(i).position) > 0.05f)
+                while (Vector3.Distance(transform.position, path.GetWaypoint(i)) > 0.05f)
                 {
                     MoveOneStep(path, i);
 
@@ -119,7 +119,7 @@
         {
             for (int i = path.GetNumberOfWaypoints(); i >= -1; i--)
             {
-                while (Vector3.Distance(transform.position, path.GetWaypoint(i).position) > 0.05f)
+                while (Vector3.Distance(transform.position, path.GetWaypoint(i)) > 0.05f)
                 {
                     MoveOneStep(path, i);
 
@@ -130,9 +130,9 @@
 
         protected void MoveOneStep(IStreet path, int index)
         {
-            transform.position = Vector3.MoveTowards(transform.position, path.GetWaypoint(index).position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, path.GetWaypoint(index), speed * Time.deltaTime);
 
-            Vector3 dir = path.GetWaypoint(index).position - transform.position;
+            Vector3 dir = path.GetWaypoint(index) - transform.position;
             float angle = Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.down);
         }

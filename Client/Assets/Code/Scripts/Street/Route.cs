@@ -12,7 +12,7 @@
             throw new NotImplementedException();
         }
 
-        public override Transform GetWaypoint(int i)
+        public override Vector3 GetWaypoint(int i)
         {
             throw new NotImplementedException();
         }

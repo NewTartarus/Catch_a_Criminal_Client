@@ -12,7 +12,7 @@ namespace ScotlandYard.Scripts.Street
         [SerializeField] protected StreetPoint startPoint;
         [SerializeField] protected StreetPoint endPoint;
         [SerializeField] protected List<ETicket> ticketCosts = new List<ETicket>();
-        protected List<Transform> pathWaypoints = new List<Transform>();
+        protected List<Vector3> pathWaypoints = new List<Vector3>();
         #endregion
 
         #region Properties
@@ -49,12 +49,12 @@ namespace ScotlandYard.Scripts.Street
             throw new NotImplementedException();
         }
 
-        public virtual Transform GetWaypoint(int i)
+        public virtual Vector3 GetWaypoint(int i)
         {
             throw new NotImplementedException();
         }
 
-        public virtual List<Transform> ReturnChildTransforms()
+        public virtual List<Vector3> ReturnChildTransforms()
         {
             return pathWaypoints;
         }
