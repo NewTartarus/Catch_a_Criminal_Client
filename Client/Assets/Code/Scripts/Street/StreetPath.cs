@@ -1,42 +1,40 @@
 ﻿namespace ScotlandYard.Scripts.Street
 {
+    using ScotlandYard.Enums;
     using ScotlandYard.Interfaces;
+    using ScotlandYard.Scripts.MeshGenerator;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEditor;
     using UnityEngine;
 
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class StreetPath : Street, IStreet
     {
-        [SerializeField] public Color waypointColor;
-        [Range(0, 5)] [SerializeField] protected float width = 2;
+        [SerializeField] public bool drawMeshInEditor = true;
 
-        public float Width { get => width; set => width = value; }
+        [SerializeField] protected RoadCrossSectionSO crossSection;
+        [Range(2, 32)] [SerializeField] protected int sectionsCount = 8;
+        [SerializeField] protected int resolution = 8;
+        [SerializeField] protected List<Transform> controlPoints = new List<Transform>();
+
+        protected RoadGenerator generator;
+
+        public RoadCrossSectionSO CrossSection => crossSection;
 
         protected void Awake()
         {
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WayPoint"))
-                {
-                    this.pathWaypoints.Add(child);
-                }
-            }
-        }
+            generator = new RoadGenerator(controlPoints.ToArray(), sectionsCount, resolution);
 
-        protected void Start()
-        {
-            //Todo: Replace LineRenderer with a component, that procedurally generates a street-mesh
-            LineRenderer renderer = this.gameObject.AddComponent<LineRenderer>();
+            GetComponent<MeshFilter>().sharedMesh = generator.GenerateMesh(crossSection);
 
-            renderer.positionCount = GetNumberOfWaypoints() + 2;
-            renderer.numCornerVertices = 20;
-            for (int i = -1; i <= GetNumberOfWaypoints(); i++)
-            {
-                renderer.SetPosition(i + 1, GetWaypoint(i).position);
-            }
+            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+            meshRenderer.material = crossSection.RoadMaterial;
+            meshRenderer.material.SetInt("_ShowFirstLine", ticketCosts.Contains(ETicket.UNDERGROUND) ? 1 : 0);
+            meshRenderer.material.SetInt("_ShowSecondLine", ticketCosts.Contains(ETicket.TAXI) ? 1 : 0);
+            meshRenderer.material.SetInt("_ShowThirdLine", ticketCosts.Contains(ETicket.BUS) ? 1 : 0);
 
-            renderer.startWidth = 0.1f;
-            renderer.endWidth = 0.1f;
-            renderer.material = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-            renderer.material.SetColor("_BaseColor", waypointColor);
+            pathWaypoints = generator.CalculateWaypoints();
         }
 
         public override int GetNumberOfWaypoints()
@@ -44,82 +42,80 @@
             return this.pathWaypoints.Count;
         }
 
-        public override Transform GetWaypoint(int i)
+        public override Vector3 GetWaypoint(int i)
         {
             if (this.transform.childCount == 0 && StartPoint == null && EndPoint == null)
             {
-                return null;
+                return Vector3.zero;
             }
 
             if (i == -1)
             {
-                return StartPoint.GetTransform();
+                return StartPoint.GetTransform().position;
             }
-            else if (i == this.transform.childCount)
+            else if (i == GetNumberOfWaypoints())
             {
-                return EndPoint.GetTransform();
+                return EndPoint.GetTransform().position;
             }
 
             return this.pathWaypoints[i];
         }
 
 #if UNITY_EDITOR
-        protected virtual Transform GetWaypointForEditor(int i)
+        public void AddControlPoint(Transform transform)
         {
-            if (this.transform.childCount == 0 && startPoint == null && endPoint == null)
-            {
-                return null;
-            }
-
-            if (i == -1)
-            {
-                return startPoint.transform;
-            }
-            else if (i == this.transform.childCount)
-            {
-                return endPoint.transform;
-            }
-
-            Transform trans = this.transform.GetChild(i);
-            return trans.CompareTag("WayPoint") ? trans : null;
+            controlPoints.Add(transform);
         }
+
+        public void RemoveControlPoint(int index)
+        {
+            controlPoints.RemoveAt(index);
+        }
+
+        public void GenerateMesh()
+        {
+             RoadGenerator roadGenerator = new RoadGenerator(controlPoints.ToArray(), sectionsCount, resolution);
+
+            GetComponent<MeshFilter>().sharedMesh = roadGenerator.GenerateMesh(crossSection);
+            GetComponent<MeshRenderer>().material = crossSection.RoadMaterial;
+        }
+
         protected virtual void OnDrawGizmos()
         {
-            int childCount = this.transform.childCount;
-    
-            for (int i = 0; i < childCount; i++)
+            if(controlPoints.Count == 0) { return; }
+
+            RoadGenerator roadGenerator = new RoadGenerator(controlPoints.ToArray(), sectionsCount, resolution);
+            int segmentsCount = (controlPoints.Count - 1) / 3;
+
+            Gizmos.color = Color.red;
+            for (int i = 0; i < controlPoints.Count; i++)
             {
-                if (i == 0)
-                {
-                    Gizmos.color = Color.white;
-                    Gizmos.DrawLine(startPoint.GetTransform().position, GetWaypointForEditor(i).position);
-                    Gizmos.color = new Color32(200, 0, 0, 170);
-                    Gizmos.DrawCube(startPoint.GetTransform().position, Vector3.one * 0.5f);
-                }
-                else if (i == childCount - 1)
-                {
-                    Gizmos.color = Color.white;
-                    Gizmos.DrawLine(GetWaypointForEditor(i).position, endPoint.GetTransform().position);
-                    Gizmos.color = new Color32(200, 0, 0, 170);
-                    Gizmos.DrawCube(endPoint.GetTransform().position, Vector3.one * 0.5f);
-                }
-
-                Transform wp = GetWaypointForEditor(i);
-                if (wp != null)
-                {
-                    if (i < childCount - 1 && GetWaypointForEditor(i + 1) is Transform posB)
-                    {
-                        Gizmos.color = Color.white;
-                        Gizmos.DrawLine(wp.position, posB.position);
-                    }
-                    Gizmos.color = Color.black;
-                    Gizmos.DrawLine(wp.position + (wp.right * width * 0.5f), wp.position - (wp.right * width * 0.5f));
-
-                    Gizmos.color = waypointColor;
-                    Gizmos.DrawSphere(wp.position, 0.2f);
-                }
-
+                Gizmos.DrawSphere(controlPoints[i].position, 0.2f);
             }
+
+            Gizmos.color = Color.black;
+            List<Vector3> wpList = roadGenerator.CalculateWaypoints();
+            foreach (Vector3 wp in wpList)
+            {
+                if (!controlPoints.Select(c => c.position).Contains(wp))
+                {
+                    Gizmos.DrawSphere(wp, 0.2f);
+                }
+            }
+
+            Gizmos.color = Color.white;
+            for (int segment = 0; segment < segmentsCount; segment++)
+            {
+                Vector3[] segmentPoints = new Vector3[] { controlPoints[segment*3].position, controlPoints[segment * 3 + 1].position ,
+                                                          controlPoints[segment * 3 + 2].position , controlPoints[segment * 3 + 3].position };
+
+                Handles.DrawBezier(segmentPoints[0], segmentPoints[3], segmentPoints[1], segmentPoints[2], Color.white, EditorGUIUtility.whiteTexture, 1f);
+                Gizmos.DrawLine(segmentPoints[0], segmentPoints[1]);
+                Gizmos.DrawLine(segmentPoints[3], segmentPoints[2]);
+            }
+
+            Gizmos.DrawLine(controlPoints[0].position, startPoint.GetTransform().position);
+            Gizmos.DrawLine(controlPoints[controlPoints.Count - 1].position, endPoint.GetTransform().position);
         }
 #endif
     }

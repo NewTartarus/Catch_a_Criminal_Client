@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using ScotlandYard.Scripts.Localisation;
 
-namespace ScotlandYard.Editor.Localisation
+namespace ScotlandYard.CustomEditor.Localisation
 {
     public class TextLocaliserEditorWindow : EditorWindow
     {

@@ -2,7 +2,7 @@
 using UnityEditor;
 using ScotlandYard.Scripts.Localisation;
 
-namespace ScotlandYard.Editor.Localisation
+namespace ScotlandYard.CustomEditor.Localisation
 {
     [CustomPropertyDrawer(typeof(LocalizedString))]
     public class LocalisedStringDrawer : PropertyDrawer
