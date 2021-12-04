@@ -1,0 +1,27 @@
+namespace ScotlandYard.CustomEditor
+{
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using UnityEngine;
+	using UnityEditor;
+	
+	[CustomEditor(typeof(T), true)]
+	[CanEditMultipleObjects]
+	public class #SCRIPTNAME# : Editor
+	{
+		#region Members
+		T editorObject;
+		#endregion
+		
+		#region Properties
+		#endregion
+		
+		#region Methods
+		protected void OnEnable()
+		{
+			editorObject = (T)target;
+		}
+		#endregion
+	}
+}
