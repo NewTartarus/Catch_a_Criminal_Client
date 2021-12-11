@@ -13,6 +13,7 @@ namespace ScotlandYard.Scripts.Street
         [SerializeField] protected StreetPoint endPoint;
         [SerializeField] protected List<ETicket> ticketCosts = new List<ETicket>();
         protected List<Vector3> pathWaypoints = new List<Vector3>();
+        protected float distance;
         #endregion
 
         #region Properties
@@ -41,6 +42,21 @@ namespace ScotlandYard.Scripts.Street
             }
         }
         public List<ETicket> TicketCosts { get => ticketCosts; set => ticketCosts = value; }
+
+        public float Distance
+        {
+            get
+            {
+                if (distance == 0f)
+                {
+                    distance = CalculateStreetDistance();
+                }
+
+                return distance;
+            }
+
+            set => distance = value;
+        }
         #endregion
 
         #region Methods
@@ -57,6 +73,11 @@ namespace ScotlandYard.Scripts.Street
         public virtual List<Vector3> ReturnChildTransforms()
         {
             return pathWaypoints;
+        }
+
+        protected virtual float CalculateStreetDistance()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

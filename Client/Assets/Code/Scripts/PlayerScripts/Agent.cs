@@ -10,6 +10,8 @@
 
     public abstract class Agent : MonoBehaviour
     {
+        private const float MAX_STREETLENGTH = 15;
+
         //Fields
         [SerializeField] protected PlayerData data;
         [SerializeField] protected float speed;
@@ -78,14 +80,24 @@
                 StopCoroutine(nameof(MoveForwards));
                 StopCoroutine(nameof(MoveBackwards));
 
+
+                float multiplier = 1 + (path.Distance < MAX_STREETLENGTH ? 0 : Convert.ToInt32(Math.Ceiling(path.Distance / MAX_STREETLENGTH))) * 0.2f;
+                float movementSpeed = speed * multiplier;
+
+                Dictionary<string, object> parms = new Dictionary<string, object>()
+                {
+                    { "STREET", path },
+                    { "SPEED", movementSpeed }
+                };
+
                 if (this.Data.CurrentPosition.Equals(path.StartPoint))
                 {
-                    yield return StartCoroutine(nameof(MoveForwards), path);
+                    yield return StartCoroutine(nameof(MoveForwards), parms);
                     this.Data.CurrentPosition = path.EndPoint;
                 }
                 else if (this.Data.CurrentPosition.Equals(path.EndPoint))
                 {
-                    yield return StartCoroutine(nameof(MoveBackwards), path);
+                    yield return StartCoroutine(nameof(MoveBackwards), parms);
                     this.Data.CurrentPosition = path.StartPoint;
                 }
                 transform.rotation = Quaternion.AngleAxis(0f, Vector3.down);
@@ -102,35 +114,41 @@
 
         }
 
-        protected IEnumerator MoveForwards(IStreet path)
+        protected IEnumerator MoveForwards(Dictionary<string, object> parms)
         {
+            IStreet path = parms["STREET"] as IStreet;
+            float mvmntSpeed = (float) parms["SPEED"];
+
             for (int i = -1; i <= path.GetNumberOfWaypoints(); i++)
             {
                 while (Vector3.Distance(transform.position, path.GetWaypoint(i)) > 0.05f)
                 {
-                    MoveOneStep(path, i);
+                    MoveOneStep(path, i, mvmntSpeed);
 
                     yield return null;
                 }
             }
         }
 
-        protected IEnumerator MoveBackwards(IStreet path)
+        protected IEnumerator MoveBackwards(Dictionary<string, object> parms)
         {
+            IStreet path = parms["STREET"] as IStreet;
+            float mvmntSpeed = (float)parms["SPEED"];
+
             for (int i = path.GetNumberOfWaypoints(); i >= -1; i--)
             {
                 while (Vector3.Distance(transform.position, path.GetWaypoint(i)) > 0.05f)
                 {
-                    MoveOneStep(path, i);
+                    MoveOneStep(path, i, mvmntSpeed);
 
                     yield return null;
                 }
             }
         }
 
-        protected void MoveOneStep(IStreet path, int index)
+        protected void MoveOneStep(IStreet path, int index, float mvmntSpeed)
         {
-            transform.position = Vector3.MoveTowards(transform.position, path.GetWaypoint(index), speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, path.GetWaypoint(index), mvmntSpeed * Time.deltaTime);
 
             Vector3 dir = path.GetWaypoint(index) - transform.position;
             float angle = Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg;
