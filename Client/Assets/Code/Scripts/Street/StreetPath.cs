@@ -61,6 +61,24 @@
             return this.pathWaypoints[i];
         }
 
+        protected override float CalculateStreetDistance()
+        {
+            float dist = 0f;
+            Vector3 lastWaypoint = Vector3.negativeInfinity;
+
+            for(int i = -1; i <= GetNumberOfWaypoints(); i++)
+            {
+                Vector3 wp = GetWaypoint(i);
+                if (!lastWaypoint.Equals(Vector3.negativeInfinity))
+                {
+                    dist += Vector3.Distance(wp, lastWaypoint);
+                }
+                lastWaypoint = wp;
+            }
+
+            return dist;
+        }
+
 #if UNITY_EDITOR
         public void AddControlPoint(Transform transform)
         {

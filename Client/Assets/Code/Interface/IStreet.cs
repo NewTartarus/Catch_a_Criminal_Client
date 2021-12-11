@@ -9,6 +9,7 @@
         IStreetPoint StartPoint { get; set; }
         IStreetPoint EndPoint { get; set; }
         List<ETicket> TicketCosts { get; set; }
+        float Distance { get; set; }
 
         int GetNumberOfWaypoints();
 
