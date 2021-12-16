@@ -19,6 +19,7 @@
             {
                 street.StartPoint?.AddStreet(street);
                 street.EndPoint?.AddStreet(street);
+                street.Init();
             }
         }
 

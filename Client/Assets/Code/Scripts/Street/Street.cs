@@ -14,6 +14,7 @@ namespace ScotlandYard.Scripts.Street
         [SerializeField] protected List<ETicket> ticketCosts = new List<ETicket>();
         protected List<Vector3> pathWaypoints = new List<Vector3>();
         protected float distance;
+        protected bool isInitialized;
         #endregion
 
         #region Properties
@@ -60,6 +61,16 @@ namespace ScotlandYard.Scripts.Street
         #endregion
 
         #region Methods
+        public virtual void Init()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void DrawLines(params ETicket[] tickets)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual int GetNumberOfWaypoints()
         {
             throw new NotImplementedException();
