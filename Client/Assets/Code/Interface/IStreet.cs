@@ -11,6 +11,8 @@
         List<ETicket> TicketCosts { get; set; }
         float Distance { get; set; }
 
+        void Init();
+
         int GetNumberOfWaypoints();
 
         Vector3 GetWaypoint(int i);

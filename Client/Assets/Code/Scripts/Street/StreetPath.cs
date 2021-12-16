@@ -19,22 +19,52 @@
         [SerializeField] protected List<Transform> controlPoints = new List<Transform>();
 
         protected RoadGenerator generator;
+        protected MeshRenderer meshRenderer;
 
         public RoadCrossSectionSO CrossSection => crossSection;
 
         protected void Awake()
         {
-            generator = new RoadGenerator(controlPoints.ToArray(), sectionsCount, resolution);
+            Init();
+        }
 
-            GetComponent<MeshFilter>().sharedMesh = generator.GenerateMesh(crossSection);
+        public override void Init()
+        {
+            if(!isInitialized)
+            {
+                generator = new RoadGenerator(controlPoints.ToArray(), sectionsCount, resolution);
 
-            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-            meshRenderer.material = crossSection.RoadMaterial;
-            meshRenderer.material.SetInt("_ShowFirstLine", ticketCosts.Contains(ETicket.UNDERGROUND) ? 1 : 0);
-            meshRenderer.material.SetInt("_ShowSecondLine", ticketCosts.Contains(ETicket.TAXI) ? 1 : 0);
-            meshRenderer.material.SetInt("_ShowThirdLine", ticketCosts.Contains(ETicket.BUS) ? 1 : 0);
+                GetComponent<MeshFilter>().sharedMesh = generator.GenerateMesh(crossSection);
 
-            pathWaypoints = generator.CalculateWaypoints();
+                meshRenderer = GetComponent<MeshRenderer>();
+                meshRenderer.material = crossSection.RoadMaterial;
+                DrawLines(TicketCosts.ToArray());
+
+                pathWaypoints = generator.CalculateWaypoints();
+
+                isInitialized = true;
+            }
+        }
+
+        public override void DrawLines(params ETicket[] tickets)
+        {
+            foreach(ETicket ticket in tickets)
+            {
+                switch(ticket)
+                {
+                    case ETicket.UNDERGROUND:
+                        meshRenderer.material.SetInt("_ShowFirstLine", 1);
+                        break;
+                    case ETicket.TAXI:
+                        meshRenderer.material.SetInt("_ShowSecondLine", 1);
+                        break;
+                    case ETicket.BUS:
+                        meshRenderer.material.SetInt("_ShowThirdLine", 1);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public override int GetNumberOfWaypoints()
