@@ -21,6 +21,11 @@
                 street.EndPoint?.AddStreet(street);
                 street.Init();
             }
+
+            foreach(StreetPoint sp in streetPoints)
+            {
+                sp.Init();
+            }
         }
 
         public List<StreetPoint> GetAllStreetPoints()

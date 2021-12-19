@@ -1,5 +1,6 @@
 ﻿namespace ScotlandYard.Scripts.Street
 {
+    using ScotlandYard.Enums;
     using ScotlandYard.Interfaces;
     using System.Collections.Generic;
     using TMPro;
@@ -10,6 +11,7 @@
         [SerializeField] protected string streetPointName;
         [SerializeField] protected TextMeshPro text;
         [SerializeField] protected GameObject highlightMesh;
+        [SerializeField] protected SpriteRenderer spriteRenderer;
         protected bool isOccupied;
 
         [SerializeField] protected List<IStreet> streetList = new List<IStreet>();
@@ -17,6 +19,7 @@
         protected bool highlighted;
         protected GameObject ownGameObject;
         protected Transform ownTransform;
+        protected Material material;
 
         #region Properties
         public string StreetPointName
@@ -44,6 +47,21 @@
             {
                 text.text = streetPointName;
             }
+
+            material = spriteRenderer.material;
+        }
+
+        public void Init()
+        {
+            HashSet<ETicket> tickets = new HashSet<ETicket>();
+            foreach(IStreet s in streetList)
+            {
+                tickets.UnionWith(s.TicketCosts);
+            }
+
+            material.SetInt("_ShowFirstColor", (tickets.Contains(ETicket.TAXI)) ? 1 : 0);
+            material.SetInt("_ShowSecondColor", (tickets.Contains(ETicket.BUS)) ? 1 : 0);
+            material.SetInt("_ShowThirdColor", (tickets.Contains(ETicket.UNDERGROUND)) ? 1 : 0);
         }
 
         public IStreet GetPath(IStreetPoint target)
