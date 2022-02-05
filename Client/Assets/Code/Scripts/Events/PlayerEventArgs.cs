@@ -6,13 +6,15 @@
 
     public class PlayerEventArgs : EventArgs
     {
-        public string Name { get; set; }
-        public EPlayerRole Type { get; set; }
+        public string PlayerId { get; set; }
+        public EPlayerRole PlayerRole { get; set; }
+        public bool IsActive { get; set; }
 
         public PlayerEventArgs(PlayerData playerdata)
         {
-            this.Name = playerdata.AgentName;
-            this.Type = playerdata.PlayerRole;
+            this.PlayerId = playerdata.ID;
+            this.PlayerRole = playerdata.PlayerRole;
+            this.IsActive = playerdata.IsActive;
         }
     }
 }

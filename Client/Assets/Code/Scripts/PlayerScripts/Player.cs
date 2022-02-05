@@ -33,7 +33,7 @@
 
         protected void Update()
         {
-            if (IsActive && Input.GetMouseButtonDown(0))
+            if (Data.IsActive && Input.GetMouseButtonDown(0))
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                 {

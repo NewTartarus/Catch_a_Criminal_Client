@@ -15,8 +15,11 @@
         public event EventHandler<PlayerEventArgs> OnPlayerMoveFinished;
         public event EventHandler<ETicket> OnDetectiveTicketRemoved;
         public event EventHandler<TicketUpdateEventArgs> OnTicketUpdated;
+        public event EventHandler<PlayerEventArgs> OnPlayerActivated;
 
         public event EventHandler<int> OnRoundHasEnded;
+
+        public event EventHandler<string> OnPlayerItemClicked;
 
         //Menu Events
         public event EventHandler<EButtons> OnMainMenuButtonPressed;
@@ -117,6 +120,16 @@
         public void TicketUpdated(object sender, TicketUpdateEventArgs args)
         {
             OnTicketUpdated?.Invoke(sender, args);
+        }
+
+        public void PlayerActivated(object sender, PlayerEventArgs args)
+        {
+            OnPlayerActivated?.Invoke(sender, args);
+        }
+
+        public void PlayerItemClicked(object sender, string args)
+        {
+            OnPlayerItemClicked?.Invoke(sender, args);
         }
     }
 }

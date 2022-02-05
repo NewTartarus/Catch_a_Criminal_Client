@@ -156,7 +156,7 @@
             if(roundState != ERound.MISTER_X_TURN && roundState != ERound.DETECTIVE_TURN)
             {
                 Agent player = PLAYER_CONTROLLER.GetPlayer(index);
-                player.IsActive = true;
+                player.SetActive(true);
 
                 if (player.Data.PlayerRole == EPlayerRole.MISTERX)
                 {
@@ -190,7 +190,7 @@
 
             bool playerLost = PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex);
             Agent player = PLAYER_CONTROLLER.GetPlayer(playerIndex);
-            player.IsActive = false;
+            player.SetActive(false);
 
             if (PLAYER_CONTROLLER.HasMisterXLost())
             {

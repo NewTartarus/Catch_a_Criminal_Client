@@ -32,6 +32,11 @@ namespace ScotlandYard.Scripts
 		{
 			material.SetColor("_MainColor", color);
 		}
+
+		public void SetEmissive(bool isEmissive)
+        {
+			material.SetInt("_IsEmissive", isEmissive ? 1 : 0);
+        }
 		#endregion
 
 #if UNITY_EDITOR

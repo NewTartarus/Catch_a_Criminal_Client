@@ -17,6 +17,7 @@
         [SerializeField] protected Color playerColor;
         protected IStreetPoint currentPosition;
         protected bool hasLost;
+        protected bool isActive;
 
         public string ID { get => id; set => id = value; }
         public string AgentName { get => agentName; set => agentName = value; }
@@ -70,6 +71,11 @@
                     Debug.Log($"{AgentName} lost this Game.");
                 }
             }
+        }
+        public bool IsActive
+        {
+            get => isActive;
+            set => isActive = value;
         }
 
         public PlayerData() { }

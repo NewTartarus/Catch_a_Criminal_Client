@@ -7,9 +7,10 @@
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
+    using UnityEngine.EventSystems;
     using UnityEngine.UI;
 
-    public class PlayerInfoItem : MonoBehaviour
+    public class PlayerInfoItem : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] protected TextMeshProUGUI playerIndex;
         [SerializeField] protected TextLocaliserUI playerRole;
@@ -23,6 +24,7 @@
         [SerializeField] protected Image indexImage;
 
         protected string agentID;
+        protected Transform ownTransform;
 
         public void Init(PlayerData data, int index)
         {
@@ -56,7 +58,25 @@
             playerRole.localizedString.key = localizationKey;
             playerRole.UpdateText();
 
+            ownTransform = this.transform;
+
             GameEvents.Current.OnTicketUpdated += Current_OnTicketUpdated;
+            GameEvents.Current.OnPlayerActivated += Current_OnPlayerActivated;
+        }
+
+        private void Current_OnPlayerActivated(object sender, PlayerEventArgs e)
+        {
+            if(e.PlayerId == agentID)
+            {
+                if(e.IsActive)
+                {
+                    ownTransform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+                }
+                else
+                {
+                    ownTransform.localScale = Vector3.one;
+                }
+            }
         }
 
         private void Current_OnTicketUpdated(object sender, TicketUpdateEventArgs e)
@@ -105,6 +125,12 @@
         protected void OnDestroy()
         {
             GameEvents.Current.OnTicketUpdated -= Current_OnTicketUpdated;
+            GameEvents.Current.OnPlayerActivated -= Current_OnPlayerActivated;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            GameEvents.Current.PlayerItemClicked(this, agentID);
         }
     }
 }

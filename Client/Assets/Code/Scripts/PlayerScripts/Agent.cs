@@ -19,7 +19,6 @@
         protected bool isMoving = false;
         [SerializeField] protected AgentIndicator indicator;
         protected Transform ownTransform;
-        protected bool isActive;
 
         //Properties
         public virtual PlayerData Data
@@ -41,12 +40,6 @@
             set => streetPath = value;
         }
 
-        public bool IsActive
-        {
-            get => isActive;
-            set => isActive = value;
-        }
-
         public void SetDefaultValues(PlayerData data, float speed, AgentIndicator indicator)
         {
             this.data = data;
@@ -60,10 +53,34 @@
             indicator.SetColor(Data.PlayerColor);
         }
 
+        protected virtual void Awake()
+        {
+            GameEvents.Current.OnPlayerActivated += Current_OnPlayerActivated;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            GameEvents.Current.OnPlayerActivated -= Current_OnPlayerActivated;
+        }
+
+        protected void Current_OnPlayerActivated(object sender, PlayerEventArgs e)
+        {
+            if(this.Data.ID == e.PlayerId && this.Data.PlayerRole == e.PlayerRole)
+            {
+                indicator?.SetEmissive(e.IsActive);
+            }
+        }
+
         public virtual void GeneratePlayerId()
         {
             int id = int.Parse(Math.Abs(name.GetHashCode() * DateTime.Now.Millisecond).ToString().Substring(0, 5));
             this.Data.ID = $"{this.Data.AgentName}#{id}";
+        }
+
+        public virtual void SetActive(bool isActive)
+        {
+            Data.IsActive = isActive;
+            GameEvents.Current.PlayerActivated(this, new PlayerEventArgs(this.Data));
         }
 
         public virtual void BeginRound()
