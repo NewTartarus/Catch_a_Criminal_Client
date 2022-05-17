@@ -4,8 +4,6 @@ namespace ScotlandYard.Scripts.UI.Menu
     using ScotlandYard.Scripts.Database.DAOs;
     using ScotlandYard.Scripts.GameSettings;
     using ScotlandYard.Scripts.UI.Color;
-    using System;
-	using System.Collections;
 	using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
@@ -126,7 +124,8 @@ namespace ScotlandYard.Scripts.UI.Menu
             }
 
 			SceneManager.LoadScene(SceneHelper.GetSceneByMapValue((EMap)mapDropDown.value), LoadSceneMode.Single);
-		}
+            SceneManager.LoadScene("GameMenu", LoadSceneMode.Additive);
+        }
 		#endregion
 	}
 }

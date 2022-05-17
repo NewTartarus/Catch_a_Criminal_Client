@@ -19,12 +19,12 @@
 
         protected HistoryItem item;
 
-        public void Init(HistoryItem item, bool displayPosition)
+        public void Init(HistoryItem item)
         {
             roundText.SetText(item.Round.ToString("00"));
             
-            positionObject.SetActive(displayPosition);
-            if (displayPosition)
+            positionObject.SetActive(item.IsDetectionRound);
+            if (item.IsDetectionRound)
             {
                 positionText.SetText(item.Data.CurrentPosition.StreetPointName);
             }

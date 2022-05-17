@@ -8,6 +8,7 @@
         protected int round;
         protected ETicket ticket;
         protected PlayerData data;
+        protected bool isDetectionRound;
 
         public int Round
         {
@@ -27,11 +28,18 @@
             set => data = value;
         }
 
-        public HistoryItem(int round, ETicket ticket, PlayerData data)
+        public bool IsDetectionRound
+        {
+            get => isDetectionRound;
+            set => isDetectionRound = value;
+        }
+
+        public HistoryItem(int round, ETicket ticket, PlayerData data, bool isDetectionGround)
         {
             Round = round;
             Ticket = ticket;
             Data = data;
+            IsDetectionRound = isDetectionGround;
         }
     }
 }

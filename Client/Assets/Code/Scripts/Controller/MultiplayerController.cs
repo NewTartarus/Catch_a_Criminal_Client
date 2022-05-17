@@ -2,13 +2,10 @@ namespace ScotlandYard.Scripts.Controller
 {
 	using System;
 	using System.Collections;
-	using System.Collections.Generic;
 	using System.Diagnostics;
-	using ScotlandYard.Scripts.Helper;
     using Firesplash.UnityAssets.SocketIO;
     using TMPro;
     using UnityEngine;
-    using UnityEngine.UI;
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.Transfer;
     using ScotlandYard.Scripts.Database.DAOs;
@@ -31,10 +28,10 @@ namespace ScotlandYard.Scripts.Controller
 		#region Methods
 		protected void Awake() 
 		{
-			GameEvents.Current.OnMenuConnect    += Current_OnMenuConnect;
-			GameEvents.Current.OnMenuDisconnect += Current_OnMenuDisconnect;
-			GameEvents.Current.OnSendingMessage += Current_OnSendingMessage;
-			GameEvents.Current.OnMenuServerRemoved += Current_OnMenuServerRemoved;
+			MultiplayerEvents.Current.OnMenuConnect    += Current_OnMenuConnect;
+			MultiplayerEvents.Current.OnMenuDisconnect += Current_OnMenuDisconnect;
+			MultiplayerEvents.Current.OnSendingMessage += Current_OnSendingMessage;
+			MultiplayerEvents.Current.OnMenuServerRemoved += Current_OnMenuServerRemoved;
 		}
 
 		public void Current_OnMenuConnect(object sender, string[] args)
@@ -74,7 +71,7 @@ namespace ScotlandYard.Scripts.Controller
 
 		protected virtual IEnumerator Login(double timeout = 180000)
 		{
-			GameEvents.Current.StartingMultiplayerLogin(this, true);
+			MultiplayerEvents.Current.StartingMultiplayerLogin(this, true);
 
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
@@ -93,8 +90,8 @@ namespace ScotlandYard.Scripts.Controller
 			}
 			else
 			{
-				GameEvents.Current.MenuError(this, "error_login_failed");
-				GameEvents.Current.EndingMultiplayerLogin(this, -1);
+				MultiplayerEvents.Current.MultiplayerError(this, "error_login_failed");
+				MultiplayerEvents.Current.EndingMultiplayerLogin(this, -1);
 				UnsubscribeEvents();
 				sioCom.RemoveInstance();
 			}
@@ -105,20 +102,20 @@ namespace ScotlandYard.Scripts.Controller
 			sioCom.Instance.On("login-success", (serverName) => {
 				GameSettings.ServerSetting serverSetting = new GameSettings.ServerSetting(serverName, sioCom.socketIOAddress, hashedPassword, DateTime.Now);
 
-				GameEvents.Current.MenuConnectingSucceeded(this, serverSetting);
-				GameEvents.Current.EndingMultiplayerLogin(this, 0);
+				MultiplayerEvents.Current.MenuConnectingSucceeded(this, serverSetting);
+				MultiplayerEvents.Current.EndingMultiplayerLogin(this, 0);
 				SavedServerDAO.getInstance().Insert(serverSetting);
 			});
 			
 			sioCom.Instance.On("error", (payload) => {
 				sioCom.Instance.Close();
-				GameEvents.Current.MenuError(this, payload);
-				GameEvents.Current.EndingMultiplayerLogin(this, -1);
+				MultiplayerEvents.Current.MultiplayerError(this, payload);
+				MultiplayerEvents.Current.EndingMultiplayerLogin(this, -1);
 			});
 
 			sioCom.Instance.On("message", (payload) => {
 				Message msg = Message.CreateFromJSON(payload);
-				GameEvents.Current.MultiplayerMessage(this, msg);
+				MultiplayerEvents.Current.MultiplayerMessage(this, msg);
 			});
 		}
 
@@ -131,10 +128,10 @@ namespace ScotlandYard.Scripts.Controller
 
 		protected void OnDestroy() 
 		{
-			GameEvents.Current.OnMenuConnect    -= Current_OnMenuConnect;
-			GameEvents.Current.OnMenuDisconnect -= Current_OnMenuDisconnect;
-			GameEvents.Current.OnSendingMessage -= Current_OnSendingMessage;
-			GameEvents.Current.OnMenuServerRemoved -= Current_OnMenuServerRemoved;
+			MultiplayerEvents.Current.OnMenuConnect    -= Current_OnMenuConnect;
+			MultiplayerEvents.Current.OnMenuDisconnect -= Current_OnMenuDisconnect;
+			MultiplayerEvents.Current.OnSendingMessage -= Current_OnSendingMessage;
+			MultiplayerEvents.Current.OnMenuServerRemoved -= Current_OnMenuServerRemoved;
 		}
 		#endregion
 	}

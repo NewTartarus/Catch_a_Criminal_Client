@@ -1,14 +1,12 @@
 ﻿namespace ScotlandYard.Scripts.UI.InGame
 {
     using ScotlandYard.Scripts.Events;
-    using ScotlandYard.Scripts.PlayerScripts;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
     public class PauseMenu : MonoBehaviour
     {
         protected bool isGamePaused;
-        [SerializeField] protected Player player;
 
         public void PauseGame()
         {
@@ -38,8 +36,7 @@
 
         public void Resign()
         {
-            player.Data.HasLost = true;
-            GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(player.Data));
+            GameEvents.Current.PlayerResigned(this, true);
             Resume();
         }
 

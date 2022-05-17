@@ -1,8 +1,6 @@
 ﻿namespace ScotlandYard.Scripts.Events
 {
     using ScotlandYard.Enums;
-    using ScotlandYard.Interfaces;
-    using ScotlandYard.Scripts.Transfer;
     using ScotlandYard.Scripts.UI.InGame;
     using System;
 
@@ -23,19 +21,11 @@
 
         public event EventHandler<string> OnPlayerItemClicked;
 
+        public event EventHandler<bool> OnPlayerResigned;
+
         //Menu Events
         public event EventHandler<EButtons> OnMainMenuButtonPressed;
         public event EventHandler OnLanguageChanged;
-        public event EventHandler<string[]> OnMenuConnect;
-        public event EventHandler<string> OnMenuDisconnect;
-        public event EventHandler<IServerSetting> OnMenuConnectSucceeded;
-        public event EventHandler<IServerSetting> OnMenuServerRemoved;
-        public event EventHandler<string> OnMenuError;
-        public event EventHandler<Message> OnMultiplayerMessage;
-        public event EventHandler<string> OnSendingMessage;
-
-        public event EventHandler<bool> OnMultiplayerLoginStarted;
-        public event EventHandler<int> OnMultiplayerLoginEnded;
 
         //Ticket Selection
         public event EventHandler<MovementEventArgs> OnDestinationSelected;
@@ -144,49 +134,9 @@
             OnPlayerItemClicked?.Invoke(sender, args);
         }
 
-        public void MenuConnecting(object sender, string[] args)
+        public void PlayerResigned(object sender, bool args)
         {
-            OnMenuConnect?.Invoke(sender, args);
-        }
-
-        public void MenuConnectingSucceeded(object sender, IServerSetting args)
-        {
-            OnMenuConnectSucceeded?.Invoke(sender, args);
-        }
-
-        public void MenuServerRemoved(object sender, IServerSetting args)
-        {
-            OnMenuServerRemoved?.Invoke(sender, args);
-        }
-
-        public void MenuDisconnecting(object sender, string args)
-        {
-            OnMenuDisconnect?.Invoke(sender, args);
-        }
-
-        public void MenuError(object sender, string args)
-        {
-            OnMenuError?.Invoke(sender, args);
-        }
-
-        public void MultiplayerMessage(object sender, Message msg)
-        {
-            OnMultiplayerMessage?.Invoke(sender, msg);
-        }
-
-        public void SendingMessage(object sender, string msg)
-        {
-            OnSendingMessage?.Invoke(sender,msg);
-        }
-
-        public void StartingMultiplayerLogin(object sender, bool args)
-        {
-            OnMultiplayerLoginStarted?.Invoke(sender,args);
-        }
-
-        public void EndingMultiplayerLogin(object sender, int args)
-        {
-            OnMultiplayerLoginEnded?.Invoke(sender,args);
+            OnPlayerResigned?.Invoke(sender, args);
         }
     }
 }

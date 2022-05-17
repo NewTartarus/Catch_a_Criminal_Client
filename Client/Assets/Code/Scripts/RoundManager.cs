@@ -7,27 +7,17 @@
     using ScotlandYard.Scripts.Helper;
     using ScotlandYard.Scripts.PlayerScripts;
     using ScotlandYard.Scripts.Street;
-    using ScotlandYard.Scripts.UI.InGame;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using TMPro;
     using UnityEngine;
-    using UnityEngine.SceneManagement;
 
     public class RoundManager : MonoBehaviour
     {
         #region Members
-        private const string GAME_TURN_STARTED = "game_turn_started";
-
         [SerializeField] protected StreetController STREET_CONTROLLER;
         [SerializeField] protected PlayerController PLAYER_CONTROLLER;
         [SerializeField] protected HistoryController HISTORY_CONTROLLER;
-
-        [SerializeField] protected RoundMessage roundMessage;
-        [SerializeField] protected TicketChooser ticketChooser;
-        [SerializeField] protected PlayerInfoList playerInfoList;
-        [SerializeField] protected TextMeshProUGUI roundText;
         
         protected int round = 1;
         protected int playerIndex = 0;
@@ -55,6 +45,7 @@
         protected void Start()
         {
             GameEvents.Current.OnPlayerMoveFinished += Current_OnPlayerMoveFinished;
+            GameEvents.Current.OnPlayerResigned += Current_OnPlayerResigned;
             GameEvents.Current.OnDestinationSelected += OnlyHighlightDestination;
             GameEvents.Current.OnTicketSelection_Canceled += Current_OnTicketSelection_Canceled;
             GameEvents.Current.OnTicketSelection_Approved += Current_OnTicketSelection_Approved;
@@ -74,16 +65,14 @@
 
             STREET_CONTROLLER.Init();
             PLAYER_CONTROLLER.Init();
-            ticketChooser.Init();
 
             AssignStartingPositions(STREET_CONTROLLER.GetAllStreetPoints(), PLAYER_CONTROLLER.GetAllAgents());
 
-            playerInfoList.Init(PLAYER_CONTROLLER.GetAllAgents());
             HISTORY_CONTROLLER.Init(PLAYER_CONTROLLER.GetAllAgents(), detectionRounds);
 
             yield return new WaitForSeconds(0.5f);
 
-            roundText.SetText(Round.ToString());
+            UIEvents.Current.RoundAdded(null, Round.ToString());
             Debug.Log($"Round {Round} started.");
             PlayRound();
         }
@@ -124,7 +113,7 @@
                 {
                     playerIndex = 0;
                     Round ++;
-                    roundText.SetText(Round.ToString());
+                    UIEvents.Current.RoundAdded(null, Round.ToString());
                     Debug.Log($"Round {Round} started.");
                 }
 
@@ -167,25 +156,22 @@
                     roundState = ERound.DETECTIVE_TURN;
                 }
 
-                roundMessage.DisplayMessage(GAME_TURN_STARTED, player.Data.AgentName);
+                UIEvents.Current.ShowRoundMessage(null, player.Data.AgentName);
 
                 yield return new WaitForSeconds(2f);
 
-                roundMessage.HideMessage();
+                UIEvents.Current.HideRoundMessage(null, player.Data.AgentName);
 
                 PLAYER_CONTROLLER.GetPlayer(index).BeginRound();
             }
             
         }
 
-        protected void GoBackToStart()
-        {
-            SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
-        }
-
         #region Event recievers
         private void Current_OnPlayerMoveFinished(object sender, PlayerEventArgs e)
         {
+            if (!e.IsActive) { return; }
+            
             HighlightBehavior.UnmarkPreviouslyHighlightedPoints();
 
             bool playerLost = PLAYER_CONTROLLER.CheckIfPlayerHasLost(playerIndex);
@@ -210,6 +196,17 @@
             }
         }
 
+        private void Current_OnPlayerResigned(object sender, bool e)
+        {
+            PLAYER_CONTROLLER.GetAllAgents().FindAll(a => a is Player).ForEach(p => p.Data.HasLost = true);
+
+            Agent activePlayer = PLAYER_CONTROLLER.GetAllAgents().FirstOrDefault(a => a is Player && a.Data.IsActive);
+            if(activePlayer != null)
+            {
+                GameEvents.Current.PlayerMoveFinished(null, new PlayerEventArgs(activePlayer.Data));
+            }
+        }
+
         private void Current_OnTicketSelection_Approved(object sender, TicketEventArgs e)
         {
             var player = PLAYER_CONTROLLER.GetPlayer(playerIndex);
@@ -231,29 +228,25 @@
         {
             StopAllCoroutines();
             roundState = ERound.END;
-
-            roundMessage.DisplayMessage("game_misterX_won", "game_game_end", () => GoBackToStart());
         }
 
         protected void Current_OnDetectivesWon(object sender, System.EventArgs e)
         {
             StopAllCoroutines();
             roundState = ERound.END;
-
-            roundMessage.DisplayMessage("game_detectives_won", "game_game_end", () => GoBackToStart());
         }
         #endregion
 
         protected void OnDestroy()
         {
             GameEvents.Current.OnPlayerMoveFinished -= Current_OnPlayerMoveFinished;
+            GameEvents.Current.OnPlayerResigned -= Current_OnPlayerResigned;
             GameEvents.Current.OnDestinationSelected -= OnlyHighlightDestination;
             GameEvents.Current.OnTicketSelection_Canceled -= Current_OnTicketSelection_Canceled;
             GameEvents.Current.OnTicketSelection_Approved -= Current_OnTicketSelection_Approved;
 
             GameEvents.Current.OnDetectivesWon -= Current_OnDetectivesWon;
             GameEvents.Current.OnMisterXWon -= Current_OnMisterXWon;
-            ticketChooser.Destroy();
         }
     }
 }

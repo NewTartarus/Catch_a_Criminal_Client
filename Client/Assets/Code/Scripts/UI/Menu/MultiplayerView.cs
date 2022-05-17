@@ -1,7 +1,6 @@
 namespace ScotlandYard.Scripts.UI.Menu
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
     using ScotlandYard.Interfaces;
@@ -11,7 +10,6 @@ namespace ScotlandYard.Scripts.UI.Menu
     using ScotlandYard.Scripts.Helper;
     using ScotlandYard.Scripts.Transfer;
     using ScotlandYard.Scripts.UI.InGame;
-	using ScotlandYard.Scripts.UI.Menu;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
@@ -46,12 +44,12 @@ namespace ScotlandYard.Scripts.UI.Menu
 			{
 				AddSavedServer(setting);
 			}
-			
-			GameEvents.Current.OnMenuConnectSucceeded += Current_OnMenuConnectSucceeded;
-			GameEvents.Current.OnMenuError += Current_OnMenuError;
-			GameEvents.Current.OnMultiplayerMessage += Current_OnMultiplayerMessage;
-			GameEvents.Current.OnMultiplayerLoginStarted += Current_OnMultiplayerLoginStarted;
-			GameEvents.Current.OnMultiplayerLoginEnded += Current_OnMultiplayerLoginEnded;
+
+			MultiplayerEvents.Current.OnMenuConnectSucceeded += Current_OnMenuConnectSucceeded;
+			MultiplayerEvents.Current.OnMultiplayerError += Current_OnMenuError;
+			MultiplayerEvents.Current.OnMultiplayerMessage += Current_OnMultiplayerMessage;
+			MultiplayerEvents.Current.OnMultiplayerLoginStarted += Current_OnMultiplayerLoginStarted;
+			MultiplayerEvents.Current.OnMultiplayerLoginEnded += Current_OnMultiplayerLoginEnded;
 		}
 
 		protected void AddSavedServer(IServerSetting setting)
@@ -96,13 +94,13 @@ namespace ScotlandYard.Scripts.UI.Menu
 			{
 				string address = inputAddress.text;
 				string password = HashHelper.HashString(inputPwd.text);
-				GameEvents.Current.MenuConnecting(this, new string[] { address, password, "30000" });
+				MultiplayerEvents.Current.MenuConnecting(this, new string[] { address, password, "30000" });
 			}
 		}
 
 		public void Disconnect() 
 		{
-			GameEvents.Current.MenuDisconnecting(this, string.Empty);
+			MultiplayerEvents.Current.MenuDisconnecting(this, string.Empty);
 
 			lobbyPage.SetActive(false);
 			loginPage.SetActive(false);
@@ -114,7 +112,7 @@ namespace ScotlandYard.Scripts.UI.Menu
 			if(!string.IsNullOrEmpty(inputMessage.text))
 			{
 				string msg = inputMessage.text;
-				GameEvents.Current.SendingMessage(this, msg);
+				MultiplayerEvents.Current.SendingMessage(this, msg);
 			}
 		}
 
@@ -182,11 +180,11 @@ namespace ScotlandYard.Scripts.UI.Menu
 
 		protected void OnDestroy()
 		{
-			GameEvents.Current.OnMenuConnectSucceeded -= Current_OnMenuConnectSucceeded;
-			GameEvents.Current.OnMenuError -= Current_OnMenuError;
-			GameEvents.Current.OnMultiplayerMessage -= Current_OnMultiplayerMessage;
-			GameEvents.Current.OnMultiplayerLoginStarted -= Current_OnMultiplayerLoginStarted;
-			GameEvents.Current.OnMultiplayerLoginEnded -= Current_OnMultiplayerLoginEnded;
+			MultiplayerEvents.Current.OnMenuConnectSucceeded -= Current_OnMenuConnectSucceeded;
+			MultiplayerEvents.Current.OnMultiplayerError -= Current_OnMenuError;
+			MultiplayerEvents.Current.OnMultiplayerMessage -= Current_OnMultiplayerMessage;
+			MultiplayerEvents.Current.OnMultiplayerLoginStarted -= Current_OnMultiplayerLoginStarted;
+			MultiplayerEvents.Current.OnMultiplayerLoginEnded -= Current_OnMultiplayerLoginEnded;
 		}
 		#endregion
 	}
