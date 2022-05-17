@@ -28,10 +28,10 @@ namespace ScotlandYard.Scripts.UI.Menu
 		#region Methods
 		protected void Awake() 
 		{
-			GameEvents.Current.OnMenuConnect           += Current_OnMenuConnect;
-			GameEvents.Current.OnMenuError             += Current_OnMenuError;
-			GameEvents.Current.OnMenuDisconnect        += Current_OnMenuDisconnect;
-			GameEvents.Current.OnMultiplayerLoginEnded += Current_OnMultiplayerLoginEnded;
+			MultiplayerEvents.Current.OnMenuConnect           += Current_OnMenuConnect;
+			MultiplayerEvents.Current.OnMultiplayerError             += Current_OnMenuError;
+			MultiplayerEvents.Current.OnMenuDisconnect        += Current_OnMenuDisconnect;
+			MultiplayerEvents.Current.OnMultiplayerLoginEnded += Current_OnMultiplayerLoginEnded;
 		}
 
 		public void Init(IServerSetting setting) 
@@ -46,12 +46,12 @@ namespace ScotlandYard.Scripts.UI.Menu
 
 		public void Login()
 		{
-			GameEvents.Current.MenuConnecting(this, new string[]{setting.ServerUrl, setting.HashedPassword, "30000" });
+			MultiplayerEvents.Current.MenuConnecting(this, new string[]{setting.ServerUrl, setting.HashedPassword, "30000" });
 		}
 
 		public void Delete()
         {
-			GameEvents.Current.MenuServerRemoved(this, Setting);
+			MultiplayerEvents.Current.MenuServerRemoved(this, Setting);
 			Destroy(this.gameObject);
         }
 
@@ -88,10 +88,10 @@ namespace ScotlandYard.Scripts.UI.Menu
 
 		protected void OnDestroy()
 		{
-			GameEvents.Current.OnMenuConnect           -= Current_OnMenuConnect;
-			GameEvents.Current.OnMenuError             -= Current_OnMenuError;
-			GameEvents.Current.OnMenuDisconnect        -= Current_OnMenuDisconnect;
-			GameEvents.Current.OnMultiplayerLoginEnded -= Current_OnMultiplayerLoginEnded;
+			MultiplayerEvents.Current.OnMenuConnect           -= Current_OnMenuConnect;
+			MultiplayerEvents.Current.OnMultiplayerError             -= Current_OnMenuError;
+			MultiplayerEvents.Current.OnMenuDisconnect        -= Current_OnMenuDisconnect;
+			MultiplayerEvents.Current.OnMultiplayerLoginEnded -= Current_OnMultiplayerLoginEnded;
 		}
 		#endregion
 	}

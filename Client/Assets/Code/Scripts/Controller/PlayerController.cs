@@ -1,7 +1,6 @@
 ﻿namespace ScotlandYard.Scripts.Controller
 {
     using ScotlandYard.Enums;
-    using ScotlandYard.Interfaces;
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.GameSettings;
     using ScotlandYard.Scripts.Helper;
@@ -68,6 +67,8 @@
                 }
 
             }
+
+            UIEvents.Current.PlayersInitialized(null, agentList);
 
             GameEvents.Current.OnMakeNextMove += Current_OnMakeNextMove;
             GameEvents.Current.OnDetectiveTicketRemoved += Current_OnDetectiveTicketRemoved;

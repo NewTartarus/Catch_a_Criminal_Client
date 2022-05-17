@@ -10,8 +10,7 @@ namespace ScotlandYard.Scripts.Controller
     
     public class HistoryController : MonoBehaviour
 	{
-		[SerializeField] protected HistoryItemList historylist;
-        protected Dictionary<string, HistoryItem> history = new Dictionary<string, HistoryItem>();
+		protected Dictionary<string, HistoryItem> history = new Dictionary<string, HistoryItem>();
 		protected int[] detectionRounds;
 
 		public void Init(List<Agent> dataList, int[] detectionRounds)
@@ -27,12 +26,12 @@ namespace ScotlandYard.Scripts.Controller
         {
 			PlayerData agentDataClone = agent.Data.Clone();
 			ETicket payedTicket = DeterminePayedTicket(round, agentDataClone);
-			HistoryItem item = new HistoryItem(round, payedTicket, agentDataClone);
+			HistoryItem item = new HistoryItem(round, payedTicket, agentDataClone, detectionRounds.Contains(round));
 			history.Add($"{round}-{agentDataClone.ID}", item);
 
 			if(round > 0 && agentDataClone.PlayerRole == EPlayerRole.MISTERX)
             {
-				historylist.AddVisibleItem(item, detectionRounds.Contains(round));
+				UIEvents.Current.HistoryItemAdded(this, item);
             }
 		}
 
