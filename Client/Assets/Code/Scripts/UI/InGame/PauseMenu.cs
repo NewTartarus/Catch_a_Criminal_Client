@@ -3,10 +3,12 @@
     using ScotlandYard.Scripts.Events;
     using UnityEngine;
     using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
 
     public class PauseMenu : MonoBehaviour
     {
         protected bool isGamePaused;
+        [SerializeField] protected Selectable firstSelected;
 
         public void PauseGame()
         {
@@ -26,6 +28,7 @@
         {
             Time.timeScale = 0f;
             this.gameObject.SetActive(true);
+            firstSelected?.Select();
         }
 
         public void Resume()

@@ -82,7 +82,7 @@
             {
                 Vector3 agentPosition = agent.GetTransform().position;
                 Vector3 cameraPosition = CameraController.instance.transform.position;
-                CameraController.instance.SetPosition(new Vector3(agentPosition.x, cameraPosition.y, agentPosition.z));
+                CameraController.instance.SetPosition(new Vector3(agentPosition.x, 0f, agentPosition.z));
             }
         }
 

@@ -6,8 +6,8 @@
     using ScotlandYard.Scripts.PlayerScripts;
     using ScotlandYard.Scripts.Street;
     using System.Collections.Generic;
-    using System.Linq;
     using UnityEngine;
+    using UnityEngine.UI;
 
     public class TicketChooser : MonoBehaviour
     {
@@ -15,8 +15,10 @@
         protected StreetPoint streetPoint;
         protected ETicket selectedTicket;
 
-        [SerializeField]protected List<TicketButton> ticketButtons;
+        [SerializeField] protected List<TicketButton> ticketButtons;
         protected TicketButton selectedTicketButton;
+
+        [SerializeField] protected Button okButton;
 
         public void Init()
         {
@@ -33,6 +35,8 @@
                 e.Select = true;
                 selectedTicketButton = e;
                 selectedTicket = e.GetTicket();
+
+                okButton.interactable = true;
             }
         }
 
@@ -57,11 +61,14 @@
                 }
             }
 
+            okButton.interactable = false;
             this.gameObject.SetActive(true);
         }
 
         public void Ok_Pressed()
         {
+            if(selectedTicket == ETicket.EMPTY) { return; }
+
             IStreet street = player.Data.CurrentPosition.GetPath(streetPoint);
             GameEvents.Current.TicketSelection_Approved(null, new TicketEventArgs(player.Data.ID, selectedTicket, street));
 
