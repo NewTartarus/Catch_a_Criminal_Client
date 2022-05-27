@@ -1,5 +1,6 @@
 namespace ScotlandYard.Scripts.Controller
 {
+    using ScotlandYard.InputSystem;
     using ScotlandYard.Scripts.Events;
     using ScotlandYard.Scripts.History;
     using ScotlandYard.Scripts.PlayerScripts;
@@ -8,8 +9,9 @@ namespace ScotlandYard.Scripts.Controller
 	using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
-	
-	public class GameUIController : MonoBehaviour
+    using UnityEngine.InputSystem;
+
+    public class GameUIController : MonoBehaviour
 	{
 		#region Members
 		[SerializeField] protected TextMeshProUGUI roundText;
@@ -18,6 +20,9 @@ namespace ScotlandYard.Scripts.Controller
 		[SerializeField] protected TicketChooser ticketChooser;
 		[SerializeField] protected RoundMessage roundMessage;
 		[SerializeField] protected GameOverOverlay gameOver;
+		[SerializeField] protected PauseMenu pauseMenu;
+
+		protected CaCInputControls controls;
 		#endregion
 
 		#region Properties
@@ -26,7 +31,9 @@ namespace ScotlandYard.Scripts.Controller
 		#region Methods
 		protected void Awake()
 		{
-            UIEvents.Current.OnRoundAdded += Current_OnRoundAdded;
+			this.controls = new CaCInputControls();
+
+			UIEvents.Current.OnRoundAdded += Current_OnRoundAdded;
             UIEvents.Current.OnHistoryItemAdded += Current_OnHistoryItemAdded;
             UIEvents.Current.OnPlayersInitialized += Current_OnPlayersInitialized;
 
@@ -39,7 +46,18 @@ namespace ScotlandYard.Scripts.Controller
 			ticketChooser.Init();
 		}
 
-        private void Current_OnRoundAdded(object sender, string e)
+		protected void OnEnable()
+		{
+			controls.Player.Pause.performed += Pause_performed;
+			controls.Player.Pause.Enable();
+		}
+
+		protected virtual void Pause_performed(InputAction.CallbackContext obj)
+		{
+			pauseMenu.PauseGame();
+		}
+
+		private void Current_OnRoundAdded(object sender, string e)
         {
 			roundText.SetText(e);
 		}
@@ -72,6 +90,12 @@ namespace ScotlandYard.Scripts.Controller
 		private void Current_OnDetectivesWon(object sender, EventArgs e)
 		{
 			gameOver.Display("game_detectives_won");
+		}
+
+		protected void OnDisable()
+		{
+			controls.Player.Pause.performed -= Pause_performed;
+			controls.Player.Pause.Disable();
 		}
 
 		protected void OnDestroy()

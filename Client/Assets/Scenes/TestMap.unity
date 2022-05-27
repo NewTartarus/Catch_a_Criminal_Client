@@ -641,7 +641,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32067251}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 50, z: -50}
+  m_LocalPosition: {x: 0, y: 25, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1895394350}
@@ -10770,16 +10770,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ecb89b3e162adb44a8af4b3708e66e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTransform: {fileID: 32067254}
-  ownCamera: {fileID: 32067253}
-  normalSpeed: 0.5
-  fastSpeed: 2
-  movementSpeed: 1
-  movementTime: 5
-  rotationAmount: 1
-  zoomAmount: {x: 0, y: -5, z: 5}
-  maxZoomIn: 5
-  maxZoomOut: 70
+  usedCamera: {fileID: 32067253}
+  maxSpeed: 25
+  acceleration: 10
+  damping: 15
+  stepSize: 8
+  zoomDampening: 7.5
+  minHeight: 10
+  maxHeight: 75
+  cameraAngleDeg: 45
+  maxRotationSpeed: 0.25
+  edgeTolerance: 0.05
+  useScreenEdge: 0
 --- !u!4 &1895394350
 Transform:
   m_ObjectHideFlags: 0
