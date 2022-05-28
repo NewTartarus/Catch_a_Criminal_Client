@@ -72,18 +72,6 @@
 
             GameEvents.Current.OnMakeNextMove += Current_OnMakeNextMove;
             GameEvents.Current.OnDetectiveTicketRemoved += Current_OnDetectiveTicketRemoved;
-            GameEvents.Current.OnPlayerItemClicked += Current_OnPlayerItemClicked;
-        }
-
-        protected void Current_OnPlayerItemClicked(object sender, string e)
-        {
-            Agent agent = agentList.FirstOrDefault(p => p.Data.ID == e);
-            if(agent != null && (agent.Data.PlayerRole != EPlayerRole.MISTERX || agent.GetType() == typeof(Player)))
-            {
-                Vector3 agentPosition = agent.GetTransform().position;
-                Vector3 cameraPosition = CameraController.instance.transform.position;
-                CameraController.instance.SetPosition(new Vector3(agentPosition.x, 0f, agentPosition.z));
-            }
         }
 
         protected void Current_OnDetectiveTicketRemoved(object sender, ETicket e)
@@ -106,6 +94,11 @@
             }
 
             return null;
+        }
+
+        public Agent GetAgentById(string id)
+        {
+            return agentList.FirstOrDefault(p => p.Data.ID == id);
         }
 
         public Agent GetMisterX()
@@ -175,7 +168,7 @@
         {
             GameEvents.Current.OnMakeNextMove -= Current_OnMakeNextMove;
             GameEvents.Current.OnDetectiveTicketRemoved -= Current_OnDetectiveTicketRemoved;
-            GameEvents.Current.OnPlayerItemClicked -= Current_OnPlayerItemClicked;
+
             HighlightBehavior.Destroy();
             settings.PlayerSettings = new List<PlayerSetting>();
         }
