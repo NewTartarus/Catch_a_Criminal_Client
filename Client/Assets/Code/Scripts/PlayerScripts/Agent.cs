@@ -20,6 +20,8 @@
         [SerializeField] protected AgentIndicator indicator;
         protected Transform ownTransform;
 
+        protected Animator animator;
+
         //Properties
         public virtual PlayerData Data
         {
@@ -51,6 +53,7 @@
         {
             GeneratePlayerId();
             indicator.SetColor(Data.PlayerColor);
+            animator = GetComponentInChildren<Animator>(true);
         }
 
         protected virtual void Awake()
@@ -101,6 +104,8 @@
                 float multiplier = 1 + (path.Distance < MAX_STREETLENGTH ? 0 : Convert.ToInt32(Math.Ceiling(path.Distance / MAX_STREETLENGTH))) * 0.2f;
                 float movementSpeed = speed * multiplier;
 
+                animator?.SetFloat("speed", multiplier - 0.94f);
+
                 Dictionary<string, object> parms = new Dictionary<string, object>()
                 {
                     { "STREET", path },
@@ -117,7 +122,7 @@
                     yield return StartCoroutine(nameof(MoveBackwards), parms);
                     this.Data.CurrentPosition = path.StartPoint;
                 }
-                transform.rotation = Quaternion.AngleAxis(0f, Vector3.down);
+                transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
 
                 yield return new WaitForSeconds(0.2f);
 
@@ -126,6 +131,7 @@
                 this.StreetPath = null;
 
                 isMoving = false;
+                animator?.SetFloat("speed", 0f);
                 GameEvents.Current.PlayerMoveFinished(this, new PlayerEventArgs(this.Data));
             }
 

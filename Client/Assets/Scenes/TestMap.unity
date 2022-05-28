@@ -7304,7 +7304,7 @@ MonoBehaviour:
     type: 3}
   femalePrefab: {fileID: 8726163270855319966, guid: 3bb9a7c68dc3ff84189eab49bb7ec605,
     type: 3}
-  aiPrefab: {fileID: 8605072237085108708, guid: f02321cbd0338f1488daae61d05df50c,
+  aiPrefab: {fileID: 8726163270855319966, guid: 761dd177261b94641b43f7e26bab94b3,
     type: 3}
 --- !u!114 &1277524524
 MonoBehaviour:

@@ -28,3 +28,10 @@
         _instance = null;
      }
      ```
+
+## Space Robot Kyle
+
+- **Creator:** Unity Technologies
+- **Link:** https://assetstore.unity.com/packages/3d/characters/robots/space-robot-kyle-4696
+- **Version:** 1.0
+- **Path:** ..\Client\Assets\Third Party Assets\Robot Kyle\

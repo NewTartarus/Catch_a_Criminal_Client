@@ -7,6 +7,7 @@
     using ScotlandYard.Scripts.Helper;
     using ScotlandYard.Scripts.PlayerScripts;
     using ScotlandYard.Scripts.Street;
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -52,6 +53,8 @@
 
             GameEvents.Current.OnDetectivesWon += Current_OnDetectivesWon;
             GameEvents.Current.OnMisterXWon += Current_OnMisterXWon;
+
+            GameEvents.Current.OnPlayerItemClicked += Current_OnPlayerItemClicked;
 
             StartCoroutine(nameof(StartInit));
         }
@@ -235,6 +238,17 @@
             StopAllCoroutines();
             roundState = ERound.END;
         }
+
+        private void Current_OnPlayerItemClicked(object sender, string e)
+        {
+            Agent agent = PLAYER_CONTROLLER.GetAgentById(e);
+
+            if (agent != null && (agent.Data.PlayerRole != EPlayerRole.MISTERX || detectionRounds.Contains(Round) || agent.GetType() == typeof(Player)))
+            {
+                Vector3 agentPosition = agent.GetTransform().position;
+                CameraController.instance.SetPosition(new Vector3(agentPosition.x, 0f, agentPosition.z));
+            }
+        }
         #endregion
 
         protected void OnDestroy()
@@ -247,6 +261,8 @@
 
             GameEvents.Current.OnDetectivesWon -= Current_OnDetectivesWon;
             GameEvents.Current.OnMisterXWon -= Current_OnMisterXWon;
+
+            GameEvents.Current.OnPlayerItemClicked -= Current_OnPlayerItemClicked;
         }
     }
 }
