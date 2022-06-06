@@ -63,7 +63,10 @@ namespace ScotlandYard.Scripts.Street
         #region Methods
         public virtual void Init()
         {
-            throw new NotImplementedException();
+            if(!ticketCosts.Contains(ETicket.BLACK_TICKET) && !ticketCosts.Contains(ETicket.EMPTY))
+            {
+                ticketCosts.Add(ETicket.BLACK_TICKET);
+            }
         }
 
         public virtual void DrawLines(params ETicket[] tickets)
