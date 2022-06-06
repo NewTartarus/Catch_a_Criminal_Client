@@ -17,6 +17,8 @@
         {
             if(!isInitialized)
             {
+                base.Init();
+
                 streets = OrderStreets(streets);
                 pathWaypoints = DetermineWayPoints(streets);
                 DrawLines(TicketCosts.ToArray());

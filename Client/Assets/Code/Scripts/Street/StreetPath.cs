@@ -32,6 +32,8 @@
         {
             if(!isInitialized)
             {
+                base.Init();
+
                 generator = new RoadGenerator(controlPoints.ToArray(), sectionsCount, resolution);
 
                 GetComponent<MeshFilter>().sharedMesh = generator.GenerateMesh(crossSection);
