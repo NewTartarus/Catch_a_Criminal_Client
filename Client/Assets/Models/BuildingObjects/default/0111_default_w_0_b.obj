@@ -1,0 +1,14 @@
+# Blender v3.0.0 OBJ File: 'default_objects.blend'
+# www.blender.org
+mtllib 0111_default_w_0_b.mtl
+o 0111_default_w_0_b_Cube.003
+v -1.000000 0.000000 1.000000
+v 0.000000 0.000000 1.000000
+v -1.000000 0.000000 0.000000
+vt 0.243207 0.986343
+vt 0.006864 0.750000
+vt 0.243207 0.513657
+vn 0.0000 1.0000 0.0000
+usemtl Backface.009
+s off
+f 3/1/1 1/2/1 2/3/1
