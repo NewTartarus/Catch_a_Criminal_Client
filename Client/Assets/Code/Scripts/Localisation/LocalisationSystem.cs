@@ -29,6 +29,16 @@
 
         public static void Init()
         {
+            InitLanguage();
+            UpdateDictionary();
+
+            isInit = true;
+        }
+
+        public static void InitLanguage()
+        {
+            if (language != null) { return; }
+
             string cultureName = CultureInfo.CurrentCulture.NativeName.Split(' ')[0];
 
             List<Language> languages = LanguageDAO.getInstance().ReadAll();
@@ -37,15 +47,11 @@
             {
                 Lang = languages.Find(l => l.Name.Equals(cultureName));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.Log($"The language {cultureName} could not be found.\n{ex.Message}");
                 Lang = languages.Find(l => l.Name.Equals("English"));
             }
-
-            UpdateDictionary();
-
-            isInit = true;
         }
 
         public static void UpdateDictionary()

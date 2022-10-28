@@ -1,6 +1,7 @@
 namespace ScotlandYard.Scripts
 {
     using ScotlandYard.Enums;
+    using ScotlandYard.ScriptableObjects;
     using ScotlandYard.Scripts.GameSettings;
     using ScotlandYard.Scripts.Localisation;
     using ScotlandYard.Scripts.UI.Color;
@@ -11,14 +12,17 @@ namespace ScotlandYard.Scripts
 
     public class PlayerSettingsView : MonoBehaviour
 	{
-		#region Members
+        #region Members
+        [Header("UI")]
 		[SerializeField] protected Image profile;
 		[SerializeField] protected TMP_InputField playerName;
 		[SerializeField] protected TMP_Text playerNamePlaceholder;
 		[SerializeField] protected Image colorButton;
 		[SerializeField] protected TMP_Dropdown types;
 		[SerializeField] protected TMP_Dropdown roles;
+        [Header("Settings")]
 		[SerializeField] protected SettingsSO settings;
+		[SerializeField] protected GameSettingsSO gameSettings;
 
 		protected ColorPicker colorPicker;
 		protected object[] aiTemplate;
@@ -89,11 +93,11 @@ namespace ScotlandYard.Scripts
 					break;
 				case EPlayerType.PLAYER:
 					playerName.interactable = true;
-					playerName.text = "";
+					playerName.text = gameSettings.PlayerName;
 					break;
 				default:
 					playerName.interactable = false;
-					playerName.text = "";
+					playerName.text = gameSettings.PlayerName;
 					break;
 			}
         }

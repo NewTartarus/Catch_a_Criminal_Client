@@ -18,7 +18,7 @@
                     panelIndex = value;
                     for (int i = 0; i < panels.Length; i++)
                     {
-                        panels[i].gameObject.SetActive(panelIndex == i);
+                        panels[i].SetActive(panelIndex == i);
                     }
                 }
             }

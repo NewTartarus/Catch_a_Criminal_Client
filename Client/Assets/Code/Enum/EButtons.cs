@@ -6,6 +6,10 @@
         SINGLEPLAYER,
         MULTIPLAYER,
         CHARACTER_CUSTOMIZATION,
-        SETTINGS
+        SETTINGS,
+        SETTINGS_GENERAL,
+        SETTINGS_CONTROLS,
+        SETTINGS_AUDIO,
+        SETTINGS_VIDEO
     }
 }

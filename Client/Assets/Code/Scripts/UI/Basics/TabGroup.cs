@@ -1,6 +1,7 @@
 ﻿namespace ScotlandYard.Scripts.UI.Basics
 {
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
 
     public class TabGroup : MonoBehaviour
@@ -13,16 +14,6 @@
         [SerializeField] protected Color tabActiveColor;
 
         protected TabButton selectedButton;
-
-        public void Subscribe(TabButton button)
-        {
-            if(tabButtons == null)
-            {
-                tabButtons = new List<TabButton>();
-            }
-
-            tabButtons.Add(button);
-        }
 
         public void OnTabEnter(TabButton button)
         {
@@ -43,7 +34,8 @@
             selectedButton = button;
             ResetTabs();
             button.Background.color = tabActiveColor;
-            panelGroup.PanelIndex = button.transform.GetSiblingIndex();
+            panelGroup.PanelIndex = tabButtons.Select((t, i) => new { tab = t, index = i })
+                                              .First(a => a.tab.ButtonId == button.ButtonId).index;
         }
 
         public void ResetTabs()
