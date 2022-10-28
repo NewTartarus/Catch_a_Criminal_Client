@@ -6,7 +6,7 @@ namespace ScotlandYard.Scripts
 	public class FPSCounter : MonoBehaviour
 	{
 		#region Members
-		[SerializeField] TextMeshProUGUI fpsCounterText;
+		[SerializeField] private TextMeshProUGUI fpsCounterText;
 
 		private float pollingTime = 1f;
 		private float time;
