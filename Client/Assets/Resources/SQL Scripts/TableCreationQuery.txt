@@ -1,0 +1,96 @@
+CREATE TABLE "languages" (
+    "language_id"   INTEGER NOT NULL UNIQUE,
+    "name"          TEXT UNIQUE,
+    PRIMARY KEY("language_id" AUTOINCREMENT)
+);
+CREATE TABLE "localization_key" (
+    "key"   TEXT,
+    PRIMARY KEY("key")
+);
+CREATE TABLE "localization" (
+    "id"            INTEGER NOT NULL UNIQUE,
+    "key"           TEXT NOT NULL,
+    "text"          TEXT,
+    "language_id"   INTEGER NOT NULL,
+    PRIMARY KEY("id" AUTOINCREMENT),
+    FOREIGN KEY("key") REFERENCES "localization_key"("key") ON DELETE CASCADE,
+    FOREIGN KEY("language_id") REFERENCES "languages"("language_id") ON DELETE SET NULL
+);
+CREATE TABLE "player_model" (
+    "id"            INTEGER,
+    "name"          TEXT,
+    "model_file"    TEXT NOT NULL,
+    PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE "clothing_position" (
+    "id"                INTEGER,
+    "name"              TEXT,
+    "localization_key"  TEXT,
+    PRIMARY KEY("id" AUTOINCREMENT),
+    FOREIGN KEY("localization_key") REFERENCES "localization_key"("key")
+);
+CREATE TABLE "clothing" (
+    "id"                TEXT NOT NULL UNIQUE,
+    "position"          INTEGER,
+    "localization_key"  TEXT,
+    "unlocked"          INTEGER,
+    "icon_name"         TEXT,
+    "model_name"        TEXT,
+    "player_model_id"   INTEGER,
+    FOREIGN KEY("localization_key") REFERENCES "localization_key"("key") ON DELETE SET NULL,
+    FOREIGN KEY("position") REFERENCES "clothing_position"("id") ON DELETE SET NULL,
+    FOREIGN KEY("player_model_id") REFERENCES "player_model"("id"),
+    PRIMARY KEY("id")
+);
+CREATE TABLE "ai_templates" (
+    "id"            INTEGER,
+    "name"          TEXT,
+    "player_model"  INTEGER,
+    "head_item"     TEXT,
+    "body_item"     TEXT,
+    "leg_item"      TEXT,
+    "feet_item"     TEXT,
+    PRIMARY KEY("id" AUTOINCREMENT),
+    FOREIGN KEY("feet_item") REFERENCES "clothing"("id") ON DELETE SET NULL,
+    FOREIGN KEY("leg_item") REFERENCES "clothing"("id") ON DELETE SET NULL,
+    FOREIGN KEY("body_item") REFERENCES "clothing"("id") ON DELETE SET NULL,
+    FOREIGN KEY("player_model") REFERENCES "player_model"("id"),
+    FOREIGN KEY("head_item") REFERENCES "clothing"("id") ON DELETE SET NULL
+);
+CREATE TABLE "saved_servers" (
+    "id"            INTEGER NOT NULL,
+    "name"          TEXT,
+    "url"           TEXT NOT NULL,
+    "password"      TEXT,
+    "last_login"    TEXT,
+    UNIQUE("name","url"),
+    PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE "settings" (
+    "id"                INTEGER,
+    "localized_name"    TEXT NOT NULL,
+    "user_id"           INTEGER NOT NULL,
+    "parent"            INTEGER,
+    "value"             TEXT,
+    "type"              TEXT,
+    PRIMARY KEY("id" AUTOINCREMENT),
+    FOREIGN KEY("parent") REFERENCES "settings"("id") ON DELETE CASCADE,
+    FOREIGN KEY("user_id") REFERENCES "user"("id") ON DELETE CASCADE,
+    FOREIGN KEY("localized_name") REFERENCES "localization_key"("key")
+);
+CREATE TABLE "user" (
+    "id"            INTEGER,
+    "default_name"  TEXT NOT NULL,
+    PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE "user_appearance" (
+    "id"        INTEGER,
+    "user_id"   INTEGER,
+    "position"  INTEGER,
+    "item"      INTEGER,
+    "colour"    TEXT,
+    PRIMARY KEY("id" AUTOINCREMENT),
+    FOREIGN KEY("user_id") REFERENCES "user"("id") ON DELETE CASCADE,
+    FOREIGN KEY("item") REFERENCES "clothing"("id") ON DELETE SET NULL,
+    FOREIGN KEY("position") REFERENCES "clothing_position"("id") ON DELETE CASCADE
+);
