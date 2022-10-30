@@ -4,23 +4,17 @@
     using ScotlandYard.Interfaces;
     using System.Collections.Generic;
     using System.Data;
+    using System.IO;
     using UnityEngine;
 
     public class SqliteDbManager : IDbManager
     {
+        protected string path = Application.dataPath + "/Data/DataSave.db";
         protected string connectionString = "";
 
-        public SqliteDbManager(string connectionString = null)
+        public SqliteDbManager()
         {
-            if(connectionString == null)
-            {
-                this.connectionString = "URI=file:" + Application.dataPath + "/StreamingAssets/DataSave.db";
-            }
-            else
-            {
-                this.connectionString = connectionString;
-            }
-            
+            this.connectionString = "URI=file:" + path;
         }
 
         public List<object[]> Read(string sqlQuery, params IDbDataParameter[] parameters)
@@ -90,6 +84,50 @@
             }
 
             return affectedRows;
+        }
+
+        public void CreateDatabase(string sqlQuery)
+        {
+            bool deleteFile = false;
+
+            sqlQuery = sqlQuery.Replace("\n\n","\n");
+            string[] queries = sqlQuery.Split(';');
+
+            if(!File.Exists(path))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+                SqliteConnection.CreateFile(path);
+
+                using (IDbConnection connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (IDbCommand command = connection.CreateCommand())
+                    {
+                        foreach (string query in queries)
+                        {
+                            command.CommandText = query + ";";
+                            try
+                            {
+                                command.ExecuteNonQuery();
+                            }
+                            catch (SqliteException ex)
+                            {
+                                deleteFile = true;
+                                Debug.LogWarningFormat("Query: {0}\n--------------\n{1}", query, ex.Message);
+                            }
+                        }
+                    }
+
+                    connection.Close();
+                }
+
+                if (deleteFile)
+                {
+                    File.Delete(path);
+                }
+            }
         }
     }
 }

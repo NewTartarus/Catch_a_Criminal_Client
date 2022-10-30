@@ -1,0 +1,35 @@
+INSERT INTO user (id, default_name) VALUES (-1, "default");
+INSERT INTO user (id, default_name) VALUES (1,"default");
+
+INSERT INTO player_model (id, name, model_file) VALUES (0,"male_model", "EMPTY");
+INSERT INTO player_model (id, name, model_file) VALUES (1,"female_model", "EMPTY");
+
+INSERT INTO clothing_position (id, name, localization_key) VALUES (1,"head","position_head");
+INSERT INTO clothing_position (id, name, localization_key) VALUES (2,"body","position_body");
+INSERT INTO clothing_position (id, name, localization_key) VALUES (3,"legs","position_legs");
+INSERT INTO clothing_position (id, name, localization_key) VALUES (4,"feet","position_feet");
+
+INSERT INTO ai_templates (name, player_model) VALUES ("Sherlock Holmes", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Donato Wade", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Oriana Sala", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Jessica Fletcher", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Yuda Van Assen", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Nari Dunst", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Jane Marple", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Cahir Hendrix", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Bridgette Bloxam", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Thomas Magnum", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Ralf Orellana", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Hikari Everhart", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Adrian Monk", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Lorenz Rose", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Silvana Ready", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Jessica Jones", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Ottavio Braam", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Kellie Dunst", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Chloe Decker", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Brice Benítez", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Yoselin Thomas", 1);
+INSERT INTO ai_templates (name, player_model) VALUES ("Patrick Jane", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Akihito Hannigan", 0);
+INSERT INTO ai_templates (name, player_model) VALUES ("Sydney McCoy", 1);

@@ -1,0 +1,9 @@
+INSERT INTO settings (id,localized_name, user_id, parent, value, type) VALUES (1,"settings_general",-1,null,null,null);
+INSERT INTO settings (id,localized_name, user_id, parent, value, type) VALUES (2,"settings_controls",-1,null,null,null);
+INSERT INTO settings (id,localized_name, user_id, parent, value, type) VALUES (3,"settings_audio",-1,null,null,null);
+INSERT INTO settings (id,localized_name, user_id, parent, value, type) VALUES (4,"settings_video",-1,null,null,null);
+
+INSERT INTO settings (localized_name, user_id, parent, value, type) VALUES ("options_playername",-1,1,"DEFAULT","String");
+INSERT INTO settings (localized_name, user_id, parent, value, type) VALUES ("options_language",-1,1,"0","Int32");
+INSERT INTO settings (localized_name, user_id, parent, value, type) VALUES ("options_resolution",-1,4,"1920_1080","Resolution");
+INSERT INTO settings (localized_name, user_id, parent, value, type) VALUES ("options_fullscreen",-1,4,"1","Boolean");
