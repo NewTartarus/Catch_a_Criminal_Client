@@ -43,11 +43,11 @@ namespace ScotlandYard.Scripts.Buildings
 
 				// combine parts
 				MeshFilter[] meshFilters = building.gameObject.GetComponentsInChildren<MeshFilter>();
-                CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+                CombineInstance[] combine = new CombineInstance[meshFilters.Length-1];
                 for (int i = 1; i < meshFilters.Length; i++) // starting at 1 because GetComponentsInChildren also gets the component of the parent
                 {
-                    combine[i].mesh = meshFilters[i].sharedMesh;
-                    combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+                    combine[i-1].mesh = meshFilters[i].sharedMesh;
+                    combine[i-1].transform = meshFilters[i].transform.localToWorldMatrix;
                     meshFilters[i].gameObject.SetActive(false);
                 }
 
