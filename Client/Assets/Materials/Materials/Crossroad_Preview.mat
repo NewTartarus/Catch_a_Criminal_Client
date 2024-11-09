@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6796511644105094748
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -20,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Crossroad
-  m_Shader: {fileID: -6465566751694194690, guid: a9af881e03962e8408a50b7fa762408a,
+  m_Name: Crossroad_Preview
+  m_Shader: {fileID: -6465566751694194690, guid: bce904ae930ea2c479f01ba3f13072ad,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -34,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 81bf0b002c006da4786122cb7820b6bc, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -42,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CrossroadTexture:
-        m_Texture: {fileID: 2800000, guid: 81bf0b002c006da4786122cb7820b6bc, type: 3}
+        m_Texture: {fileID: 2800000, guid: e481a395cb3f85d4280c96ac69193831, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -62,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 81bf0b002c006da4786122cb7820b6bc, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -98,7 +85,7 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
-    - _CircleRadius: 0.225
+    - _CircleRadius: 0.285
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -114,7 +101,7 @@ Material:
     - _InvertNorthLinesOrder: 0
     - _InvertSouthLinesOrder: 0
     - _InvertWestLinesOrder: 0
-    - _LineWidth: 0.0045
+    - _LineWidth: 0.005
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -131,13 +118,26 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FirstColor: {r: 0.7254902, g: 0.03137255, b: 0.4039215, a: 1}
-    - _FirstLinePositions: {r: -0.19785, g: 0.3046, b: 0, a: 0}
-    - _MaskPosition: {r: 0.25, g: -0.25, b: 0, a: 0}
-    - _RectangleSize: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _SecondColor: {r: 0.8666667, g: 0.6862744, b: 0.078431286, a: 1}
-    - _SecondLinePositions: {r: -0.2513, g: 0.2513, b: 0, a: 0}
+    - _FirstColor: {r: 0.7254902, g: 0.03137255, b: 0.40392154, a: 1}
+    - _FirstLinePositions: {r: 0.41, g: -0.26, b: 0, a: 0}
+    - _MaskPosition: {r: -0.325, g: 0.325, b: 0, a: 0}
+    - _RectangleSize: {r: 0.62, g: 1.5, b: 0, a: 0}
+    - _SecondColor: {r: 0.8666667, g: 0.68627447, b: 0.078431346, a: 1}
+    - _SecondLinePositions: {r: 0.32, g: -0.34, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _ThirdColor: {r: 0.02745098, g: 0.6588235, b: 0.02745098, a: 1}
-    - _ThirdLinePositions: {r: -0.3046, g: 0.19785, b: 0, a: 0}
+    - _ThirdLinePositions: {r: 0.24, g: -0.42, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &2335453716386677487
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
