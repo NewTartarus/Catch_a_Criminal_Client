@@ -451,25 +451,30 @@
 
         private void OnDrawGizmos()
         {
-            if (this.wpTransforms[0] != null && !this.wpTransforms[0].Equals(Vector3.zero))
+            if (this.wpTransforms == null)
+            {
+                return;
+            }
+
+            if (this.wpTransforms.Count >= 1 && this.wpTransforms[0] != null && !this.wpTransforms[0].Equals(Vector3.zero))
             {
                 Gizmos.color = Color.red;
                 Gizmos.DrawCube(this.wpTransforms[0], new Vector3(MathHelper.EPSILON, 1, MathHelper.EPSILON));
             }
 
-            if (this.wpTransforms[1] != null && !this.wpTransforms[0].Equals(Vector3.zero))
+            if (this.wpTransforms.Count >= 2 && this.wpTransforms[1] != null && !this.wpTransforms[0].Equals(Vector3.zero))
             {
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawCube(this.wpTransforms[1], new Vector3(MathHelper.EPSILON, 1, MathHelper.EPSILON));
             }
 
-            if (this.wpTransforms[2] != null && !this.wpTransforms[0].Equals(Vector3.zero))
+            if (this.wpTransforms.Count >= 3 && this.wpTransforms[2] != null && !this.wpTransforms[0].Equals(Vector3.zero))
             {
                 Gizmos.color = Color.blue;
                 Gizmos.DrawCube(this.wpTransforms[2], new Vector3(MathHelper.EPSILON, 1, MathHelper.EPSILON));
             }
 
-            if (this.wpTransforms[3] != null && !this.wpTransforms[0].Equals(Vector3.zero))
+            if (this.wpTransforms.Count >= 4 && this.wpTransforms[3] != null && !this.wpTransforms[0].Equals(Vector3.zero))
             {
                 Gizmos.color = Color.green;
                 Gizmos.DrawCube(this.wpTransforms[3], new Vector3(MathHelper.EPSILON, 1, MathHelper.EPSILON));

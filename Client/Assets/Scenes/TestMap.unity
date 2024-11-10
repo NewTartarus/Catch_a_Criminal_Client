@@ -16343,12 +16343,12 @@ PrefabInstance:
     - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
         type: 3}
       propertyPath: invertNorthLinesOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
         type: 3}
       propertyPath: invertSouthLinesOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
@@ -22673,13 +22673,23 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 35b01fbd1aed54c4181f03fd4e624294, type: 2}
     - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
         type: 3}
+      propertyPath: invertEastLinesOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
       propertyPath: invertWestLinesOrder
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
+        type: 3}
+      propertyPath: invertNorthLinesOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8905703412010529761, guid: 1912d7ccf38fbac4996fec45fb3ee169,
         type: 3}
       propertyPath: invertSouthLinesOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1912d7ccf38fbac4996fec45fb3ee169, type: 3}
