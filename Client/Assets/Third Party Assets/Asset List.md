@@ -4,7 +4,7 @@
 
 - **Creator:** Firesplash Entertainment
 - **Link:** https://assetstore.unity.com/packages/tools/network/socket-io-v3-v4-client-for-unity-standalone-webgl-196557
-- **Version:** 1.4.0
+- **Version:** 1.6.3
 - **Path:** ..\Client\Assets\Third Party Assets\Firesplash Entertainment\
 - **Changes:**
   - SocketIOMananger

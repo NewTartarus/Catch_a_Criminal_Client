@@ -3,7 +3,7 @@ namespace ScotlandYard.Scripts.Controller
 	using System;
 	using System.Collections;
 	using System.Diagnostics;
-    using Firesplash.UnityAssets.SocketIO;
+    using Firesplash.GameDevAssets.SocketIO;
     using TMPro;
     using UnityEngine;
     using ScotlandYard.Scripts.Events;
