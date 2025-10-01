@@ -16,7 +16,7 @@ namespace ScotlandYard.CustomEditor.Localisation
         public Vector2 scroll;
         public Dictionary<string, string> dictionary;
 
-        [MenuItem("Window/Custom Editor/Localisation")]
+        [MenuItem("Tools/Localisation")]
         public static void Open()
         {
             TextLocaliserEditorWindow window = GetWindow<TextLocaliserEditorWindow>("Localisation Editor");

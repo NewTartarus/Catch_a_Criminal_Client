@@ -21,7 +21,7 @@
         [SerializeField] protected bool invertWestLinesOrder;
         [SerializeField] protected bool invertEastLinesOrder;
 
-        protected int yRotation;
+        [SerializeField] protected float yRotation;
         protected bool isOccupied;
 
         [SerializeField] protected List<IStreet> streetList = new List<IStreet>();
@@ -60,7 +60,7 @@
 
             spriteMaterial = spriteRenderer.material;
             meshRenderer.material = crossRoadMaterial;
-            yRotation = Mathf.RoundToInt(meshRenderer.transform.localRotation.eulerAngles.y);
+            yRotation = meshRenderer.transform.localRotation.eulerAngles.y;
         }
 
         public void Init()
@@ -279,8 +279,8 @@
 
             // calculate rotated position
             // Desc: The rotation is applied to the distances and the center is added back to calculate the new position.
-            float rotatedX = Mathf.Cos(rotation) * distanceX - Mathf.Sin(rotation) * distanceZ + center.x;
-            float rotatedZ = Mathf.Sin(rotation) * distanceX + Mathf.Cos(rotation) * distanceZ + center.z;
+            float rotatedX = Mathf.Cos(rotation) * distanceX - Mathf.Sin(rotation) * distanceZ + origin.x;
+            float rotatedZ = Mathf.Sin(rotation) * distanceX + Mathf.Cos(rotation) * distanceZ + origin.z;
 
             return new Vector3(rotatedX, origin.y, rotatedZ);
         }
@@ -434,11 +434,11 @@
 
                 if (correctedAngle > 0 && correctedAngle <= 180)
                 {
-                    column1.x = angleTicketMap[keyAngle]; // North
+                    column1.z = angleTicketMap[keyAngle]; // North
                 }
                 else
                 {
-                    column1.z = angleTicketMap[keyAngle]; // South
+                    column1.x = angleTicketMap[keyAngle]; // South
                 }
             }
 

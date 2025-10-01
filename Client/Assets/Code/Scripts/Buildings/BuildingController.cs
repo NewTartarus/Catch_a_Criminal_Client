@@ -8,7 +8,7 @@ namespace ScotlandYard.Scripts.Buildings
     public class BuildingController : MonoBehaviour
 	{
 		#region Members
-		[SerializeField] private List<Building> buildingList = new List<Building>();
+        [SerializeField] private List<Building> buildingList = new List<Building>();
 		[SerializeField] private List<BuildPackage> packages = new List<BuildPackage>();
 		#endregion
 
@@ -18,14 +18,16 @@ namespace ScotlandYard.Scripts.Buildings
 			foreach (Building building in buildingList)
             {
 				Transform buildingTrans = building.transform;
+                BuildPackage pack = packages.FirstOrDefault(p => p.BuildingType == building.BuildingType);
 
                 // place parts
                 List<BuildPartData> modelList = building.Build();
 				foreach (var bpd in modelList)
                 {
-					if(bpd.modelType == 0 && bpd.variant != EBuildingVariant.GROUND) { continue; }
-
-					BuildPackage pack = packages.FirstOrDefault(p => p.BuildingType == building.BuildingType);
+					if(bpd.modelType == 0 && bpd.variant != EBuildingVariant.GROUND)
+					{ 
+						continue;
+					}
 					
 					PlaceBuildingPart(pack, bpd, GetBaseVariant(bpd.variant), buildingTrans);
 
@@ -43,26 +45,33 @@ namespace ScotlandYard.Scripts.Buildings
 
 				// combine parts
 				MeshFilter[] meshFilters = building.gameObject.GetComponentsInChildren<MeshFilter>();
-                CombineInstance[] combine = new CombineInstance[meshFilters.Length-1];
-                for (int i = 1; i < meshFilters.Length; i++) // starting at 1 because GetComponentsInChildren also gets the component of the parent
-                {
-                    combine[i-1].mesh = meshFilters[i].sharedMesh;
-                    combine[i-1].transform = meshFilters[i].transform.localToWorldMatrix;
+				List<CombineInstance> combine = new List<CombineInstance>(meshFilters.Length - 1);
+
+				for (int i = 1; i < meshFilters.Length; i++) // starting at 1 because GetComponentsInChildren also gets the component of the parent
+				{
+					BuildingPart    bp = meshFilters[i].gameObject.GetComponent<BuildingPart>();
+					CombineInstance ci = new CombineInstance();
+
+					ci.mesh      = meshFilters[i].sharedMesh;
+					ci.transform = meshFilters[i].transform.localToWorldMatrix;
+
+                    combine.Add(ci);
+
                     meshFilters[i].gameObject.SetActive(false);
-                }
+				}
 
-                MeshFilter buildingMF = buildingTrans.GetComponent<MeshFilter>();
-                buildingMF.mesh = new Mesh();
-                buildingMF.mesh.CombineMeshes(combine, true, true);
+				MeshFilter buildingMF = buildingTrans.GetComponent<MeshFilter>();
+				buildingMF.mesh = new Mesh();
+				buildingMF.mesh.CombineMeshes(combine.ToArray(), true, true);
 
-                // remove the single parts
-                for (int i = meshFilters.Length - 1; i > 0; i--)
-                {
-                    GameObject.Destroy(meshFilters[i].gameObject);
-                }
+				// remove the single parts
+				for (int i = meshFilters.Length - 1; i > 0; i--)
+				{
+					GameObject.Destroy(meshFilters[i].gameObject);
+				}
 
-                // return to orginal position and rotation
-                buildingTrans.position = position;
+				// return to orginal position and rotation
+				buildingTrans.position = position;
 				buildingTrans.rotation = rotation;
 
 				// set the base texture of the material
@@ -72,9 +81,11 @@ namespace ScotlandYard.Scripts.Buildings
 				// remove the Building component, since it is no longer needed
 				GameObject.Destroy(buildingTrans.gameObject.GetComponent<Building>());
 			}
+
+			Destroy(this);
 		}
 
-		protected void PlaceBuildingPart(BuildPackage package, BuildPartData bpd, EBuildingVariant variant, Transform buildingTrans)
+        protected void PlaceBuildingPart(BuildPackage package, BuildPartData bpd, EBuildingVariant variant, Transform buildingTrans)
         {
 			List<BuildingPart> objList = package.Parts.FindAll(o => o.Id == bpd.modelType && o.Variant == variant && !o.IsBottom && !o.IsTop);
 			if (objList.Count > 0)
@@ -140,6 +151,11 @@ namespace ScotlandYard.Scripts.Buildings
 				return variant;
             }
         }
+
+        public void AddBuilding(Building building)
+		{
+			this.buildingList.Add(building);
+		}
 
 		public bool AddBuildingPartToPackage(EBuildingType type, BuildingPart part)
         {
