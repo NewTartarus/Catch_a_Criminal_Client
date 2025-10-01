@@ -13,6 +13,7 @@ namespace ScotlandYard.CustomEditor
 		private string inputPath = "Assets/Models/BuildingObjects/import";
 		private string outputPath = "Assets/Prefabs/3D/Buildings/default";
 		private BuildingController controller;
+		private Material material;
 
 		Vector2 scroll;
 
@@ -23,7 +24,7 @@ namespace ScotlandYard.CustomEditor
 		[MenuItem("Tools/Building/Mesh Importer")]
 		public static void ShowWindow()
 		{
-			GetWindow<BuildMeshImportEditor>("Mesh Importer");
+			GetWindow<BuildMeshImportEditor>("Building Mesh Importer");
 		}
 
 		private void OnGUI()
@@ -33,6 +34,7 @@ namespace ScotlandYard.CustomEditor
 
 			inputPath  = EditorGUILayout.TextField("Input Path", inputPath);
 			outputPath = EditorGUILayout.TextField("Output Path", outputPath);
+			material = EditorGUILayout.ObjectField("Building Material", material, typeof(Material), true) as Material;
 			controller = EditorGUILayout.ObjectField("Building Controller", controller, typeof(BuildingController), true) as BuildingController;
 
 			EditorGUILayout.Space();
@@ -54,8 +56,7 @@ namespace ScotlandYard.CustomEditor
 
 			var allObjectGuids = AssetDatabase.FindAssets("t:Object", new string[] { objectPath });
 			
-			Material buildingMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Materials/BuildDefaultMaterial.mat");
-			if(buildingMat == null)
+			if(this.material == null)
             {
 				Debug.Log("Could not find material");
 				return;
@@ -63,7 +64,7 @@ namespace ScotlandYard.CustomEditor
 
 			foreach (var guid in allObjectGuids)
 			{
-				AddToLog(CreateSinglePrefab(guid, prefabsPath, buildingMat));
+				AddToLog(CreateSinglePrefab(guid, prefabsPath, this.material));
 			}
 		}
 

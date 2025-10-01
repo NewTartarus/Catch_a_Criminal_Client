@@ -2,12 +2,15 @@ namespace ScotlandYard.Scripts.Buildings
 {
 	using ScotlandYard.Enums;
 	using System.Collections.Generic;
-	using UnityEngine;
+    using UnityEditor;
+    using UnityEngine;
 
+	[RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
 	public class Building : MonoBehaviour
 	{
 		#region Members
 		[SerializeField] private Vector3             size;
+		[SerializeField] private bool                isPark;
 		[SerializeField] private List<bool>          voxels     = new List<bool>();
 		[SerializeField] private List<BuildPartData> buildParts = new List<BuildPartData>();
         [SerializeField] private EBuildingType       buildingType;
@@ -20,6 +23,12 @@ namespace ScotlandYard.Scripts.Buildings
 			get => size;
 		}
 
+		public bool IsPark
+		{
+			get => isPark;
+			set => isPark = value;
+		}
+
 		public List<BuildPartData> BuildParts
 		{
 			get => buildParts;
@@ -28,11 +37,13 @@ namespace ScotlandYard.Scripts.Buildings
 		public EBuildingType BuildingType
         {
 			get => buildingType;
+			set => buildingType = value;
         }
 
 		public Texture2D Image
         {
 			get => image;
+			set => image = value;
         }
 		#endregion
 
@@ -99,7 +110,7 @@ namespace ScotlandYard.Scripts.Buildings
 			}
 		}
 
-		public void UpdateBuildingParts(bool updatePositions = false)
+		public void UpdateBuildingParts(bool updatePositions = false, bool updateDirections = false)
 		{
 			int sizeX = (int)size.x;
 			int sizeZ = (int)size.z;
@@ -128,10 +139,10 @@ namespace ScotlandYard.Scripts.Buildings
 							indices[2] = indices[0] + sizeX + 1;
 							indices[3] = indices[2] + 1;
 
-							bp.activeSides[0] = voxels[indices[0]];
-							bp.activeSides[1] = voxels[indices[1]];
-							bp.activeSides[2] = voxels[indices[2]];
-							bp.activeSides[3] = voxels[indices[3]];
+							bp.activeSides[0] = voxels[indices[0]] ^ this.isPark;
+                            bp.activeSides[1] = voxels[indices[1]] ^ this.isPark;
+                            bp.activeSides[2] = voxels[indices[2]] ^ this.isPark;
+                            bp.activeSides[3] = voxels[indices[3]] ^ this.isPark;
 						}
 
 						index++;
@@ -139,20 +150,23 @@ namespace ScotlandYard.Scripts.Buildings
                 }
             }
 
-			for (int i = 0; i < buildParts.Count; i++)
-			{
-				BuildPartData bp = buildParts[i];
-
-				if (bp.isActive)
+			if (updateDirections)
+            {
+				for (int i = 0; i < buildParts.Count; i++)
 				{
-					int[] indices = new int[2];
-					indices[0] = i - sizeX * sizeZ;
-					indices[1] = i + sizeX * sizeZ;
+					BuildPartData bp = buildParts[i];
 
-					bp.hasBottom  = indices[0] < 0 || !buildParts[indices[0]].isActive;
-					bp.isGrounded = indices[0] < 0;
-					bp.hasTop     = indices[1] >= buildParts.Count || !buildParts[indices[1]].isActive || bp.GetModelId() > buildParts[indices[1]].GetModelId();
-                }
+					if (bp.isActive)
+					{
+						int[] indices = new int[2];
+						indices[0] = i - sizeX * sizeZ;
+						indices[1] = i + sizeX * sizeZ;
+
+						bp.hasBottom = indices[0] < 0 || !buildParts[indices[0]].isActive;
+						bp.isGrounded = indices[0] < 0;
+						bp.hasTop = indices[1] >= buildParts.Count || !buildParts[indices[1]].isActive || bp.GetModelId() > buildParts[indices[1]].GetModelId();
+					}
+				}
 			}
 		}
 
@@ -196,34 +210,27 @@ namespace ScotlandYard.Scripts.Buildings
 
         #region Unity Editor
 #if UNITY_EDITOR
-        [SerializeField] private bool debugShowVoxels;
 		[SerializeField, Range(-1, 15)] private int  debugShowLevel = -1;
 		private void OnDrawGizmos()
 		{
 			Gizmos.matrix = transform.localToWorldMatrix;
 
-			if (debugShowVoxels)
-            {
-				DrawVoxelGizmos();
-			}
-			else
-            {
-				DrawBuildingPartGizmos();
-            }
+            DrawBuildingPartGizmos();
 		}
 
-		protected void DrawVoxelGizmos()
+        protected void DrawBuildingPartGizmos()
 		{
 			float gizmoSize = 1f;
 			int index = 0;
 
+			// draw the voxels
 			for (int y = 0; y < size.y; y++)
 			{
 				for (float z = (size.z / 2 * -1); z < (size.z / 2) + 1; z++)
 				{
 					for (float x = (size.x / 2 * -1); x < (size.x / 2) + 1; x++)
 					{
-						Gizmos.color = Color.white;
+						Gizmos.color = Color.black;
 
 						if (voxels[index] && ShowFloor(y))
 						{
@@ -235,48 +242,38 @@ namespace ScotlandYard.Scripts.Buildings
 				}
 			}
 
-			gizmoSize = 2f;
-			index = 0;
+			Color wireColor = Color.grey;
 
-			for (int y = 0; y < size.y; y++)
+			if (Selection.activeObject == this.gameObject)
 			{
-				for (float z = (size.z / 2 * -1); z < (size.z / 2); z++)
-				{
-					for (float x = (size.x / 2 * -1); x < (size.x / 2); x++)
-					{
-						Gizmos.color = Color.grey;
-						Gizmos.DrawWireCube(new Vector3(x * 2 + 1, y * 2 + 1, z * 2 + 1), new Vector3(gizmoSize, gizmoSize, gizmoSize));
-						index++;
-					}
-				}
-			}
-		}
+				wireColor = Color.yellow;
+            }
 
-		protected void DrawBuildingPartGizmos()
-        {
-			float gizmoSize = 2f;
-			int index = 0;
+            gizmoSize = 2f;
+            index = 0;
 
-			for (int y = 0; y < size.y; y++)
-			{
-				for (float z = (size.z / 2 * -1); z < (size.z / 2); z++)
-				{
-					for (float x = (size.x / 2 * -1); x < (size.x / 2); x++)
-					{
-						Gizmos.color = Color.grey;
-						Gizmos.DrawWireCube(new Vector3(x * 2 + 1, y * 2 + 1, z * 2 + 1), new Vector3(gizmoSize, gizmoSize, gizmoSize));
+            for (int y = 0; y < size.y; y++)
+            {
+                for (float z = (size.z / 2 * -1); z < (size.z / 2); z++)
+                {
+                    for (float x = (size.x / 2 * -1); x < (size.x / 2); x++)
+                    {
+						// draw the wires
+                        Gizmos.color = wireColor;
+                        Gizmos.DrawWireCube(new Vector3(x * 2 + 1, y * 2 + 1, z * 2 + 1), new Vector3(gizmoSize, gizmoSize, gizmoSize));
 
-						if (buildParts[index].isActive && ShowFloor(y))
-						{
-							Gizmos.color = GetGizmosColor(buildParts[index]);
-							Gizmos.DrawCube(new Vector3(x * 2 + 1, y * 2 + 1, z * 2 + 1), new Vector3(gizmoSize / 2, gizmoSize / 2, gizmoSize / 2));
-						}
+						// draw the cube representation of a building part
+                        if (buildParts[index].isActive && ShowFloor(y))
+                        {
+                            Gizmos.color = GetGizmosColor(buildParts[index]);
+                            Gizmos.DrawCube(new Vector3(x * 2 + 1, y * 2 + 1, z * 2 + 1), new Vector3(gizmoSize / 2, gizmoSize / 2, gizmoSize / 2));
+                        }
 
-						index++;
-					}
-				}
-			}
-		}
+                        index++;
+                    }
+                }
+            }
+        }
 
 		protected Color GetGizmosColor(BuildPartData bp)
         {
@@ -290,9 +287,15 @@ namespace ScotlandYard.Scripts.Buildings
 					return Color.cyan;
 				case EBuildingVariant.ROOF:
 					return Color.red;
-				case EBuildingVariant.GROUND:
+                case EBuildingVariant.ROOF_END:
+                    return Color.magenta;
+                case EBuildingVariant.GROUND:
 					return Color.green;
-				default:
+                case EBuildingVariant.GRASS:
+                    return Color.green;
+                case EBuildingVariant.PLANT:
+                    return Color.green;
+                default:
 					return Color.white;
 			}
         }

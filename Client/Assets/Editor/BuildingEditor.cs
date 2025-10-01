@@ -14,8 +14,10 @@ namespace ScotlandYard.CustomEditor
 		Vector2 scrollPosVoxels;
 		Vector2 scrollPosParts;
 		float scrollViewHeight = 300f;
+		bool updatePositions;
+		bool updateDirections;
 		#endregion
-		
+
 		#region Methods
 		protected void OnEnable()
 		{
@@ -30,7 +32,7 @@ namespace ScotlandYard.CustomEditor
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("buildingType"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("image"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("size"));
-			EditorGUILayout.PropertyField(serializedObject.FindProperty("debugShowVoxels"));
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("isPark"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("debugShowLevel"));
 
 			GUILayout.Space(10f);
@@ -50,9 +52,12 @@ namespace ScotlandYard.CustomEditor
 
 			GUILayout.Space(10f);
 
+			this.updatePositions = EditorGUILayout.Toggle("Update Positions", this.updatePositions);
+			this.updateDirections = EditorGUILayout.Toggle("Update Directions", this.updateDirections);
+
 			if (GUILayout.Button("Update Building"))
             {
-				editorObject.UpdateBuildingParts();
+				editorObject.UpdateBuildingParts(this.updatePositions, this.updateDirections);
 			}
 
             serializedObject.ApplyModifiedProperties();

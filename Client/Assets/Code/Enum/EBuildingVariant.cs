@@ -6,6 +6,9 @@ namespace ScotlandYard.Enums
 		DOOR,
 		WINDOW,
 		ROOF,
-		GROUND
+		ROOF_END,
+		GROUND,
+		GRASS,
+		PLANT
 	}
 }
